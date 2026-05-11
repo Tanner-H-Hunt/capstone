@@ -6,7 +6,7 @@ CREATE TABLE account(
 	account_id int PRIMARY KEY auto_increment,
 	email varchar(255) UNIQUE NOT NULL,
 	password varchar(50) NOT NULL,
-	password_salt varchar(8) NOT null
+	password_salt varchar(36) NOT null
 );
 
 CREATE TABLE directory(
@@ -96,3 +96,6 @@ CREATE TABLE `attribute`(
 	FOREIGN KEY (attribute_type_id)
 	REFERENCES attribute_type(attribute_type_id)
 );
+
+select * from account;
+delete from account where account_id = 3;

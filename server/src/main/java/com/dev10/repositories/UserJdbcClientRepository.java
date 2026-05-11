@@ -37,8 +37,8 @@ public class UserJdbcClientRepository implements UserRepository {
     @Override
     public User createUser(User user) throws DataAccessException {
         final String sql = """
-                INSERT INTO account (email, password) values
-                (:email, :password)
+                INSERT INTO account (email, password, password_salt) values
+                (:email, :password, :password_salt)
                 """;
         try{
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -46,6 +46,7 @@ public class UserJdbcClientRepository implements UserRepository {
             client.sql(sql)
                     .param("email", user.getEmail())
                     .param("password", user.getPassword())
+                    .param("password_salt", user.getSalt())
                     .update(keyHolder);
 
             user.setId(keyHolder.getKey().intValue());
