@@ -1,0 +1,17 @@
+-- auth
+POST /api/users/login -- login
+POST /api/users/create -- create a new account
+
+-- homeview
+GET /api/users/documents -- view all documents
+POST /api/documents/create -- create a new document
+PUT /api/documents/{docId} -- edit the name of a document
+DELETE /api/documents/delete -- delete a document
+
+-- document management
+GET /api/documents/{docId} -- view a single document
+POST /api/documents/{docId}/element/relationship/create/?elementId={eid}&foreignDoc={fId} -- create a relationship on this element (eid) and another document (fid)
+POST /api/documents/{docId}/element -- create a new element on this document
+PUT /api/documnets/{docId}/element -- update an elements settings on this document
+GET /api/documents/{docId}/element/relationship -- get all related documents to this element
+DELETE api/documents/{docId}/element/relationship -- remove a relationship from this element
