@@ -82,7 +82,7 @@ CREATE TABLE attribute_type(
 	attribute_name varchar(50)
 );
 
-CREATE TABLE attribute(
+CREATE TABLE `attribute`(
 	attribute_id int PRIMARY KEY auto_increment,
 	document_element_id int NOT NULL,
 	attribute_type_id int NOT NULL,
