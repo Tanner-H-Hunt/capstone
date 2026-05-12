@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import UserContext from '../contexts/UserContext';
+import { useContext } from "react";
 
 function AccountForm(){
 
@@ -16,11 +18,14 @@ function AccountForm(){
     const [errors, setErrors] = useState([]);
     const [serverErrors, setServerErrors] = useState([]);
 
+    const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
     useEffect(() => {
         setPath(location.pathname);
         setErrors([]);
         setUser(initialUser);
+        console.log("user context: " + loggedInUser);
+        console.log("cached user: " + localStorage.getItem('user'));
     }, [location]);
 
     function handleInput(evt){
@@ -83,6 +88,9 @@ function AccountForm(){
         const response = await fetch(url, httpRequest);
         
         if(response.status === 200){
+            const json = await response.json();
+            localStorage.setItem("user", JSON.stringify(json));
+            setLoggedInUser(JSON.stringify(json));
             navigate("/")
         } else{
             const payload = await response.json();
