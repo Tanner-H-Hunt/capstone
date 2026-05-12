@@ -1,7 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout";
 import { Children } from "react";
-
+import ErrorPage from "./pages/ErrorPage";
+import LandingPage from "./pages/LandingPage";
+import { element } from "three/tsl";
+import AccountForm from "./pages/AccountForm";
 
 function AppRouter(){
     const routes = [
@@ -10,8 +13,20 @@ function AppRouter(){
             element: <Layout />,
             children: [
                 {
-                    path: "",
-                    element: <h1> hello world </ h1>
+                    path: "/",
+                    element: <LandingPage />
+                },
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
+                {
+                    path: "/user/create",
+                    element: < AccountForm />
+                },
+                {
+                    path: "/user/login",
+                    element: < AccountForm />
                 }
             ]
         }
