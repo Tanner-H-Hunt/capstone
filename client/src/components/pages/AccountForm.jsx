@@ -24,8 +24,6 @@ function AccountForm(){
         setPath(location.pathname);
         setErrors([]);
         setUser(initialUser);
-        console.log("user context: " + loggedInUser);
-        console.log("cached user: " + localStorage.getItem('user'));
     }, [location]);
 
     function handleInput(evt){
@@ -101,45 +99,61 @@ function AccountForm(){
 
 
     return (
-        <>
-        {isCreatingAccount() ? <h1>Signup</h1> : <h1>Login</h1>}
-        {errors.length === 0 && serverErrors.length === 0 ? 
-        <></> : 
-        <div>
-            <h2>Errors:</h2>
-            <ul>
-                {errors.map((err, index) => <li key={'InputError: ' + index}>{err}</li>)}
-                {serverErrors.map((serverErr, index) => {
-                    console.log(`index: ${index}, Error: ${serverErr}`)
-                    return <li key={'serverError: ' + index}>{serverErr}</li>;  })
+        <div class="container-fluid row">
+            {/* left gutter */}
+            <div className="col-3"></div>
+            
+            {/* Centered content */}
+            <div className="col-6">
+                {isCreatingAccount() ? <h1 className="text-center">Register</h1> : <h1 className="text-center">Login</h1>}
+                {errors.length === 0 && serverErrors.length === 0 ? 
+                <></> : 
+                <div>
+                    <h2>Errors:</h2>
+                    <ul>
+                        {errors.map((err, index) => <li key={'InputError: ' + index}>{err}</li>)}
+                        {serverErrors.map((serverErr, index) => {
+                            console.log(`index: ${index}, Error: ${serverErr}`)
+                            return <li key={'serverError: ' + index}>{serverErr}</li>;  })
+                        }
+                    </ul>
+                </div>
                 }
-            </ul>
-        </div>
-        }
-        <form action="">
-            <div className="form-control">
-                <label htmlFor="email">Email</label>
-                <input 
-                    id="email" 
-                    type="text" 
-                    name="email" 
-                    value={user.email}
-                    onChange={handleInput}
-                    required/>
+                <form action="">
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input 
+                            id="email" 
+                            type="text" 
+                            name="email" 
+                            value={user.email}
+                            onChange={handleInput}
+                            className="form-control"
+                            required/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input 
+                            id="password" 
+                            type="password" 
+                            name="password" 
+                            value={user.password}
+                            onChange={handleInput}
+                            className="form-control"
+                            required/>
+                    </div>
+                    <div className="text-center">
+                        <button className="btn text-secondary my-1" onClick={() => {isCreatingAccount() ? navigate('/user/login') : navigate('/user/create')}}>{isCreatingAccount() ? 'Already have an account? login here.' : 'Don\'t have an account? Register here'}</button>
+                    </div>
+                    <div className="text-center">
+                        <button type="submit" onClick={handleSubmit} className="btn ps-0">{isCreatingAccount() ? 'Create Account' : 'Login'}</button>
+                    </div>
+                </form>
             </div>
-            <div className="form-control">
-                <label htmlFor="password">Password</label>
-                <input 
-                    id="password" 
-                    type="password" 
-                    name="password" 
-                    value={user.password}
-                    onChange={handleInput}
-                    required/>
-            </div>
-            <button type="submit" onClick={handleSubmit}>{isCreatingAccount() ? 'Create Account' : 'Login'}</button>
-        </form>
-        </>
+
+            {/*right gutter  */}
+            <div className="col-3"></div>
+        </ div>
     );
 }
 

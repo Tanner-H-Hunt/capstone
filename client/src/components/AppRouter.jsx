@@ -7,6 +7,7 @@ import { element } from "three/tsl";
 import AccountForm from "./pages/AccountForm";
 import { useState } from 'react';
 import UserContext from "./contexts/UserContext";
+import Documents from "./pages/Documents";
 
 function AppRouter(){
 
@@ -20,7 +21,7 @@ function AppRouter(){
             children: [
                 {
                     path: "/",
-                    element: <LandingPage />
+                    element: loggedInUser ? <Documents /> : <LandingPage />
                 },
                 {
                     path: "*",
@@ -31,14 +32,18 @@ function AppRouter(){
                     children: [
                         {
                             path: "create",
-                            element: < AccountForm />
+                            element: loggedInUser ? <Documents /> : < AccountForm />
                         },
                         {
                             path: "login",
-                            element: < AccountForm />
+                            element: loggedInUser ? <Documents /> : < AccountForm />
                         }
                     ]
                 },
+                {
+                    path: "/document/:id",
+                    element: <Documents />
+                }
 
             ]
         }

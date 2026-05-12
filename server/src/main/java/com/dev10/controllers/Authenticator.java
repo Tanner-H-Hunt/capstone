@@ -25,7 +25,7 @@ public class Authenticator {
      * @return true if the auth bearer token belongs to this user
      */
     public boolean verifyTransaction(User expectedUser, String token){
-        if(expectedUser == null){
+        if(expectedUser == null || token == null || token.isBlank()){
             return false;
         }
 

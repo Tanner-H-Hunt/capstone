@@ -47,7 +47,10 @@ public class UserController {
         Result<User> result = userService.createAccount(user);
 
         if(result.isSuccess()){
-            return ResponseEntity.ok().body(result.getPayload());
+            String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}",
+                    result.getPayload(),
+                    authenticator.generateBearerToken(result.getPayload()));
+            return ResponseEntity.ok().body(response);
         }
 
         return ResponseEntity.badRequest().body(result.getErrorMessages());
