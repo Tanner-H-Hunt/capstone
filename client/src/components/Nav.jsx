@@ -12,7 +12,7 @@ function Nav(){
     }
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary mb-1">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/"><img src={Logo} alt="" width={35} height={30} /></Link>
                 <div>
