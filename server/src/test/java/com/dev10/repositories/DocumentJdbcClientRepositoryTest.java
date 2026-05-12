@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class DocumentJdbcClientRepositoryTest {
 
     @Test
-    void getFSOsInDirectory() {
+    void getDocumentsInDirectory() {
     }
 
     @Test
-    void getHomeFSOs() {
+    void getHomeDocuments() {
     }
 
     @Test

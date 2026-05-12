@@ -33,7 +33,7 @@ CREATE TABLE document(
 	document_id int PRIMARY KEY auto_increment,
 	document_type_id int NOT NULL,
 	document_name varchar(50) NOT NULL,
-	directory_id int NOT NULL,
+	directory_id int NULL,
 	
 	CONSTRAINT fk_document_type
 	FOREIGN KEY (document_type_id)

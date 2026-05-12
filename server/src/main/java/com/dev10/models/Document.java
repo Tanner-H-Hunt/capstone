@@ -1,8 +1,8 @@
 package com.dev10.models;
 
-public class FileSystemObject {
+public class Document {
     private int id;
-    private FileSystemObjectType fileSystemObjectType;
+    private DocumentType documentType;
     private String name;
     private int parentDirectoryId;
 
@@ -15,12 +15,12 @@ public class FileSystemObject {
         this.id = id;
     }
 
-    public FileSystemObjectType getDocumentType() {
-        return fileSystemObjectType;
+    public DocumentType getDocumentType() {
+        return documentType;
     }
 
-    public void setDocumentType(FileSystemObjectType fileSystemObjectType) {
-        this.fileSystemObjectType = fileSystemObjectType;
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 
     public String getName() {

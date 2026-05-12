@@ -1,7 +1,7 @@
 package com.dev10;
 
-import com.dev10.models.FileSystemObject;
-import com.dev10.models.FileSystemObjectType;
+import com.dev10.models.Document;
+import com.dev10.models.DocumentType;
 import com.dev10.models.User;
 
 import java.util.List;
@@ -34,69 +34,55 @@ public class TestDataHelper {
         return user;
     }
 
-    public static List<FileSystemObject> getFileSystemObjectsForUser1(){
-        FileSystemObject fso1 = new FileSystemObject();
+    public static List<Document> getFileSystemObjectsForUser1(){
+        Document fso1 = new Document();
         fso1.setId(1);
-        fso1.setName("user1-directory");
-        fso1.setDocumentType(FileSystemObjectType.DIRECTORY);
+        fso1.setName("user1-todo");
+        fso1.setDocumentType(DocumentType.TODO);
         fso1.setParentDirectoryId(0);
 
-        FileSystemObject fso2 = new FileSystemObject();
-        fso2.setId(1);
-        fso2.setName("user1-todo");
-        fso2.setDocumentType(FileSystemObjectType.TODO);
-        fso2.setParentDirectoryId(0);
+        Document fso2 = new Document();
+        fso2.setId(2);
+        fso2.setName("user1-uml");
+        fso2.setDocumentType(DocumentType.UML);
+        fso2.setParentDirectoryId(1);
 
-        FileSystemObject fso3 = new FileSystemObject();
-        fso3.setId(2);
-        fso3.setName("user1-uml");
-        fso3.setDocumentType(FileSystemObjectType.UML);
-        fso3.setParentDirectoryId(1);
-
-        FileSystemObject fso4 = new FileSystemObject();
-        fso4.setId(3);
-        fso4.setName("user1-note");
-        fso4.setDocumentType(FileSystemObjectType.NOTE);
-        fso4.setParentDirectoryId(0);
+        Document fso3 = new Document();
+        fso3.setId(3);
+        fso3.setName("user1-note");
+        fso3.setDocumentType(DocumentType.NOTE);
+        fso3.setParentDirectoryId(0);
 
         return List.of(
                 fso1,
                 fso2,
-                fso3,
-                fso4
+                fso3
         );
     }
 
-    public static List<FileSystemObject> getFileSystemObjectsForUser2(){
-        FileSystemObject fso1 = new FileSystemObject();
-        fso1.setId(2);
-        fso1.setName("user2-directory");
-        fso1.setDocumentType(FileSystemObjectType.DIRECTORY);
+    public static List<Document> getFileSystemObjectsForUser2(){
+        Document fso1 = new Document();
+        fso1.setId(4);
+        fso1.setName("user2-note");
+        fso1.setDocumentType(DocumentType.NOTE);
         fso1.setParentDirectoryId(0);
 
-        FileSystemObject fso2 = new FileSystemObject();
-        fso2.setId(2);
+        Document fso2 = new Document();
+        fso2.setId(5);
         fso2.setName("user2-todo");
-        fso2.setDocumentType(FileSystemObjectType.TODO);
+        fso2.setDocumentType(DocumentType.TODO);
         fso2.setParentDirectoryId(0);
 
-        FileSystemObject fso3 = new FileSystemObject();
-        fso3.setId(3);
+        Document fso3 = new Document();
+        fso3.setId(6);
         fso3.setName("user2-uml");
-        fso3.setDocumentType(FileSystemObjectType.UML);
-        fso3.setParentDirectoryId(1);
-
-        FileSystemObject fso4 = new FileSystemObject();
-        fso4.setId(4);
-        fso4.setName("user2-note");
-        fso4.setDocumentType(FileSystemObjectType.NOTE);
-        fso4.setParentDirectoryId(0);
+        fso3.setDocumentType(DocumentType.UML);
+        fso3.setParentDirectoryId(2);
 
         return List.of(
                 fso1,
                 fso2,
-                fso3,
-                fso4
+                fso3
         );
     }
 }
