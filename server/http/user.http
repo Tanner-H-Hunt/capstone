@@ -1,0 +1,52 @@
+@url = http://localhost:8080/api/user
+
+###
+# create user happy path
+POST {{url}}/create
+Content-Type: application/json
+
+{
+    "id": 0,
+    "email": "a@a.com",
+    "password": "a"
+}
+
+###
+# create user unhappy path
+POST {{url}}/create
+Content-Type: application/json
+
+{
+    "id": 12
+}
+
+###
+# create duplicate user
+POST {{url}}/create
+Content-Type: application/json
+
+{
+    "id": 0,
+    "email": "a@a.com",
+    "password": "deuces"
+}
+
+###
+# login happy path
+POST {{url}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "password": "a"
+}
+
+###
+# login unhappy path
+POST {{url}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "password": "b"
+}

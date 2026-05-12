@@ -8,47 +8,52 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
+    private final Authenticator authenticator;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService, Authenticator authenticator){
         this.userService = userService;
+        this.authenticator = authenticator;
     }
 
     @PostMapping
-    public ResponseEntity<Object> login(@RequestBody User user) throws DataAccessException {
+    public ResponseEntity<Object> login(@RequestBody User user) throws DataAccessException, NoSuchAlgorithmException {
 
         User foundUser = userService.findByEmail(user);
 
         if(foundUser == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(foundUser);
+
+        if(!authenticator.verifyLogin(user, foundUser)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}", foundUser, authenticator.generateBearerToken(foundUser));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createUser(@RequestBody User user) throws DataAccessException {
+    public ResponseEntity<Object> createUser(@RequestBody User user) throws DataAccessException, NoSuchAlgorithmException {
+
+        authenticator.makeAccountDetailsSecure(user);
+
         Result<User> result = userService.createAccount(user);
 
         if(result.isSuccess()){
-            return ResponseEntity.ok().body(result.getPayload());
+            String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}",
+                    result.getPayload(),
+                    authenticator.generateBearerToken(result.getPayload()));
+            return ResponseEntity.ok().body(response);
         }
 
         return ResponseEntity.badRequest().body(result.getErrorMessages());
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Object> getUser(@PathVariable("userId") int id) throws DataAccessException {
-        User user = userService.findById(id);
-
-        if(user == null){
-            return ResponseEntity.notFound().build();
-        } else{
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-        }
-    }
 }
