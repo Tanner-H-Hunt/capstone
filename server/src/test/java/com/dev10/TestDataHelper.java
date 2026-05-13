@@ -119,6 +119,6 @@ public class TestDataHelper {
         directory2.setParentDirectoryId(0);
         directory2.setDirectoryName("sub-directory");
 
-        return List.of(directory1);
+        return List.of(directory1, directory2);
     }
 }
