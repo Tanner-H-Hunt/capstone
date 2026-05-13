@@ -144,3 +144,9 @@ BEGIN
 		
 END
 delimiter ;
+
+SELECT * from document doc
+INNER JOIN directory dir using (directory_id)
+inner join document_type dt using ()
+WHERE dir.account_id = 1
+AND dir.parent_directory IS NULL

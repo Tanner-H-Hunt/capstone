@@ -57,7 +57,7 @@ class DocumentJdbcClientRepositoryTest {
 
     @Test
     void getDocumentsInSubdirectorySucceeds() throws DataAccessException {
-        int subdirectoryWithDocuments = 2;
+        int subdirectoryWithDocuments = 3;
         List<Document> expected = getDocumentsForUser1()
                 .stream()
                 .filter(document -> document.getParentDirectoryId() == 3)
