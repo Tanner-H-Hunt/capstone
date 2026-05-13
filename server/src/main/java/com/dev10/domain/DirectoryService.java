@@ -1,5 +1,6 @@
 package com.dev10.domain;
 
+import com.dev10.models.DataAccessException;
 import com.dev10.models.Directory;
 import com.dev10.models.User;
 import com.dev10.repositories.DirectoryRepository;
@@ -22,5 +23,9 @@ public class DirectoryService {
 
     public List<Directory> getDirectoriesInDirectory(int id){
         return directoryRepository.getDirectoriesInDirectory(id);
+    }
+
+    public Directory getDirectoryById(int id) throws DataAccessException {
+        return directoryRepository.getDirectoryById(id);
     }
 }

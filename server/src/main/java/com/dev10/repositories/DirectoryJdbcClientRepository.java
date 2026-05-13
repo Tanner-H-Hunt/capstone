@@ -1,8 +1,10 @@
 package com.dev10.repositories;
 
+import com.dev10.models.DataAccessException;
 import com.dev10.models.Directory;
 import com.dev10.models.User;
 import com.dev10.models.mappers.DirectoryRowMapper;
+import com.dev10.models.mappers.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -39,6 +41,25 @@ public class DirectoryJdbcClientRepository implements DirectoryRepository{
                 .param("directory_id", id)
                 .query(new DirectoryRowMapper())
                 .list();
+    }
+
+    @Override
+    public Directory getDirectoryById(int id) throws DataAccessException {
+        final String sql = """
+                SELECT * from account a
+                INNER JOIN directory d on d.account_id = a.account_id
+                WHERE d.directory_id = :id;
+                """;
+
+        try{
+            return client.sql(sql)
+                    .param("id", id)
+                    .query(new DirectoryRowMapper())
+                    .optional()
+                    .orElse(null);
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to find the user attached to a directory", e);
+        }
     }
 
     @Override

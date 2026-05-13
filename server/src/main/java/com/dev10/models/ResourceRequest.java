@@ -1,0 +1,70 @@
+package com.dev10.models;
+
+import com.dev10.domain.DirectoryService;
+import com.dev10.domain.DocumentService;
+import com.dev10.domain.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+
+/**
+ * Represents a single transaction with values validated on the server side to compare
+ * with user-provided values
+ */
+@Component
+public class ResourceRequest {
+    private User user;
+    private Document document;
+    private Directory directory;
+
+    @Autowired
+    DirectoryService directoryService;
+
+    @Autowired
+    DocumentService documentService;
+
+    @Autowired
+    UserService userService;
+
+    public User getUser() {
+        return user;
+    }
+
+    private void setUser(User user) {
+        this.user = user;
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(int documentId) throws DataAccessException {
+        this.document = documentService.getDocumentById(documentId);
+        setDirectory(document.getParentDirectoryId());
+    }
+
+    public Directory getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(int directoryId) throws DataAccessException {
+        this.directory = directoryService.getDirectoryById(directoryId);
+        setUser( userService.findById(directory.getAccountId()) );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourceRequest that = (ResourceRequest) o;
+
+        return Objects.equals(getUser().getEmail(), that.getUser().getEmail())
+                && Objects.equals(getDocument(), that.getDocument())
+                && Objects.equals(getDirectory(), that.getDirectory());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUser(), getDocument(), getDirectory());
+    }
+}
