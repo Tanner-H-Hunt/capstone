@@ -1,10 +1,15 @@
 package com.dev10.repositories;
 
+import com.dev10.models.Directory;
+import com.dev10.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import static com.dev10.TestDataHelper.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,9 +27,36 @@ class DirectoryJdbcClientRepositoryTest {
     }
 
     @Test
-    void getRootDirectoriesSucceeds(){}
+    void getRootDirectoriesSucceeds(){
+        List<Directory> expected = getDirectoriesForUser1()
+                .stream()
+                .filter(directory -> directory.getParentDirectoryId() == 0)
+                .toList();
+        User user = getAllUsers().get(0);
+
+        List<Directory> actual = repository.getRootDirectories(user);
+
+        assertEquals(expected, actual);
+    }
 
     @Test
-    void getDirectoriesInDirectoriesSucceeds(){}
+    void getDirectoriesInDirectoriesSucceeds(){
+        List<Directory> expected = getDirectoriesForUser1()
+                .stream()
+                .filter(directory -> directory.getParentDirectoryId() == 1)
+                .toList();
+
+        List<Directory> actual = repository.getDirectoriesInDirectory(1);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getDirectoriesInDirectoriesReturnsEmptyListIfFails(){
+        int idNotInDatabase = 100;
+        List<Directory> actual = repository.getDirectoriesInDirectory(100);
+
+        assertEquals(0, actual.size());
+    }
 
 }

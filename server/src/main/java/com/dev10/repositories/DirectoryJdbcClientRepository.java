@@ -32,5 +32,5 @@ public class DirectoryJdbcClientRepository implements DirectoryRepository{
     public Directory createDirectory(Directory directory) {
         return null;
     }
-    
+
 }
