@@ -56,4 +56,14 @@ public class Document {
     public int hashCode() {
         return Objects.hash(getId(), getDocumentType(), getName(), getParentDirectoryId());
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ", \"documentType\": \"" + documentType + "\"" +
+                ", \"name\": \"" + name + "\"" +
+                ", \"parentDirectoryId\": " + parentDirectoryId +
+                '}';
+    }
 }
