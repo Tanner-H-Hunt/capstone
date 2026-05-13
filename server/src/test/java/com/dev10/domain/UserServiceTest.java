@@ -5,17 +5,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Result;
 import com.dev10.models.User;
+import com.dev10.repositories.UserJdbcClientRepository;
 import com.dev10.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import static com.dev10.TestDataHelper.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class UserServiceTest {
-    @MockBean
+    @MockitoBean
     UserRepository userRepository;
 
     @Autowired
@@ -24,6 +26,7 @@ class UserServiceTest {
     @Test
     void createAccountHappyPath() throws DataAccessException {
         User notInDatabase = getUserNotInDatabase();
+        notInDatabase.setSalt("test");
         User updatedUser = getUserNotInDatabase();
         updatedUser.setId(3);
         when(userRepository.createUser(notInDatabase)).thenReturn(updatedUser);

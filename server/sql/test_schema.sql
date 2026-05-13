@@ -22,6 +22,7 @@ CREATE TABLE directory(
 	CONSTRAINT fk_directory_parent
 	FOREIGN KEY (parent_directory)
 	REFERENCES directory(directory_id)
+	on delete cascade
 );
 
 CREATE TABLE document_type(
@@ -33,7 +34,7 @@ CREATE TABLE document(
 	document_id int PRIMARY KEY auto_increment,
 	document_type_id int NOT NULL,
 	document_name varchar(50) NOT NULL,
-	directory_id int NULL,
+	directory_id int NOT NULL,
 	
 	CONSTRAINT fk_document_type
 	FOREIGN KEY (document_type_id)
@@ -117,5 +118,29 @@ BEGIN
 	alter table document_type auto_increment = 1;
 	alter table directory auto_increment = 1;
 	alter table account auto_increment = 1;
+	
+	insert into account (email, password, password_salt) values
+		("a@a.com", "a", "test"),
+		("b@b.com", "b", "test");
+	
+	insert into directory (account_id, parent_directory, directory_name) values
+		(1, null, "root-directory"),
+		(2, null, "root-directory"),
+		(1, 1, "subdirectory-test"),
+		(2, 2, "");
+	
+	insert into document_type (document_type_name) values
+		("NOTE"),
+		("TODO"),
+		("UML");
+	
+	insert into document (document_type_id, document_name, directory_id) values
+		(2, "user1-todo", 1),
+		(3, "user1-uml", 1),
+		(1, "user1-note", 3),
+		(1, "user2-note", 2),
+		(2, "user2-todo", 2),
+		(3, "user2-uml", 2);
+		
 END
 delimiter ;
