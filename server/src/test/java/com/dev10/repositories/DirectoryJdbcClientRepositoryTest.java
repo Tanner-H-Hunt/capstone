@@ -1,5 +1,7 @@
 package com.dev10.repositories;
 
+import com.dev10.domain.DirectoryService;
+import com.dev10.models.DataAccessException;
 import com.dev10.models.Directory;
 import com.dev10.models.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,4 +61,19 @@ class DirectoryJdbcClientRepositoryTest {
         assertEquals(0, actual.size());
     }
 
+    @Test
+    void getDirectoryByIdSucceeds() throws DataAccessException {
+        Directory expectedDirectory = getDirectoriesForUser1().get(0);
+
+        Directory actual = repository.getDirectoryById(1);
+
+        assertEquals(expectedDirectory, actual);
+    }
+
+    @Test
+    void getDirectoryByIdReturnsNullIfFails() throws DataAccessException {
+        Directory actual = repository.getDirectoryById(100);
+
+        assertNull(actual);
+    }
 }
