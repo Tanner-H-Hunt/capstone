@@ -15,7 +15,7 @@ public class DirectoryRowMapper implements RowMapper<Directory> {
         directory.setAccountId(rs.getInt("account_id"));
         directory.setParentDirectoryId(rs.getInt("parent_directory"));
         directory.setDirectoryName(rs.getString("directory_name"));
-        
+
         return directory;
     }
 }

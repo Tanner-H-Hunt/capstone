@@ -14,7 +14,23 @@ public class DirectoryJdbcClientRepository implements DirectoryRepository{
     }
 
     @Override
-    public List<Directory> getDirectoriesInDirectory(User user) {
+    public List<Directory> getDirectoriesInDirectory(int id) {
         return List.of();
     }
+
+    @Override
+    public boolean deleteDirectory(int id) {
+        return false;
+    }
+
+    @Override
+    public boolean editDirectory(Directory directory) {
+        return false;
+    }
+
+    @Override
+    public Directory createDirectory(Directory directory) {
+        return null;
+    }
+    
 }

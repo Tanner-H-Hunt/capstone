@@ -28,4 +28,19 @@ public class DocumentJdbcClientRepository implements DocumentRepository{
     public Document getDocumentById(int id) throws DataAccessException{
         return null;
     }
+
+    @Override
+    public Document createDocument(Document document) throws DataAccessException {
+        return null;
+    }
+
+    @Override
+    public boolean deleteDocument(Document document) throws DataAccessException {
+        return false;
+    }
+
+    @Override
+    public boolean updateDocument(Document document) throws DataAccessException {
+        return false;
+    }
 }
