@@ -6,7 +6,7 @@ CREATE TABLE account(
 	account_id int PRIMARY KEY auto_increment,
 	email varchar(255) UNIQUE NOT NULL,
 	password varchar(50) NOT NULL,
-	password_salt varchar(36) NOT null
+	password_salt varchar(32) NOT null
 );
 
 CREATE TABLE directory(
@@ -22,6 +22,7 @@ CREATE TABLE directory(
 	CONSTRAINT fk_directory_parent
 	FOREIGN KEY (parent_directory)
 	REFERENCES directory(directory_id)
+	on delete cascade
 );
 
 CREATE TABLE document_type(
@@ -33,7 +34,7 @@ CREATE TABLE document(
 	document_id int PRIMARY KEY auto_increment,
 	document_type_id int NOT NULL,
 	document_name varchar(50) NOT NULL,
-	directory_id int NULL,
+	directory_id int NOT NULL,
 	
 	CONSTRAINT fk_document_type
 	FOREIGN KEY (document_type_id)

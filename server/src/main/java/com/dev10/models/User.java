@@ -1,10 +1,8 @@
 package com.dev10.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Objects;
 
@@ -20,6 +18,7 @@ public class User {
 
     @NotNull(message = "password may not be null")
     @NotBlank(message = "password may not be empty or whitespace")
+    @Size(max=50, message = "password may not be more than 50 characters")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
