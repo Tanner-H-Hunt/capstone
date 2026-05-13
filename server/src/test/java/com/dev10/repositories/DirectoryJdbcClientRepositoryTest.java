@@ -54,7 +54,7 @@ class DirectoryJdbcClientRepositoryTest {
     @Test
     void getDirectoriesInDirectoriesReturnsEmptyListIfFails(){
         int idNotInDatabase = 100;
-        List<Directory> actual = repository.getDirectoriesInDirectory(100);
+        List<Directory> actual = repository.getDirectoriesInDirectory(idNotInDatabase);
 
         assertEquals(0, actual.size());
     }

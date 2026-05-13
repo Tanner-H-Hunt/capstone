@@ -1,5 +1,7 @@
 package com.dev10.models;
 
+import java.util.Objects;
+
 public class Directory {
     private int id;
     private int parentDirectoryId;
@@ -36,5 +38,21 @@ public class Directory {
 
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Directory directory = (Directory) o;
+        return getId() == directory.getId()
+                && getParentDirectoryId() == directory.getParentDirectoryId()
+                && getAccountId() == directory.getAccountId()
+                && Objects.equals(getDirectoryName(), directory.getDirectoryName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getParentDirectoryId(), getAccountId(), getDirectoryName());
     }
 }
