@@ -55,4 +55,14 @@ public class Directory {
     public int hashCode() {
         return Objects.hash(getId(), getParentDirectoryId(), getAccountId(), getDirectoryName());
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\": " + id +
+                ", \"parentDirectoryId\":" + parentDirectoryId +
+                ", \"accountId\"" + accountId +
+                ", \"directoryName\": \"" + directoryName + "\"" +
+                '}';
+    }
 }
