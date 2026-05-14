@@ -117,6 +117,15 @@ public class TestDataHelper {
         return document;
     }
 
+    public static Directory getDirectoryNotInDatabase(){
+        Directory directory = new Directory();
+        directory.setDirectoryName("TestDirectory");
+        directory.setAccountId(1);
+        directory.setParentDirectoryId(1);
+
+        return directory;
+    }
+
     public static List<Directory> getDirectoriesForUser2(){
         Directory directory1 = new Directory();
         directory1.setId(2);

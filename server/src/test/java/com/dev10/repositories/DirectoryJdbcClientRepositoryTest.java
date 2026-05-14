@@ -76,4 +76,16 @@ class DirectoryJdbcClientRepositoryTest {
 
         assertNull(actual);
     }
+
+    @Test
+    void createDirectorySucceeds() throws DataAccessException {
+        Directory directory = getDirectoryNotInDatabase();
+        Directory expected = getDirectoryNotInDatabase();
+        expected.setId(5);
+
+        Directory actual = repository.createDirectory(directory);
+
+        assertEquals(expected, actual);
+
+    }
 }

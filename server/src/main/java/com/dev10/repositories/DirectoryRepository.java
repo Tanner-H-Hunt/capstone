@@ -12,5 +12,5 @@ public interface DirectoryRepository {
     Directory getDirectoryById(int id) throws DataAccessException;
     public boolean deleteDirectory(int id);
     public boolean editDirectory(Directory directory);
-    public Directory createDirectory(Directory directory);
+    public Directory createDirectory(Directory directory) throws DataAccessException;
 }

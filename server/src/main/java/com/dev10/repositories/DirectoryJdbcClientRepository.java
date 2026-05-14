@@ -7,6 +7,7 @@ import com.dev10.models.mappers.DirectoryRowMapper;
 import com.dev10.models.mappers.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -73,8 +74,25 @@ public class DirectoryJdbcClientRepository implements DirectoryRepository{
     }
 
     @Override
-    public Directory createDirectory(Directory directory) {
-        return null;
+    public Directory createDirectory(Directory directory) throws DataAccessException {
+        final String sql = """
+                INSERT into directory (account_id, parent_directory, directory_name) values
+                (:account_id, :parent_directory, :directory_name)
+                """;
+        try{
+            GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+            client.sql(sql)
+                .param("account_id", directory.getAccountId())
+                .param("parent_directory", directory.getParentDirectoryId())
+                .param("directory_name", directory.getDirectoryName())
+                .update(keyHolder);
+
+            directory.setId(keyHolder.getKey().intValue());
+            return directory;
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while creating a new directory", e);
+        }
     }
 
 }
