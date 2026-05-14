@@ -2,6 +2,7 @@ package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
+import com.dev10.models.DocumentType;
 import com.dev10.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -123,5 +124,17 @@ class DocumentJdbcClientRepositoryTest {
         List<Document> actual = repository.getAllDocuments(user);
 
         assertEquals(0, actual.size());
+    }
+
+    @Test
+    void createDocumentHappyPath() throws DataAccessException {
+        Document document = new Document();
+        document.setName("TEST DOCUMENT");
+        document.setDocumentType(DocumentType.NOTE);
+        document.setParentDirectoryId(1);
+
+        Document actual = repository.createDocument(document);
+
+        assertEquals(document, actual);
     }
 }

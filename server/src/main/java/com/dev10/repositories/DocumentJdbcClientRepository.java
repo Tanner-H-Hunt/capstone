@@ -6,6 +6,7 @@ import com.dev10.models.User;
 import com.dev10.models.mappers.DocumentRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -88,7 +89,27 @@ public class DocumentJdbcClientRepository implements DocumentRepository{
 
     @Override
     public Document createDocument(Document document) throws DataAccessException {
-        return null;
+        final String sql = """
+                insert into document (document_type_id, document_name, directory_id) values
+                	((select document_type_id from document_type where document_type_name = :document_type),
+                	:document_name, :directory_id);
+                """;
+
+        try{
+            GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+            client.sql(sql)
+                    .param("document_type", document.getDocumentType().name())
+                    .param("document_name", document.getName())
+                    .param("directory_id", document.getParentDirectoryId())
+                    .update(keyHolder);
+
+            document.setId(keyHolder.getKey().intValue());
+            return document;
+
+        } catch(Exception e){
+            throw new DataAccessException("Something went wrong while trying to create a new document", e);
+        }
     }
 
     @Override
