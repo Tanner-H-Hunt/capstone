@@ -7,7 +7,6 @@ import com.dev10.models.DataAccessException;
 import com.dev10.models.Directory;
 import com.dev10.models.Document;
 import com.dev10.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -46,16 +45,16 @@ public class ResourceRequest {
         return document;
     }
 
-    public void setDocument(int documentId) throws DataAccessException {
+    public void validateDocument(int documentId) throws DataAccessException {
         this.document = documentService.getDocumentById(documentId);
-        setDirectory(document.getParentDirectoryId());
+        validateParentDirectory(document.getParentDirectoryId());
     }
 
     public Directory getDirectory() {
         return directory;
     }
 
-    public void setDirectory(int directoryId) throws DataAccessException {
+    public void validateParentDirectory(int directoryId) throws DataAccessException {
         this.directory = directoryService.getDirectoryById(directoryId);
         if(directory == null){
             return;

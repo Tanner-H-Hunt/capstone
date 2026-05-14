@@ -72,7 +72,7 @@ public class Directory {
         return "{" +
                 "\"id\": " + id +
                 ", \"parentDirectoryId\":" + parentDirectoryId +
-                ", \"accountId\"" + accountId +
+                ", \"accountId\": " + accountId +
                 ", \"directoryName\": \"" + directoryName + "\"" +
                 '}';
     }

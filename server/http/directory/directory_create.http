@@ -1,0 +1,20 @@
+@url = http://localhost:8080/api/directory
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# create directory happy path
+POST {{url}} HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "directory": {
+        "parentDirectoryId": 1,
+        "accountId": 1,
+        "directoryName": "My first subdirectory"
+    }
+}

@@ -97,6 +97,3 @@ CREATE TABLE `attribute`(
 	FOREIGN KEY (attribute_type_id)
 	REFERENCES attribute_type(attribute_type_id)
 );
-
-select * from account;
-delete from account where account_id = 3;

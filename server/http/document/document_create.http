@@ -13,8 +13,8 @@ Content-Type: application/json
         "id": 1
     },
     "document": {
-        "name": "my-first-doc",
+        "name": "my-third-doc",
         "parentDirectoryId": 1,
-        "documentType": "NOTE"
+        "documentType": "UML"
     }
 }

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/document")
-public class DocumentsController {
+public class DocumentController {
 
     private final Authenticator authenticator;
     private final DocumentService service;
     private final ResourceRequest resourceRequest;
 
-    public DocumentsController(Authenticator authenticator, DocumentService service, ResourceRequest resourceRequest){
+    public DocumentController(Authenticator authenticator, DocumentService service, ResourceRequest resourceRequest){
         this.authenticator = authenticator;
         this.service = service;
         this.resourceRequest = resourceRequest;
@@ -37,16 +37,16 @@ public class DocumentsController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        resourceRequest.setDirectory(request.getDocument().getParentDirectoryId());
+        resourceRequest.validateParentDirectory(request.getDocument().getParentDirectoryId());
         if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         Result<Document> result = service.createDocument(request.getDocument());
         if(result.isSuccess()){
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(result.getPayload());
         } else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getErrorMessages());
         }
     }
 }
