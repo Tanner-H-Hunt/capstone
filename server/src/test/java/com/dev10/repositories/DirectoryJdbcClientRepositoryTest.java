@@ -20,6 +20,10 @@ class DirectoryJdbcClientRepositoryTest {
     @Autowired
     DirectoryJdbcClientRepository repository;
 
+    // user repository is already thoroughly tested, and some tests require a fresh user
+    @Autowired
+    UserJdbcClientRepository userJdbcClientRepository;
+
     @Autowired
     JdbcClient client;
 
@@ -87,5 +91,27 @@ class DirectoryJdbcClientRepositoryTest {
 
         assertEquals(expected, actual);
 
+    }
+
+    @Test
+    void createDirectoryCreatesNewRootDirectoryIfParentIdIsZero() throws DataAccessException {
+        // this test requires a fresh user because each user should only have one root directory
+        User user = getUserNotInDatabase();
+        user = userJdbcClientRepository.createUser(user);
+
+        Directory directory = getDirectoryNotInDatabase();
+        directory.setParentDirectoryId(0);
+        directory.setAccountId(user.getId());
+
+        Directory expected = getDirectoryNotInDatabase();
+        expected.setParentDirectoryId(0);
+        expected.setAccountId(user.getId());
+        expected.setId(5);
+
+        Directory actual = repository.createDirectory(directory);
+        List<Directory> actualRoots = repository.getRootDirectories(user);
+
+        assertEquals(expected, actual);
+        assertEquals(expected, actualRoots.get(0));
     }
 }

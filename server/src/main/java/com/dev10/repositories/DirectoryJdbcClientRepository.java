@@ -81,10 +81,14 @@ public class DirectoryJdbcClientRepository implements DirectoryRepository{
                 """;
         try{
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+            Integer parentDirectory = directory.getParentDirectoryId();
+            if(directory.getParentDirectoryId() == 0){
+                parentDirectory = null;
+            }
 
             client.sql(sql)
                 .param("account_id", directory.getAccountId())
-                .param("parent_directory", directory.getParentDirectoryId())
+                .param("parent_directory", parentDirectory)
                 .param("directory_name", directory.getDirectoryName())
                 .update(keyHolder);
 
