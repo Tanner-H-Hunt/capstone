@@ -1,20 +1,33 @@
 package com.dev10.domain;
 
+import com.dev10.models.DTO.NewDocumentRequest;
+import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
 import com.dev10.models.User;
+import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.DocumentRepository;
+import com.dev10.repositories.UserRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final DirectoryRepository directoryRepository;
+    private final Validator validator;
 
-    public DocumentService(DocumentRepository documentRepository){
+    public DocumentService(DocumentRepository documentRepository,
+                           Validator validator,
+                           DirectoryRepository directoryRepository){
         this.documentRepository = documentRepository;
+        this.validator = validator;
+        this.directoryRepository = directoryRepository;
     }
 
     public List<Document> getDocumentsInDirectory(int directoryId) throws DataAccessException {
@@ -31,5 +44,34 @@ public class DocumentService {
 
     public Document getDocumentById(int id) throws DataAccessException{
         return documentRepository.getDocumentById(id);
+    }
+
+    public Result<Document> createDocument(Document document) throws DataAccessException {
+        Result<Document> result = new Result<>();
+
+        if(document == null){
+            result.addErrorMessage("Cannot create a document with missing request parameters");
+            return result;
+        }
+
+        if(document.getId() != 0){
+            result.addErrorMessage("Cannot preemptively set a documents id");
+        }
+
+        if(directoryRepository.getDirectoryById(document.getParentDirectoryId()) == null){
+            result.addErrorMessage("Document must have a valid, existing parent directory");
+        }
+
+        Set<ConstraintViolation<Document>> violations = validator.validate(document);
+        for(ConstraintViolation<Document> violation : violations){
+            result.addErrorMessage(violation.getMessage());
+        }
+
+        if(result.isSuccess()){
+            Document updatedDocument = documentRepository.createDocument(document);
+            result.setPayload(updatedDocument);
+        }
+
+        return result;
     }
 }

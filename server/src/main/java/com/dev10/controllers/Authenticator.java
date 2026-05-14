@@ -1,7 +1,7 @@
 package com.dev10.controllers;
 
 import com.dev10.models.DataAccessException;
-import com.dev10.models.ResourceRequest;
+import com.dev10.models.DTO.ResourceRequest;
 import com.dev10.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

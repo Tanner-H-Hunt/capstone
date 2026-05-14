@@ -1,20 +1,32 @@
 package com.dev10.models;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 public class Document {
+    @Min(value = 0, message = "Cannot modify the ID of the document")
     private int id;
+
+    @NotNull(message = "document type cannot be null")
     private DocumentType documentType;
+
+    @NotNull(message = "document name cannot be null")
+    @NotEmpty(message = "document name cannot be empty")
     private String name;
+
+    @Min(value = 0, message = "Parent directory must point to a valid directory ID")
     private int parentDirectoryId;
 
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public DocumentType getDocumentType() {

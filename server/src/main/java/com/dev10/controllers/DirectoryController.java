@@ -4,6 +4,7 @@ import com.dev10.domain.DirectoryService;
 import com.dev10.domain.DocumentService;
 import com.dev10.domain.UserService;
 import com.dev10.models.*;
+import com.dev10.models.DTO.ResourceRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -3,9 +3,8 @@ package com.dev10.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.dev10.models.DataAccessException;
-import com.dev10.models.Result;
+import com.dev10.models.DTO.Result;
 import com.dev10.models.User;
-import com.dev10.repositories.UserJdbcClientRepository;
 import com.dev10.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.dev10.domain;
 
 import com.dev10.models.DataAccessException;
-import com.dev10.models.Result;
+import com.dev10.models.DTO.Result;
 import com.dev10.models.User;
 import com.dev10.repositories.UserRepository;
 import jakarta.validation.ConstraintViolation;

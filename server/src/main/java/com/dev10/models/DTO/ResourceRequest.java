@@ -1,8 +1,12 @@
-package com.dev10.models;
+package com.dev10.models.DTO;
 
 import com.dev10.domain.DirectoryService;
 import com.dev10.domain.DocumentService;
 import com.dev10.domain.UserService;
+import com.dev10.models.DataAccessException;
+import com.dev10.models.Directory;
+import com.dev10.models.Document;
+import com.dev10.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -106,6 +106,17 @@ public class TestDataHelper {
         return List.of(directory1, directory2);
     }
 
+    public static Document getDocumentNotInDatabase(){
+        Document document = new Document();
+
+        document.setId(0);
+        document.setDocumentType(DocumentType.TODO);
+        document.setName("to-be-added-to-database");
+        document.setParentDirectoryId(1);
+
+        return document;
+    }
+
     public static List<Directory> getDirectoriesForUser2(){
         Directory directory1 = new Directory();
         directory1.setId(2);
