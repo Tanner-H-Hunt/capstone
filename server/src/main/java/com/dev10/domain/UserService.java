@@ -2,7 +2,9 @@ package com.dev10.domain;
 
 import com.dev10.models.DataAccessException;
 import com.dev10.models.DTO.Result;
+import com.dev10.models.Directory;
 import com.dev10.models.User;
+import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.UserRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -15,10 +17,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final Validator validator;
+    private final DirectoryRepository directoryRepository;
 
-    public UserService(UserRepository userRepository, Validator validator){
+    public UserService(UserRepository userRepository, Validator validator, DirectoryRepository directoryRepository){
         this.userRepository = userRepository;
         this.validator = validator;
+        this.directoryRepository = directoryRepository;
     }
 
     public User findByEmail(User user) throws DataAccessException {
@@ -55,6 +59,15 @@ public class UserService {
 
         if(result.isSuccess()){
             User updatedUser = userRepository.createUser(user);
+
+            // auto generate the users root directory
+            Directory usersRootDirectory = new Directory();
+            usersRootDirectory.setParentDirectoryId(0);
+            usersRootDirectory.setId(0);
+            usersRootDirectory.setDirectoryName("root");
+            usersRootDirectory.setAccountId(updatedUser.getId());
+            directoryRepository.createDirectory(usersRootDirectory);
+
             result.setPayload(updatedUser);
         }
 
