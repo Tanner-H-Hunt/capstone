@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import static com.dev10.TestDataHelper.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -113,6 +114,8 @@ class DocumentJdbcClientRepositoryTest {
         User user1 = getAllUsers().get(0);
 
         List<Document> actual = repository.getAllDocuments(user1);
+        // sorting the return value fixes bug where sometimes this test fails because the list is out of order
+        actual = actual.stream().sorted(Comparator.comparing(Document::getId)).toList();
 
         assertEquals(expected, actual);
     }

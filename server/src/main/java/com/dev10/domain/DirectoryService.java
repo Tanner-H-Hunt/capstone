@@ -48,6 +48,13 @@ public class DirectoryService {
             return result;
         }
 
+        // make sure the account exists
+        User user = userRepository.findById(directory.getAccountId());
+        if(user == null){
+            result.addErrorMessage("Must have a valid user");
+            return result;
+        }
+
         // don't modify the directories ID
         if(directory.getId() != 0){
             result.addErrorMessage("May not preemptively set a directory ID");
@@ -61,9 +68,8 @@ public class DirectoryService {
 
         // make sure there is only one root directory
         if(directory.getParentDirectoryId() == 0){
-            User user = userRepository.findById(directory.getAccountId());
             List<Directory> rootDirectories = directoryRepository.getRootDirectories(user);
-            if(rootDirectories.size() > 1){
+            if(!rootDirectories.isEmpty()){
                 result.addErrorMessage("Cannot create multiple root directories for one user");
             }
         }
@@ -74,7 +80,7 @@ public class DirectoryService {
                 result.addErrorMessage("Must belong to a parent directory");
             }
         }
-        
+
         if(result.isSuccess()){
             Directory createdDirectory = directoryRepository.createDirectory(directory);
             result.setPayload(createdDirectory);
