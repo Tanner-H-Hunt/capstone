@@ -1,11 +1,22 @@
 package com.dev10.models;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 public class Directory {
     private int id;
+
+    @Min(value = 0, message = "parent directory ID must be valid")
     private int parentDirectoryId;
+
+    @Min(value = 0, message = "account id must be a valid id")
     private int accountId;
+
+    @NotNull(message = "Directory name cannot be null")
+    @NotBlank(message = "directory name may not be blank")
     private String directoryName;
 
     public int getId() {
