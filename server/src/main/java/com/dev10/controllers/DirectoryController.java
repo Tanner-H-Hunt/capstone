@@ -36,7 +36,7 @@ public class DirectoryController {
         this.resourceRequest = resourceRequest;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Object> getHomepageContents(@RequestHeader("Authorization") String authHeader,
                                                       @RequestBody User user) throws DataAccessException {
         if(userService.findByEmail(user) == null){
@@ -57,7 +57,7 @@ public class DirectoryController {
     }
 
 
-    @GetMapping("/:directoryId")
+    @PostMapping("/:directoryId")
     public ResponseEntity<Object> getDirectoryContents(@PathVariable int directoryId,
                                                        @RequestBody User user,
                                                        @RequestHeader("Authorization") String authHeader) throws DataAccessException{
@@ -80,7 +80,7 @@ public class DirectoryController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<Object> createDirectory(@RequestHeader("Authorization") String authHeader,
                                                   @RequestBody NewDirectoryRequest request) throws DataAccessException {
         if(request == null){
