@@ -20,15 +20,18 @@ public class DirectoryController {
     private final DocumentService documentService;
     private final DirectoryService directoryService;
     private final UserService userService;
+    private final ResourceRequest resourceRequest;
 
     public DirectoryController(Authenticator authenticator,
                                DocumentService documentService,
                                DirectoryService directoryService,
-                               UserService userService){
+                               UserService userService,
+                               ResourceRequest resourceRequest){
         this.authenticator = authenticator;
         this.documentService = documentService;
         this.directoryService = directoryService;
         this.userService = userService;
+        this.resourceRequest = resourceRequest;
     }
 
     @GetMapping
@@ -63,7 +66,6 @@ public class DirectoryController {
         }
 
         // person is authorized to do what they are asking
-        ResourceRequest resourceRequest = new ResourceRequest();
         resourceRequest.setDirectory(directoryId);
         if(!authenticator.isUserPermitted(user, resourceRequest)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

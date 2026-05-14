@@ -22,14 +22,17 @@ public class ResourceRequest {
     private Document document;
     private Directory directory;
 
-    @Autowired
-    DirectoryService directoryService;
+    private final DirectoryService directoryService;
+    private final DocumentService documentService;
+    private final UserService userService;
 
-    @Autowired
-    DocumentService documentService;
-
-    @Autowired
-    UserService userService;
+    public ResourceRequest(DirectoryService directoryService,
+                           DocumentService documentService,
+                           UserService userService){
+        this.directoryService = directoryService;
+        this.documentService = documentService;
+        this.userService = userService;
+    }
 
     public User getUser() {
         return user;
@@ -54,7 +57,16 @@ public class ResourceRequest {
 
     public void setDirectory(int directoryId) throws DataAccessException {
         this.directory = directoryService.getDirectoryById(directoryId);
+        if(directory == null){
+            return;
+        }
         setUser( userService.findById(directory.getAccountId()) );
+    }
+
+    public void clear(){
+        this.user = null;
+        this.document = null;
+        this.directory = null;
     }
 
     @Override

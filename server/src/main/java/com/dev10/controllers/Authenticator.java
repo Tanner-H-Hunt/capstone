@@ -49,8 +49,15 @@ public class Authenticator {
     }
 
     public boolean isUserPermitted(User user, ResourceRequest request){
+        // could not match this resource with any users (resource does not exist)
+        if(request.getUser() == null){
+            request.clear();
+            return false;
+        }
 
-        return request.getUser().equals(user);
+        boolean isPermitted = request.getUser().equals(user);
+        request.clear();
+        return isPermitted;
     }
 
     /**
