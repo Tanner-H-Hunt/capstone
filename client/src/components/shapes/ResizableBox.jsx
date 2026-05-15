@@ -19,7 +19,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
     const top = position[1];
     const right = left + width;
     const bottom = top - height;
-    const clickAffordance = 0.7
+    const clickAffordance = 0.35;
 
     // line vertex positions
     const topLeft = [left, top, 0];
@@ -94,7 +94,6 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
     const bindBottom = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
         if(first){
             event.target.setPointerCapture();
-            console.log(memo);
 
             memo = {startHeight: height};
         }
@@ -106,6 +105,21 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 
         setHeight(newHeight);
         return memo;
+    });
+
+    const bindDragging = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
+        if(first){
+            event.target.setPointerCapture();
+
+            memo = {start: topLeft};
+        }
+		if(last){
+			serialize();
+		}
+
+		const newPosition = [memo.start[0] + mx / scene.camera.zoom, memo.start[1] - my / scene.camera.zoom];
+		setPosition(newPosition);
+		return memo;
     });
 
     return (
@@ -171,6 +185,14 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
             >
                 <planeGeometry args={[width, clickAffordance]} />
                 <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+            {/* Drag and Drop Mesh */}
+            <mesh position={[left + width / 2, top - height / 2, 0]}
+                {...bindDragging()}
+                >
+                <planeGeometry args={[(width - clickAffordance), (height - clickAffordance)]}/>
+                <meshBasicMaterial transparent opacity={0}/>
             </mesh>
 
         </group>
