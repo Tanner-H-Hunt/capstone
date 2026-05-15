@@ -1,26 +1,18 @@
 import DocumentPreview from "./DocumentPreview";
 
-function DocumentPreviewTable(){
+function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDirectoryStack }){
     return (
         <>
             <div className="flex-container">
                 <div className="row">
-                    <div className="col-4">
-                        <DocumentPreview />
-                    </div>
-                    <div className="col-4">
-                        <DocumentPreview />
-                    </div>
-                    <div className="col-4 mb-3">
-                        <DocumentPreview />
-                    </div>
-
-                    <div className="col-4">
-                        <DocumentPreview />
-                    </div>
-                    <div className="col-4">
-                        <DocumentPreview />
-                    </div>
+                    {
+                        documents.map(doc => {
+                        return(
+                            <div className="col-4" key={doc.id}>
+                                <DocumentPreview document={doc}/>
+                            </div>
+                        )
+                    })}
 
                 </div>
 

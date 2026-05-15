@@ -1,0 +1,247 @@
+import { Line } from "@react-three/drei";
+import { useDrag } from "@use-gesture/react";
+import { useState } from "react";
+import { useThree } from "@react-three/fiber";
+
+function ResizableBox({ width, setWidth, height, setHeight, position, setPosition }) {
+
+    function serialize(){
+        console.log("let go");
+    }
+
+    const scene = useThree();
+
+    const lineWidth = 2;
+    const lineColor = "black";
+
+    // collision mesh position
+    const left = position[0];
+    const top = position[1];
+    const right = left + width;
+    const bottom = top - height;
+    const clickAffordance = 0.7
+
+    // line vertex positions
+    const topLeft = [left, top, 0];
+    const bottomLeft = [left, bottom, 0];
+    const topRight = [right, top, 0];
+    const bottomRight = [right, bottom, 0];
+
+    const bindRight = useDrag(
+        ({ first, last, movement: [mx], memo, event }) => {
+
+            if (first) {
+                event.target.setPointerCapture(event.pointerId);
+
+                memo = {
+                    startWidth: width
+                };
+            }
+
+            if(last){
+                serialize();
+            }
+
+            const newWidth = memo.startWidth + mx / (scene.camera.zoom);
+
+            setWidth(Math.max(0.2, newWidth));
+
+            return memo;
+        }
+    );
+
+    const bindLeft = useDrag(({ first, last, movement: [mx], memo, event }) => {
+        
+        if(first){
+            event.target.setPointerCapture(event.pointerId);
+
+            memo = { startWidth: width, startX: position[0] };
+
+        }
+
+        if(last){
+            serialize();
+        }
+
+        const newWidth = memo.startWidth - mx / scene.camera.zoom;
+        const newXPos = memo.startX + mx / scene.camera.zoom;
+
+        setPosition([newXPos, position[1], 0]);
+        setWidth(newWidth);
+
+        return memo;
+        });
+
+    const bindTop = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
+
+        if(first){
+            event.target.setPointerCapture();
+
+            memo = {startHeight: height, startY: position[1] }
+        }
+        if(last){
+            serialize();
+        }
+
+        const newHeight = memo.startHeight - my / scene.camera.zoom;
+        const newTop = memo.startY - my / scene.camera.zoom;
+
+        setPosition([left, newTop, 0]);
+        setHeight(newHeight);
+        return memo;
+    });
+
+    const bindBottom = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
+        if(first){
+            event.target.setPointerCapture();
+            console.log(memo);
+
+            memo = {startHeight: height};
+        }
+        if(last){
+            serialize();
+        }
+
+        const newHeight = memo.startHeight + my / scene.camera.zoom;
+
+        setHeight(newHeight);
+        return memo;
+    });
+
+    return (
+        <group>
+
+            {/* box rendering */}
+            {/* left line */}
+            <Line
+                points={[topLeft, bottomLeft]}
+                lineWidth={lineWidth}
+                color={lineColor}
+            />
+            {/* bottom line */}
+            <Line
+                points={[bottomLeft, bottomRight]}
+                lineWidth={lineWidth}
+                color={lineColor}
+            />
+            {/* right line */}
+            <Line
+                points={[topRight, bottomRight]}
+                lineWidth={lineWidth}
+                color={lineColor}
+            />
+            {/* top line */}
+            <Line
+                points={[topLeft, topRight]}
+                lineWidth={lineWidth}
+                color={lineColor}
+            />
+
+            {/* LEFT HANDLE */}
+            <mesh
+                position={[left, top - height / 2, 0]}
+                {...bindLeft()}
+            >
+                <planeGeometry args={[clickAffordance, height]} />
+                <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+            {/* RIGHT HANDLE */}
+            <mesh
+                position={[right, top - height / 2, 0]}
+                {...bindRight()}
+            >
+                <planeGeometry args={[clickAffordance, height]} />
+                <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+            {/* TOP HANDLE */}
+            <mesh
+                position={[left + width / 2, top, 0]}
+                {...bindTop()}
+            >
+                <planeGeometry args={[width, clickAffordance]} />
+                <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+            {/* BOTTOM HANDLE */}
+            <mesh
+                position={[left + width / 2, bottom, 0]}
+                {...bindBottom()}
+            >
+                <planeGeometry args={[width, clickAffordance]} />
+                <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+        </group>
+    );
+}
+
+export default ResizableBox;
+
+
+// import { Line } from "@react-three/drei";
+// import { useState } from "react";
+
+// function ResizableBox(){
+//     const [width, setWidth] = useState(1);
+//     const [height, setHeight] = useState(1);
+//     const [position, setPosition] = useState([0, 1, 0]);
+//     const [lineWidth, setLineWidth] = useState(2);
+//     const [lineColor, setLineColor] = useState("black");
+    
+//     let topLeftCorner = position;
+//     let bottomLeftCorner = [position[0], position[1] - height, 0];
+//     let topRightCorner = [position[0] + width, position[1], 0];
+//     let bottomRightCorner = [position[0] + width, position[1] - height, 0]
+
+//     function resizeLeft(){
+
+//     }
+
+//     function resizeRight(){
+
+//     }
+
+//     function resizeDown(){
+
+//     }
+
+//     function resizeUp(){
+
+//     }
+
+//     return (
+//         <>
+//         {/* left line */}
+//             <Line 
+//                 points={[topLeftCorner, bottomLeftCorner]}
+//                 lineWidth={lineWidth}
+//                 color={lineColor}
+//             />
+
+//         {/* Bottom line */}
+//             <Line 
+//                 points={[bottomLeftCorner, bottomRightCorner]}
+//                 lineWidth={lineWidth}
+//                 color={lineColor}
+//                 />
+
+//         {/* Right Line */}
+//             <Line 
+//                 points={[topRightCorner, bottomRightCorner]}
+//                 lineWidth={lineWidth}
+//                 color={lineColor}
+//                 />
+
+//         {/* Top Line */}
+//             <Line 
+//                 points={[topLeftCorner, topRightCorner]}
+//                 lineWidth={lineWidth}
+//                 color={lineColor}
+//                 />
+//         </>
+//     );
+// }
+
+// export default ResizableBox;

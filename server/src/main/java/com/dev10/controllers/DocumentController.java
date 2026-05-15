@@ -27,7 +27,7 @@ public class DocumentController {
         this.resourceRequest = resourceRequest;
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<Object> getById(@RequestHeader("Authorization") String auth,
                                           @RequestBody User user,
                                           @PathVariable("id") int id) throws DataAccessException {
