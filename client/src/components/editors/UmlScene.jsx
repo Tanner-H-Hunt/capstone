@@ -3,18 +3,16 @@ import { useState } from 'react';
 import ClassBox from '../shapes/ClassBox';
 import ResizableBoxWrapper from '../shapes/ResizableBoxWrapper';
 
-function UmlScene(){
+function UmlScene({ elements, removeElement }){
 
     return (    
             <>
                 <ambientLight />
-                <ResizableBoxWrapper />
-                <ResizableBoxWrapper />
                 
-                {/* <mesh position={[0, 0, 0]}>
-                    <sphereGeometry />
-                    <meshStandardMaterial color="orange" />
-                </mesh> */}
+                {elements.map((element) => {return element})}
+                {/* <ResizableBoxWrapper />
+                <ResizableBoxWrapper /> */}
+                
             </>
     );
 }

@@ -28,8 +28,6 @@ function DocumentLayout(){
         const getDocument = async() => {
             const response = await fetch(url, httpRequest);
             const json = await response.json();
-            console.log(json);
-            console.log(json.id);
 
             if(response.status === 200){
                 setDoc(json);

@@ -54,6 +54,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
         
         if(first){
             event.target.setPointerCapture(event.pointerId);
+			event.stopPropagation();
 
             memo = { startWidth: width, startX: position[0] };
 
@@ -76,6 +77,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 
         if(first){
             event.target.setPointerCapture(event.pointerId);
+			event.stopPropagation();
 
             memo = {startHeight: height, startY: position[1] }
         }
@@ -201,70 +203,3 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 }
 
 export default ResizableBox;
-
-
-// import { Line } from "@react-three/drei";
-// import { useState } from "react";
-
-// function ResizableBox(){
-//     const [width, setWidth] = useState(1);
-//     const [height, setHeight] = useState(1);
-//     const [position, setPosition] = useState([0, 1, 0]);
-//     const [lineWidth, setLineWidth] = useState(2);
-//     const [lineColor, setLineColor] = useState("black");
-    
-//     let topLeftCorner = position;
-//     let bottomLeftCorner = [position[0], position[1] - height, 0];
-//     let topRightCorner = [position[0] + width, position[1], 0];
-//     let bottomRightCorner = [position[0] + width, position[1] - height, 0]
-
-//     function resizeLeft(){
-
-//     }
-
-//     function resizeRight(){
-
-//     }
-
-//     function resizeDown(){
-
-//     }
-
-//     function resizeUp(){
-
-//     }
-
-//     return (
-//         <>
-//         {/* left line */}
-//             <Line 
-//                 points={[topLeftCorner, bottomLeftCorner]}
-//                 lineWidth={lineWidth}
-//                 color={lineColor}
-//             />
-
-//         {/* Bottom line */}
-//             <Line 
-//                 points={[bottomLeftCorner, bottomRightCorner]}
-//                 lineWidth={lineWidth}
-//                 color={lineColor}
-//                 />
-
-//         {/* Right Line */}
-//             <Line 
-//                 points={[topRightCorner, bottomRightCorner]}
-//                 lineWidth={lineWidth}
-//                 color={lineColor}
-//                 />
-
-//         {/* Top Line */}
-//             <Line 
-//                 points={[topLeftCorner, topRightCorner]}
-//                 lineWidth={lineWidth}
-//                 color={lineColor}
-//                 />
-//         </>
-//     );
-// }
-
-// export default ResizableBox;

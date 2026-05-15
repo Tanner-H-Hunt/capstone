@@ -4,7 +4,7 @@ import ResizableBox from "./ResizableBox";
 function ResizableBoxWrapper({ width, setWidth, height, setHeight, position, setPosition }){
     const [defaultWidthProp, setDefaultWidthProp] = useState(2);
     const [defaultHeightProp, defaultSetHeightProp] = useState(2);
-    const [defaultPositionProp, defaultSetPositionProp] = useState([0, 1, 0]);
+    const [defaultPositionProp, defaultSetPositionProp] = useState([0, 0, 0]);
     const [defaultSelectedProp, defaultSetSelectedProp] = useState(null);
     const [defaultIdProp, defaultSetIdProp] = useState(null);
 
