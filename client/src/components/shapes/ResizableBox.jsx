@@ -75,7 +75,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
     const bindTop = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
 
         if(first){
-            event.target.setPointerCapture();
+            event.target.setPointerCapture(event.pointerId);
 
             memo = {startHeight: height, startY: position[1] }
         }
@@ -93,7 +93,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 
     const bindBottom = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
         if(first){
-            event.target.setPointerCapture();
+            event.target.setPointerCapture(event.pointerId);
 
             memo = {startHeight: height};
         }
@@ -110,14 +110,15 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
     const bindDragging = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
         if(first){
             event.target.setPointerCapture();
+			event.stopPropagation();
 
-            memo = {start: topLeft};
-        }
+            memo = {startX: position[0], startY: position[1]}; 
+		}
 		if(last){
 			serialize();
 		}
 
-		const newPosition = [memo.start[0] + mx / scene.camera.zoom, memo.start[1] - my / scene.camera.zoom];
+		const newPosition = [memo.startX + mx / scene.camera.zoom, memo.startY - my / scene.camera.zoom];
 		setPosition(newPosition);
 		return memo;
     });

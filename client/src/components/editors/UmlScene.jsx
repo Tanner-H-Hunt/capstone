@@ -1,17 +1,15 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useState } from 'react';
 import ClassBox from '../shapes/ClassBox';
+import ResizableBoxWrapper from '../shapes/ResizableBoxWrapper';
 
 function UmlScene(){
-    const { camera } = useThree();
-    const minCameraZoom = 10;
-    const maxCameraZoom = 75
 
     return (    
             <>
-                <pointLight position={[1.5, 1, 1]} />
                 <ambientLight />
-                <ClassBox />
+                <ResizableBoxWrapper />
+                <ResizableBoxWrapper />
                 
                 {/* <mesh position={[0, 0, 0]}>
                     <sphereGeometry />

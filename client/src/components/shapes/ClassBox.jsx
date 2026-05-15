@@ -10,8 +10,8 @@ function ClassBox(){
     //
     return (
         <>
-         <ResizableBoxWrapper position={position} setPosition={setPosition}/>
-
+        <ResizableBoxWrapper position={position} setPosition={setPosition}/>
+        <ResizableBoxWrapper position={position} setPosition={setPosition}/>
         {/* <Html transform>
             <input type="text" />
         </Html> */}
