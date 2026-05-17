@@ -1,0 +1,45 @@
+@url = http://localhost:8080/api/directory/1
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# get homepage contents happy path
+GET {{url}} HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "email": "a@a.com"
+}
+
+###
+# get homepage invalid user
+GET {{url}} HTTP/1.1
+Authorization: "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+Content-Type: application/json
+
+{
+    "id": 100,
+    "email": "z@z.com"
+}
+
+###
+# get homepage contents bad bearer token
+GET {{url}} HTTP/1.1
+Authorization: "asdfasdf"
+Content-Type: application/json
+
+{
+    "id": 1,
+    "email": "a@a.com"
+}
+
+###
+# get homepage contents no bearer token
+GET {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "email": "a@a.com"
+}

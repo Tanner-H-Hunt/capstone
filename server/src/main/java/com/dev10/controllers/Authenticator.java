@@ -1,6 +1,7 @@
 package com.dev10.controllers;
 
 import com.dev10.models.DataAccessException;
+import com.dev10.models.DTO.ResourceRequest;
 import com.dev10.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -24,7 +25,7 @@ public class Authenticator {
      * @param token the bearer token on this transaction
      * @return true if the auth bearer token belongs to this user
      */
-    public boolean verifyTransaction(User expectedUser, String token){
+    public boolean isValidBearerToken(User expectedUser, String token){
         if(expectedUser == null || token == null || token.isBlank()){
             return false;
         }
@@ -45,6 +46,18 @@ public class Authenticator {
             return false;
         }
 
+    }
+
+    public boolean isUserPermitted(User user, ResourceRequest request){
+        // could not match this resource with any users (resource does not exist)
+        if(request.getUser() == null){
+            request.clear();
+            return false;
+        }
+
+        boolean isPermitted = request.getUser().equals(user);
+        request.clear();
+        return isPermitted;
     }
 
     /**

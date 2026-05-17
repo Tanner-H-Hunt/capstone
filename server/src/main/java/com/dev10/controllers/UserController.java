@@ -2,7 +2,7 @@ package com.dev10.controllers;
 
 import com.dev10.domain.UserService;
 import com.dev10.models.DataAccessException;
-import com.dev10.models.Result;
+import com.dev10.models.DTO.Result;
 import com.dev10.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

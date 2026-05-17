@@ -6,7 +6,7 @@ CREATE TABLE account(
 	account_id int PRIMARY KEY auto_increment,
 	email varchar(255) UNIQUE NOT NULL,
 	password varchar(50) NOT NULL,
-	password_salt varchar(8) NOT null
+	password_salt varchar(32) NOT null
 );
 
 CREATE TABLE directory(
@@ -22,6 +22,7 @@ CREATE TABLE directory(
 	CONSTRAINT fk_directory_parent
 	FOREIGN KEY (parent_directory)
 	REFERENCES directory(directory_id)
+	on delete cascade
 );
 
 CREATE TABLE document_type(
@@ -117,5 +118,41 @@ BEGIN
 	alter table document_type auto_increment = 1;
 	alter table directory auto_increment = 1;
 	alter table account auto_increment = 1;
+	
+	insert into account (email, password, password_salt) values
+		("a@a.com", "a", "test"),
+		("b@b.com", "b", "test");
+	
+	insert into directory (account_id, parent_directory, directory_name) values
+		(1, null, "root-directory"),
+		(2, null, "root-directory"),
+		(1, 1, "subdirectory-test"),
+		(2, 2, "sub-directory");
+	
+	insert into document_type (document_type_name) values
+		("NOTE"),
+		("TODO"),
+		("UML");
+	
+	insert into document (document_type_id, document_name, directory_id) values
+		(2, "user1-todo", 1),
+		(3, "user1-uml", 1),
+		(1, "user1-note", 3),
+		(1, "user2-note", 2),
+		(2, "user2-todo", 2),
+		(3, "user2-uml", 2);
+		
 END
 delimiter ;
+
+SELECT * from document doc
+INNER JOIN directory dir using (directory_id)
+inner join document_type dt using (document_type_id)
+WHERE dir.account_id = 1
+AND dir.parent_directory IS null;
+
+insert into document (document_type_id, document_name, directory_id) values
+	((select document_type_id from document_type where document_type_name = "NOTE"), 
+	"test", "1");
+
+call set_known_good_state();

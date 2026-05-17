@@ -1,0 +1,20 @@
+@url = http://localhost:8080/api/document
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# create happy path
+POST {{url}}/create HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "name": "my-third-doc",
+        "parentDirectoryId": 1,
+        "documentType": "UML"
+    }
+}

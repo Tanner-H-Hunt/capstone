@@ -8,6 +8,7 @@ import AccountForm from "./pages/AccountForm";
 import { useState } from 'react';
 import UserContext from "./contexts/UserContext";
 import Documents from "./pages/Documents";
+import DocumentLayout from "./DocumentLayout";
 
 function AppRouter(){
 
@@ -42,7 +43,7 @@ function AppRouter(){
                 },
                 {
                     path: "/document/:id",
-                    element: <Documents />
+                    element: loggedInUser ? <DocumentLayout /> : <LandingPage />
                 }
 
             ]

@@ -3,20 +3,26 @@ package com.dev10.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.dev10.models.DataAccessException;
-import com.dev10.models.Result;
+import com.dev10.models.DTO.Result;
+import com.dev10.models.Directory;
 import com.dev10.models.User;
+import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import static com.dev10.TestDataHelper.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class UserServiceTest {
-    @MockBean
+    @MockitoBean
     UserRepository userRepository;
+
+    @MockitoBean
+    DirectoryRepository directoryRepository;
 
     @Autowired
     UserService userService;
@@ -24,9 +30,11 @@ class UserServiceTest {
     @Test
     void createAccountHappyPath() throws DataAccessException {
         User notInDatabase = getUserNotInDatabase();
+        notInDatabase.setSalt("test");
         User updatedUser = getUserNotInDatabase();
         updatedUser.setId(3);
         when(userRepository.createUser(notInDatabase)).thenReturn(updatedUser);
+        when(directoryRepository.createDirectory(any())).thenReturn(new Directory());
 
         Result<User> result = userService.createAccount(notInDatabase);
 
@@ -97,5 +105,19 @@ class UserServiceTest {
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
         verify(userRepository, never()).createUser(any());
+    }
+
+    @Test
+    void createAccountAutomaticallyCreatesANewRootDirectoryForUser() throws DataAccessException {
+        User notInDatabase = getUserNotInDatabase();
+        notInDatabase.setSalt("test");
+        User updatedUser = getUserNotInDatabase();
+        updatedUser.setId(3);
+        when(userRepository.createUser(notInDatabase)).thenReturn(updatedUser);
+        when(directoryRepository.createDirectory(any())).thenReturn(new Directory());
+
+        userService.createAccount(notInDatabase);
+
+        verify(directoryRepository).createDirectory(any());
     }
 }

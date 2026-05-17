@@ -1,4 +1,4 @@
-package com.dev10.models;
+package com.dev10.models.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
