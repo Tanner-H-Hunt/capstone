@@ -1,14 +1,19 @@
 import { useState } from "react";
 import ResizableBox from "./ResizableBox";
 
-function ResizableBoxWrapper({ width, setWidth, height, setHeight, position, setPosition }){
+function ResizableBoxWrapper({ width, setWidth, 
+                               height, setHeight, 
+                               position, setPosition, 
+                               selected, setSelected, 
+                               id }){
+
+    // rendering data
     const [defaultWidthProp, setDefaultWidthProp] = useState(2);
     const [defaultHeightProp, defaultSetHeightProp] = useState(2);
     const [defaultPositionProp, defaultSetPositionProp] = useState([0, 0, 0]);
-    const [defaultSelectedProp, defaultSetSelectedProp] = useState(null);
-    const [defaultIdProp, defaultSetIdProp] = useState(null);
 
     return (
+
         <>
             <ResizableBox 
                 width={width != undefined ? width : defaultWidthProp}

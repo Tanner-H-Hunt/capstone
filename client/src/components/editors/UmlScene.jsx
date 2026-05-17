@@ -1,6 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useState } from 'react';
-import ClassBox from '../shapes/ClassBox';
 import ResizableBoxWrapper from '../shapes/ResizableBoxWrapper';
 
 function UmlScene({ elements, removeElement }){
@@ -10,8 +9,6 @@ function UmlScene({ elements, removeElement }){
                 <ambientLight />
                 
                 {elements.map((element) => {return element})}
-                {/* <ResizableBoxWrapper />
-                <ResizableBoxWrapper /> */}
                 
             </>
     );

@@ -111,7 +111,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 
     const bindDragging = useDrag(({ first, last, movement: [mx, my], memo, event }) => {
         if(first){
-            event.target.setPointerCapture();
+            event.target.setPointerCapture(event.pointerId);
 			event.stopPropagation();
 
             memo = {startX: position[0], startY: position[1]}; 

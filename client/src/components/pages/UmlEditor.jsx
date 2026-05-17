@@ -4,19 +4,31 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from 'three';
 import LeftToolbar from "../editors/LeftToolbar";
 import { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function UmlEditor(){
     const [elements, setElements] = useState([]);
     const [selected, setSelected] = useState([]);
 
     function addElement(element){
+        // TODO: get element ID from the backend, save to backend
         setElements([...elements, element]);
     }
 
     function removeElement(element){
+        //TODO delete on the backend
         const filteredElements = elements.filter(item => item != element);
         setElements(filteredElements);
     }
+
+    function selectElement(element){
+
+    }
+
+    useHotkeys('delete', () => {
+        selected.forEach((element) => removeElement(element));
+    });
+
 
     return (
             <div className="container-fluid px-0 row"  style={{height: '100vh'}}>
