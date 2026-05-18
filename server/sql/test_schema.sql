@@ -101,6 +101,7 @@ BEGIN
 	delete from document_type;
 	delete from directory;
 	delete from account;
+	delete from element_type;
 
 	alter table `attribute` auto_increment = 1;
 	alter table document_element_link auto_increment = 1;
@@ -109,6 +110,8 @@ BEGIN
 	alter table document_type auto_increment = 1;
 	alter table directory auto_increment = 1;
 	alter table account auto_increment = 1;
+	alter table element_type auto_increment = 1;
+	alter table `attribute` auto_increment = 1;
 	
 	insert into account (email, password, password_salt) values
 		("a@a.com", "a", "test"),
@@ -171,10 +174,7 @@ delimiter ;
 
 call set_known_good_state();
 
-SELECT
-    de.document_element_id as documentElementId,
-    det.`type` as documentElementType,
-    de.document_id as documentId
-FROM document_element de
-INNER JOIN element_type det ON de.element_type_id = det.element_type_id
-WHERE de.document_id = 2;
+select * from attribute;
+select * from attribute 
+where document_element_id = 1
+and value like "_startXPos_%";

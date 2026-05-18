@@ -1,5 +1,6 @@
 package com.dev10.models.docelements.implementations;
 
+import com.dev10.models.DataAccessException;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 import com.dev10.repositories.DocumentElementRepository;
@@ -15,7 +16,7 @@ public class AttributeConfiguration {
         this.repository = repository;
     }
 
-    public void initAttributes(DocumentElement element){
+    public void initAttributes(DocumentElement element) throws DataAccessException {
         switch (element.getDocumentElementType()){
             case BOX:
                 initBox((Box) element);
@@ -44,7 +45,7 @@ public class AttributeConfiguration {
         }
     }
 
-    private void initBox(Box box){
+    private void initBox(Box box) throws DataAccessException {
         Attribute defaultX = new Attribute();
         Attribute defaultY = new Attribute();
         Attribute defaultWidth = new Attribute();
@@ -89,7 +90,7 @@ public class AttributeConfiguration {
 
     }
 
-    private void initLine(Line line){
+    private void initLine(Line line) throws DataAccessException {
         Attribute defaultStartPositionX = new Attribute();
         Attribute defaultStartPositionY = new Attribute();
         Attribute defaultEndPositionX = new Attribute();
@@ -132,7 +133,7 @@ public class AttributeConfiguration {
                 line.getEndPositionY()));
     }
 
-    private void initText(Text text){
+    private void initText(Text text) throws DataAccessException {
         // init the attributes
         Attribute defaultXPos = new Attribute();
         Attribute defaultYPos = new Attribute();

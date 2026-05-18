@@ -183,7 +183,49 @@ public class TestDataHelper {
         return element;
     }
 
-    public static List<Attribute> getAttributesForElement1(){
-        return List.of();
+    public static List<Attribute> getAttributesForElement1() {
+        Attribute startX = new Attribute();
+        startX.setAttributeId(1);
+        startX.setDocumentElementId(1);
+        startX.setValue("'startXPos': 0");
+
+        Attribute startY = new Attribute();
+        startY.setAttributeId(2);
+        startY.setDocumentElementId(1);
+        startY.setValue("'startYPos': 0");
+
+        Attribute endX = new Attribute();
+        endX.setAttributeId(3);
+        endX.setDocumentElementId(1);
+        endX.setValue("'endXPos': 1");
+
+        Attribute endY = new Attribute();
+        endY.setAttributeId(4);
+        endY.setDocumentElementId(1);
+        endY.setValue("'endYPos': 0");
+
+        return List.of(startX, startY, endX, endY);
+    }
+
+    public static Attribute getAttribute1() {
+        return getAttributesForElement1().get(0);
+    }
+
+    public static Attribute getAttributeNotInDatabase() {
+        Attribute attribute = new Attribute();
+        attribute.setAttributeId(0);
+        attribute.setDocumentElementId(1);
+        attribute.setValue("'newAttribute': 123");
+
+        return attribute;
+    }
+
+    public static Attribute getUpdatedAttribute1() {
+        Attribute attribute = new Attribute();
+        attribute.setAttributeId(1);
+        attribute.setDocumentElementId(1);
+        attribute.setValue("'startXPos': 999");
+
+        return attribute;
     }
 }
