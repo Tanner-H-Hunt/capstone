@@ -1,6 +1,15 @@
 import DocumentPreview from "./DocumentPreview";
 
 function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDirectoryStack }){
+    function removeDocument(id){
+        const documentsClone = [...documents].filter(doc => doc.id != id);
+        console.log(documents)
+        console.log(documentsClone);
+
+        setDocuments(documentsClone);
+
+    }
+
     return (
         <>
             <div className="flex-container">
@@ -9,7 +18,7 @@ function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDire
                         documents.map(doc => {
                         return(
                             <div className="col-sm-6 col-lg-4 col-xl-3 col-xxl-2" key={doc.id}>
-                                <DocumentPreview document={doc}/>
+                                <DocumentPreview document={doc} removeDocument={removeDocument}/>
                             </div>
                         )
                     })}
