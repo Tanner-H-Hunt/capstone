@@ -91,15 +91,13 @@ function AccountForm(){
             setLoggedInUser(JSON.stringify(json));
             navigate("/")
         } else{
-            const payload = await response.json();
-            setServerErrors(payload);
-            //console.log(serverErrors);
+            setServerErrors(["Incorrect email or password"]);
         }
     }
 
 
     return (
-        <div class="container-fluid row">
+        <div className="container-fluid row">
             {/* left gutter */}
             <div className="col-3"></div>
             

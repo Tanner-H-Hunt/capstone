@@ -3,8 +3,6 @@ import DocumentPreview from "./DocumentPreview";
 function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDirectoryStack }){
     function removeDocument(id){
         const documentsClone = [...documents].filter(doc => doc.id != id);
-        console.log(documents)
-        console.log(documentsClone);
 
         setDocuments(documentsClone);
 

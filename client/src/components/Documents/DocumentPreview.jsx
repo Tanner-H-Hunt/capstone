@@ -42,7 +42,6 @@ function DocumentPreview({ document, removeDocument }){
         };
 
         const url = "http://localhost:8080/api/document/" + document.id;
-        console.log(httpRequest);
 
         const submitToServer = async () => {
             const response = await fetch(url, httpRequest);
@@ -50,8 +49,6 @@ function DocumentPreview({ document, removeDocument }){
             if(response.status >= 200 && response.status <= 300){
                 setPreviousDocName(docName);
             } else{
-                console.log("Error in editing document name");
-                console.log(json);
                 setDocName(previousDocName);
             }
         }
