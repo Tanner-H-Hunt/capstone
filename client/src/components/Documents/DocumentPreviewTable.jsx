@@ -8,7 +8,7 @@ function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDire
                     {
                         documents.map(doc => {
                         return(
-                            <div className="col-4" key={doc.id}>
+                            <div className="col-sm-6 col-lg-4 col-xl-3 col-xxl-2" key={doc.id}>
                                 <DocumentPreview document={doc}/>
                             </div>
                         )

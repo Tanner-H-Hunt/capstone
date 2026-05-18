@@ -161,4 +161,40 @@ class DocumentJdbcClientRepositoryTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void deleteDocumentHappyPath() throws DataAccessException {
+        int validId = 1;
+        List<Document> expected = getDocumentsForUser1()
+                .stream()
+                .filter(document -> document.getId() != validId)
+                .toList();
+
+        boolean result = repository.deleteDocument(validId);
+
+        assertTrue(result);
+        assertEquals(expected,
+                repository.getAllDocuments(getAllUsers().get(0))
+                        .stream()
+                        .sorted(Comparator.comparing(Document::getId))
+                        .toList());
+    }
+
+    @Test
+    void deleteDocumentNotFound() throws DataAccessException {
+        int invalidId = 100;
+        List<Document> expectedUser1 = getDocumentsForUser1();
+
+        List<Document> expectedUser2 = getDocumentsForUser2();
+
+        boolean result = repository.deleteDocument(invalidId);
+
+        assertFalse(result);
+        assertEquals(expectedUser1, repository.getAllDocuments(getAllUsers().get(0)).stream()
+                .sorted(Comparator.comparing(Document::getId))
+                .toList());
+        assertEquals(expectedUser2, repository.getAllDocuments(getAllUsers().get(1)).stream()
+                .sorted(Comparator.comparing(Document::getId))
+                .toList());
+    }
 }

@@ -114,4 +114,28 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getErrorMessages());
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteDocument(@RequestHeader("Authorization") String auth,
+                                                 @RequestBody User user,
+                                                 @PathVariable("id") int id) throws DataAccessException{
+        // user is who they say they are
+        if(!authenticator.isValidBearerToken(user, auth)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // user is allowed to delete the requested document
+        resourceRequest.validateDocument(id);
+        if(!authenticator.isUserPermitted(user, resourceRequest)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        boolean result = service.delete(id);
+
+        if(result){
+            return ResponseEntity.noContent().build();
+        } else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

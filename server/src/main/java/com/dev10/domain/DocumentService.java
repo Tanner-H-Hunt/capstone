@@ -107,4 +107,8 @@ public class DocumentService {
 
         return result;
     }
+
+    public boolean delete(int id) throws DataAccessException {
+        return documentRepository.deleteDocument(id);
+    }
 }

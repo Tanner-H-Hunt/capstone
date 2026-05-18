@@ -13,6 +13,6 @@ public interface DocumentRepository {
     List<Document> getAllDocuments(User user) throws DataAccessException;
     Document getDocumentById(int id) throws DataAccessException;
     Document createDocument(Document document) throws DataAccessException;
-    boolean deleteDocument(Document document) throws DataAccessException;
+    boolean deleteDocument(int id) throws DataAccessException;
     boolean updateDocument(Document document) throws DataAccessException;
 }
