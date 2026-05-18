@@ -2,12 +2,15 @@ import { useNavigate } from 'react-router';
 import Placeholder from '../../assets/placeholder.png'
 import { useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener'
+import { useContext } from 'react';
+import UserContext from "../contexts/UserContext";
 
 function DocumentPreview({ document }){
     const navigate = useNavigate();
     const [editing, setEditing] = useState(false);
     const [docName, setDocName] = useState(document.name);
     const [previousDocName, setPreviousDocName] = useState(document.name);
+    const { loggedInUser } = useContext(UserContext);
 
     function redirect(){
         const id = document.id;
@@ -20,8 +23,36 @@ function DocumentPreview({ document }){
         if(!validate){
             setDocName(previousDocName);
         }
-        
-        //TODO send edit to server, validate
+
+        const newDocumentRequest = {
+            user: JSON.parse(loggedInUser).user,
+            document: { ...document, name: docName }
+        }
+
+        const httpRequest = {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': JSON.parse(loggedInUser).bearer_token
+            },
+            body: JSON.stringify(newDocumentRequest)
+        };
+
+        const url = "http://localhost:8080/api/document/" + document.id;
+        console.log(httpRequest);
+
+        const submitToServer = async () => {
+            const response = await fetch(url, httpRequest);
+            const json = await response.json();
+            if(response.status >= 200 && response.status <= 300){
+                setPreviousDocName(docName);
+            } else{
+                console.log("Error in editing document name");
+                console.log(json);
+                setDocName(previousDocName);
+            }
+        }
+        submitToServer();
         setEditing(false);
     }
 
