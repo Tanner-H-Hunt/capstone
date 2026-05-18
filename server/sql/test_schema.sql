@@ -145,14 +145,5 @@ BEGIN
 END
 delimiter ;
 
-SELECT * from document doc
-INNER JOIN directory dir using (directory_id)
-inner join document_type dt using (document_type_id)
-WHERE dir.account_id = 1
-AND dir.parent_directory IS null;
-
-insert into document (document_type_id, document_name, directory_id) values
-	((select document_type_id from document_type where document_type_name = "NOTE"), 
-	"test", "1");
 
 call set_known_good_state();

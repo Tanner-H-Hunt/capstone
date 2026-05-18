@@ -140,4 +140,25 @@ class DocumentJdbcClientRepositoryTest {
 
         assertEquals(document, actual);
     }
+
+    @Test
+    void updateDocumentHappyPath() throws DataAccessException {
+        Document document = getDocumentsForUser1().get(0);
+        document.setName("updated doc");
+        document.setParentDirectoryId(3);
+
+        boolean result = repository.updateDocument(document);
+
+        assertTrue(result);
+        assertEquals(document, repository.getDocumentById(document.getId()));
+    }
+
+    @Test
+    void updateDocumentNoDocumentFound() throws DataAccessException {
+        Document document = getDocumentNotInDatabase();
+
+        boolean result = repository.updateDocument(document);
+
+        assertFalse(result);
+    }
 }

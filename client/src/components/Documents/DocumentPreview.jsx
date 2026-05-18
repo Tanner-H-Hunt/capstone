@@ -7,6 +7,7 @@ function DocumentPreview({ document }){
     const navigate = useNavigate();
     const [editing, setEditing] = useState(false);
     const [docName, setDocName] = useState(document.name);
+    const [previousDocName, setPreviousDocName] = useState(document.name);
 
     function redirect(){
         const id = document.id;
@@ -15,6 +16,11 @@ function DocumentPreview({ document }){
 
     function onSubmit(){
         event.preventDefault();
+
+        if(!validate){
+            setDocName(previousDocName);
+        }
+        
         //TODO send edit to server, validate
         setEditing(false);
     }
@@ -29,9 +35,21 @@ function DocumentPreview({ document }){
 
     function handleClickAway(){
         if(editing){
-            console.log("clicked away");
+            setDocName(previousDocName);
             setEditing(false);
         }
+    }
+
+    function validate(){
+        if(docName === undefined || docName === null){
+            return false;
+        }
+
+        if(docName.trim().length === 0){
+            return false;
+        }
+
+        return true;
     }
 
     return(
