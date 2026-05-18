@@ -1,14 +1,17 @@
 package com.dev10.models.docelements;
 
-import com.dev10.repositories.DocumentElementRepository;
-import org.springframework.stereotype.Component;
-
+import java.util.List;
 import java.util.Objects;
 
 public abstract class DocumentElement {
     private int documentElementId;
     private DocumentElementType documentElementType;
     private int documentId;
+    protected List<Attribute> attributes;
+
+    public List<Attribute> getAttributes(){
+        return attributes;
+    }
 
     public int getDocumentElementId() {
         return documentElementId;
@@ -34,7 +37,7 @@ public abstract class DocumentElement {
         this.documentId = documentId;
     }
 
-    public abstract void generateDefault();
+    public abstract void init();
 
     @Override
     public boolean equals(Object o) {

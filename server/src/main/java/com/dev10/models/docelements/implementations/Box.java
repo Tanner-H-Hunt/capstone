@@ -5,6 +5,8 @@ import com.dev10.models.docelements.DocumentElement;
 import com.dev10.repositories.DocumentElementRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Box extends DocumentElement {
     private Attribute xPosition;
@@ -51,7 +53,7 @@ public class Box extends DocumentElement {
     }
 
     @Override
-    public void generateDefault() {
+    public void init() {
         Attribute defaultX = new Attribute();
         defaultX.setValue("0");
         defaultX.setDocumentElementId(this.getDocumentElementId());
@@ -76,5 +78,6 @@ public class Box extends DocumentElement {
         this.yPosition = defaultY;
         this.width = defaultWidth;
         this.height = defaultHeight;
+        this.attributes = List.of(xPosition, yPosition, width, height);
     }
 }

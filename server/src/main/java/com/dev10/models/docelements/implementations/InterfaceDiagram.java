@@ -19,7 +19,7 @@ public class InterfaceDiagram extends DocumentElement {
     }
 
     @Override
-    public void generateDefault() {
+    public void init() {
 
     }
 }

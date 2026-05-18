@@ -4,10 +4,21 @@ import com.dev10.models.Directory;
 import com.dev10.models.Document;
 import com.dev10.models.DocumentType;
 import com.dev10.models.User;
+import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.DocumentElementType;
+import com.dev10.models.docelements.implementations.Box;
+import com.dev10.models.docelements.implementations.Line;
+import com.dev10.models.docelements.implementations.Text;
+import com.dev10.repositories.DocumentElementRepository;
 
 import java.util.List;
 
 public class TestDataHelper {
+    private static DocumentElementRepository documentElementRepository;
+
+    public TestDataHelper(DocumentElementRepository repo){
+        documentElementRepository = repo;
+    }
     public static List<User> getAllUsers(){
         User user1 = new User();
         User user2 = new User();
@@ -140,5 +151,31 @@ public class TestDataHelper {
         directory2.setDirectoryName("sub-directory");
 
         return List.of(directory1, directory2);
+    }
+
+    public static List<DocumentElement> getElementsForUser1Uml(){
+        DocumentElement line = new Line(documentElementRepository);
+        line.setDocumentElementId(1);
+        line.setDocumentId(2);
+        line.setDocumentElementType(DocumentElementType.LINE);
+        line.init();
+
+        DocumentElement box = new Box(documentElementRepository);
+        box.setDocumentElementId(2);
+        box.setDocumentId(2);
+        box.setDocumentElementType(DocumentElementType.BOX);
+        box.init();
+
+        return List.of(line, box);
+    }
+
+    public static List<DocumentElement> getElementsForUser2Note(){
+        DocumentElement text = new Text(documentElementRepository);
+        text.setDocumentElementType(DocumentElementType.TEXT);
+        text.setDocumentElementId(3);
+        text.setDocumentId(4);
+        text.init();
+
+        return List.of(text);
     }
 }

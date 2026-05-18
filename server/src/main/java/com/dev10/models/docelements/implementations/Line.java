@@ -5,6 +5,8 @@ import com.dev10.models.docelements.DocumentElement;
 import com.dev10.repositories.DocumentElementRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Line extends DocumentElement {
     private Attribute startPositionX;
@@ -51,7 +53,7 @@ public class Line extends DocumentElement {
     }
 
     @Override
-    public void generateDefault() {
+    public void init() {
         Attribute defaultStartPositionX = new Attribute();
         defaultStartPositionX.setValue("0");
         defaultStartPositionX.setDocumentElementId(this.getDocumentElementId());
@@ -76,5 +78,6 @@ public class Line extends DocumentElement {
         startPositionY = defaultStartPositionY;
         endPositionX = defaultEndPositionX;
         endPositionY = defaultEndPositionY;
+        this.attributes = List.of(startPositionX, startPositionY, endPositionX, endPositionY);
     }
 }

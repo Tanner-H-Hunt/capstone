@@ -5,6 +5,8 @@ import com.dev10.models.docelements.DocumentElement;
 import com.dev10.repositories.DocumentElementRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Text extends DocumentElement {
     private Attribute xPosition;
@@ -42,7 +44,7 @@ public class Text extends DocumentElement {
     }
 
     @Override
-    public void generateDefault() {
+    public void init() {
         Attribute defaultXPosition = new Attribute();
         defaultXPosition.setValue("0");
         defaultXPosition.setDocumentElementId(this.getDocumentElementId());
@@ -61,5 +63,6 @@ public class Text extends DocumentElement {
         this.xPosition = defaultXPosition;
         this.yPosition = defaultYPosition;
         this.innerText = defaultText;
+        this.attributes = List.of(xPosition, yPosition, innerText);
     }
 }

@@ -2,7 +2,9 @@ package com.dev10.repositories;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class DocumentElementJdbcClientRepository implements DocumentElementRepository{
     @Override
     public DocumentElement create(DocumentElement documentElement) {
@@ -20,7 +22,7 @@ public class DocumentElementJdbcClientRepository implements DocumentElementRepos
     }
 
     @Override
-    public Attribute editAttribute(Attribute attribute) {
-        return null;
+    public boolean editElementAttribute(Attribute attribute) {
+        return false;
     }
 }

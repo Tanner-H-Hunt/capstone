@@ -12,7 +12,7 @@ public class ClassDiagram extends DocumentElement {
     Attribute bottomText;
 
     @Override
-    public void generateDefault() {
+    public void init() {
 
     }
 }
