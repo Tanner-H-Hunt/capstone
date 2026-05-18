@@ -2,67 +2,87 @@ package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
-import com.dev10.repositories.DocumentElementRepository;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
 
-@Component
 public class Text extends DocumentElement {
-    private Attribute xPosition;
-    private Attribute yPosition;
-    private Attribute innerText;
-
-    private final DocumentElementRepository repository;
-
-    public Text(DocumentElementRepository repository){
-        this.repository = repository;
-    }
+    protected Attribute xPosition;
+    protected Attribute yPosition;
+    protected Attribute innerText;
 
     public Attribute getxPosition() {
+        if(xPosition == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("Must init Text.xPosition");
+            return attribute;
+        }
+
         return xPosition;
     }
 
-    public void setxPosition(Integer xPosition) {
-        this.xPosition.setValue(xPosition.toString());
-    }
-
     public Attribute getyPosition() {
+        if(yPosition == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("Must init Text.yPosition");
+            return attribute;
+        }
+
         return yPosition;
     }
 
-    public void setyPosition(Integer yPosition) {
-        this.yPosition.setValue(yPosition.toString());
-    }
-
     public Attribute getInnerText() {
+        if(innerText == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("Must init Text.innerText");
+            return attribute;
+        }
+
         return innerText;
     }
 
-    public void setInnerText(String innerText) {
-        this.innerText.setValue(innerText);
+    public void editXPosition(Integer value){
+        if(xPosition == null){
+            System.out.println("Must init Text.xPosition");
+            return;
+        }
+
+        String json = Attribute.formatAsJson("xPos", value);
+        xPosition.setValue(json);
+    }
+
+    public void editYPosition(Integer value){
+        if(yPosition == null){
+            System.out.println("Must init Text.yPosition");
+            return;
+        }
+
+        String json = Attribute.formatAsJson("yPos", value);
+        yPosition.setValue(json);
+    }
+
+    public void editInnerText(String value){
+        if(innerText == null){
+            System.out.println("Must init Text.innerText");
+            return;
+        }
+
+        String json = Attribute.formatAsJson("innerText", value);
+        innerText.setValue(json);
+    }
+
+    public void setxPosition(Attribute xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public void setyPosition(Attribute yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public void setInnerText(Attribute innerText) {
+        this.innerText = innerText;
     }
 
     @Override
-    public void init() {
-        Attribute defaultXPosition = new Attribute();
-        defaultXPosition.setValue("0");
-        defaultXPosition.setDocumentElementId(this.getDocumentElementId());
-        defaultXPosition = repository.createAttribute(defaultXPosition);
-
-        Attribute defaultYPosition = new Attribute();
-        defaultYPosition.setValue("0");
-        defaultYPosition.setDocumentElementId(this.getDocumentElementId());
-        defaultYPosition = repository.createAttribute(defaultYPosition);
-
-        Attribute defaultText = new Attribute();
-        defaultText.setValue("text");
-        defaultYPosition.setDocumentElementId(this.getDocumentElementId());
-        defaultText = repository.createAttribute(defaultText);
-
-        this.xPosition = defaultXPosition;
-        this.yPosition = defaultYPosition;
-        this.innerText = defaultText;
-        this.attributes = List.of(xPosition, yPosition, innerText);
+    public String toString() {
+        return super.toString();
     }
 }

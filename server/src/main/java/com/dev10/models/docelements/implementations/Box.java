@@ -2,82 +2,118 @@ package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.DocumentElementType;
 import com.dev10.repositories.DocumentElementRepository;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Attr;
 
 import java.util.List;
 
-@Component
+
 public class Box extends DocumentElement {
     private Attribute xPosition;
     private Attribute yPosition;
     private Attribute width;
     private Attribute height;
 
-    private final DocumentElementRepository repository;
-
-    public Box(DocumentElementRepository repository){
-        this.repository = repository;
-    }
-
     public Attribute getxPosition() {
+        if(xPosition == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized Box attributes");
+            return attribute;
+        }
+
         return xPosition;
     }
 
-    public void setxPosition(Integer xPosition) {
-        this.xPosition.setValue(xPosition.toString());
-    }
-
     public Attribute getyPosition() {
+        if(yPosition == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized Box attributes");
+            return attribute;
+        }
+
         return yPosition;
     }
 
-    public void setyPosition(Integer yPosition) {
-        this.yPosition.setValue(yPosition.toString());
-    }
-
     public Attribute getWidth() {
+        if(width == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized Box attributes");
+            return attribute;
+        }
+
         return width;
     }
 
-    public void setWidth(Integer width) {
-        this.xPosition.setValue(width.toString());
-    }
-
     public Attribute getHeight() {
+        if(height == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized Box attributes");
+            return attribute;
+        }
+
         return height;
     }
 
-    public void setHeight(Integer height) {
-        this.height.setValue(height.toString());
+    public void editXPosition(Integer value){
+        if(xPosition == null){
+            System.out.println("Must init Box.xPosition");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("xPos", value);
+        this.xPosition.setValue(jsonFormattedValue);
+    }
+
+    public void editYPosition(Integer value){
+        if(yPosition == null){
+            System.out.println("Must init Box.yPosition");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("yPos", value);
+        this.yPosition.setValue(jsonFormattedValue);
+    }
+
+    public void editWidth(Integer value){
+        if(width == null){
+            System.out.println("Must init Box.width");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("width", value);
+        this.width.setValue(jsonFormattedValue);
+    }
+
+    public void editHeight(Integer value){
+        if(height == null){
+            System.out.println("Must init Box.height");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("height", value);
+        this.height.setValue(jsonFormattedValue);
+    }
+
+    public void setxPosition(Attribute xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public void setyPosition(Attribute yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public void setWidth(Attribute width) {
+        this.width = width;
+    }
+
+    public void setHeight(Attribute height) {
+        this.height = height;
     }
 
     @Override
-    public void init() {
-        Attribute defaultX = new Attribute();
-        defaultX.setValue("0");
-        defaultX.setDocumentElementId(this.getDocumentElementId());
-        defaultX = repository.createAttribute(defaultX);
-
-        Attribute defaultY = new Attribute();
-        defaultY.setValue("0");
-        defaultY.setDocumentElementId(this.getDocumentElementId());
-        defaultY = repository.createAttribute(defaultY);
-
-        Attribute defaultWidth = new Attribute();
-        defaultWidth.setValue("2");
-        defaultWidth.setDocumentElementId(this.getDocumentElementId());
-        defaultWidth = repository.createAttribute(defaultWidth);
-
-        Attribute defaultHeight = new Attribute();
-        defaultHeight.setValue("2");
-        defaultHeight.setDocumentElementId(this.getDocumentElementId());
-        defaultHeight = repository.createAttribute(defaultHeight);
-
-        this.xPosition = defaultX;
-        this.yPosition = defaultY;
-        this.width = defaultWidth;
-        this.height = defaultHeight;
-        this.attributes = List.of(xPosition, yPosition, width, height);
+    public String toString() {
+        return super.toString();
     }
 }

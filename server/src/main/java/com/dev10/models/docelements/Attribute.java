@@ -31,6 +31,10 @@ public class Attribute {
         this.value = value;
     }
 
+    public static String formatAsJson(String key, Object value){
+        return String.format("\"%s\": \"%s\"", key, value.toString());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

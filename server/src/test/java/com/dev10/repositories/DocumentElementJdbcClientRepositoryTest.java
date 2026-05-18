@@ -1,10 +1,16 @@
 package com.dev10.repositories;
 
+import com.dev10.models.DataAccessException;
+import com.dev10.models.docelements.DocumentElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
+
+import java.util.List;
+
+import static com.dev10.TestDataHelper.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,8 +28,13 @@ class DocumentElementJdbcClientRepositoryTest {
     }
 
     @Test
-    void createElementHappyPath(){
+    void createElementHappyPath() throws DataAccessException {
+        DocumentElement element = getBoxNotInDatabase();
 
+        DocumentElement created = repository.create(element);
+
+        assertEquals(element, created);
+        assertEquals(getElementsForUser1Uml().size() + 1, repository.getElementsForDocument(2).size());
     }
 
     @Test
@@ -49,5 +60,13 @@ class DocumentElementJdbcClientRepositoryTest {
     @Test
     void editElementAttributeReturnsFalseIfAttributeNotFound(){
 
+    }
+
+    @Test
+    void getElementsForDocumentHappyPath() throws DataAccessException {
+        List<DocumentElement> expected = getElementsForUser1Uml();
+        List<DocumentElement> actual = repository.getElementsForDocument(2);
+
+        assertEquals(expected, actual);
     }
 }

@@ -10,6 +10,9 @@ public abstract class DocumentElement {
     protected List<Attribute> attributes;
 
     public List<Attribute> getAttributes(){
+        if(attributes == null){
+            return List.of();
+        }
         return attributes;
     }
 
@@ -37,7 +40,9 @@ public abstract class DocumentElement {
         this.documentId = documentId;
     }
 
-    public abstract void init();
+    public void setAttributes(List<Attribute> attributes){
+        this.attributes = attributes;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -51,5 +56,26 @@ public abstract class DocumentElement {
     @Override
     public int hashCode() {
         return Objects.hash(getDocumentElementId(), getDocumentElementType(), getDocumentId());
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"documentElementId\": " + documentElementId +
+                ", \"documentElementType\": \"" + documentElementType + "\"" +
+                ", \"documentId\": " + documentId +
+                ", \"attributes\": {" + attributeListToString() +
+                "}}";
+    }
+
+    private String attributeListToString(){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < getAttributes().size(); i++){
+            sb.append(getAttributes().get(i).getValue());
+            if(i != getAttributes().size() - 1){
+                sb.append(",");
+            }
+        }
+        return sb.toString();
     }
 }

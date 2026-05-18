@@ -170,3 +170,11 @@ delimiter ;
 
 
 call set_known_good_state();
+
+SELECT
+    de.document_element_id as documentElementId,
+    det.`type` as documentElementType,
+    de.document_id as documentId
+FROM document_element de
+INNER JOIN element_type det ON de.element_type_id = det.element_type_id
+WHERE de.document_id = 2;

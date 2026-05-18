@@ -2,82 +2,110 @@ package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
-import com.dev10.repositories.DocumentElementRepository;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-@Component
 public class Line extends DocumentElement {
     private Attribute startPositionX;
     private Attribute startPositionY;
     private Attribute endPositionX;
     private Attribute endPositionY;
 
-    private final DocumentElementRepository repository;
-
-    public Line(DocumentElementRepository repository){
-        this.repository = repository;
-    }
-
     public Attribute getStartPositionX() {
+        if(startPositionX == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized line attributes");
+            return attribute;
+        }
+
         return startPositionX;
     }
 
-    public void setStartPositionX(Integer startPositionX) {
-        this.startPositionX.setValue(startPositionX.toString());
-    }
-
     public Attribute getStartPositionY() {
+        if(startPositionY == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized line attributes");
+            return attribute;
+        }
+
         return startPositionY;
     }
 
-    public void setStartPositionY(Integer startPositionY) {
-        this.startPositionY.setValue(startPositionY.toString());
-    }
-
     public Attribute getEndPositionX() {
+        if(endPositionX == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized line attributes");
+            return attribute;
+        }
+
         return endPositionX;
     }
 
-    public void setEndPositionX(Integer endPositionX) {
-        this.endPositionX.setValue(endPositionX.toString());
-    }
-
     public Attribute getEndPositionY() {
+        if(endPositionY == null){
+            Attribute attribute = new Attribute();
+            attribute.setValue("ERROR: uninitialized line attributes");
+            return attribute;
+        }
+
         return endPositionY;
     }
 
-    public void setEndPositionY(Integer endPositionY) {
-        this.endPositionY.setValue(endPositionY.toString());
+    public void editStartPositionX(Integer startPositionX) {
+        if(startPositionX == null){
+            System.out.println("Must init Line.startXPosition");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("startXPos", startPositionX);
+        this.startPositionX.setValue(jsonFormattedValue);
+    }
+
+    public void editStartPositionY(Integer startPositionY) {
+        if(startPositionY == null){
+            System.out.println("Must init Line.startYPosition");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("startYPos", startPositionY);
+        this.startPositionY.setValue(jsonFormattedValue);
+    }
+
+    public void editEndPositionX(Integer endPositionX) {
+        if(startPositionX == null){
+            System.out.println("Must init Line.endXPosition");
+            return;
+        }
+
+        this.endPositionX.setValue(endPositionX.toString());
+    }
+
+    public void editEndPositionY(Integer endPositionY) {
+        if(endPositionY == null){
+            System.out.println("Must init Line.EndYPosition");
+            return;
+        }
+
+        String jsonFormattedValue = Attribute.formatAsJson("endYPos", endPositionY);
+        this.endPositionY.setValue(jsonFormattedValue);
+    }
+
+    public void setStartPositionX(Attribute startPositionX){
+        this.startPositionX = startPositionX;
+    }
+
+    public void setStartPositionY(Attribute startPositionY){
+        this.startPositionY = startPositionY;
+    }
+
+    public void setEndPositionX(Attribute endPositionX){
+        this.endPositionX = endPositionX;
+    }
+
+    public void setEndPositionY(Attribute endPositionY){
+        this.endPositionY = endPositionY;
     }
 
     @Override
-    public void init() {
-        Attribute defaultStartPositionX = new Attribute();
-        defaultStartPositionX.setValue("0");
-        defaultStartPositionX.setDocumentElementId(this.getDocumentElementId());
-        defaultStartPositionX = repository.createAttribute(defaultStartPositionX);
-
-        Attribute defaultStartPositionY = new Attribute();
-        defaultStartPositionY.setValue("0");
-        defaultStartPositionY.setDocumentElementId(this.getDocumentElementId());
-        defaultStartPositionY = repository.createAttribute(defaultStartPositionY);
-
-        Attribute defaultEndPositionX = new Attribute();
-        defaultEndPositionX.setValue("1");
-        defaultEndPositionX.setDocumentElementId(this.getDocumentElementId());
-        defaultEndPositionX = repository.createAttribute(defaultEndPositionX);
-
-        Attribute defaultEndPositionY = new Attribute();
-        defaultEndPositionY.setValue("0");
-        defaultEndPositionY.setDocumentElementId(this.getDocumentElementId());
-        defaultEndPositionY = repository.createAttribute(defaultEndPositionY);
-
-        startPositionX = defaultStartPositionX;
-        startPositionY = defaultStartPositionY;
-        endPositionX = defaultEndPositionX;
-        endPositionY = defaultEndPositionY;
-        this.attributes = List.of(startPositionX, startPositionY, endPositionX, endPositionY);
+    public String toString() {
+        return super.toString();
     }
 }
