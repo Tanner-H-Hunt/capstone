@@ -62,6 +62,7 @@ CREATE TABLE document_element(
 	CONSTRAINT fk_element_document
 	FOREIGN KEY (document_id)
 	REFERENCES document(document_id)
+	on delete cascade
 );
 
 CREATE TABLE document_element_link(
@@ -71,11 +72,13 @@ CREATE TABLE document_element_link(
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)
-	REFERENCES document_element(document_element_id),
+	REFERENCES document_element(document_element_id)
+	on delete cascade,
 	
 	CONSTRAINT fk_link_document
 	FOREIGN KEY (document_id)
 	REFERENCES document(document_id)
+	on delete cascade
 );
 
 CREATE TABLE attribute_type(
@@ -91,9 +94,12 @@ CREATE TABLE `attribute`(
 	
 	CONSTRAINT fk_attribute_element
 	FOREIGN KEY (document_element_id)
-	REFERENCES document_element(document_element_id),
+	REFERENCES document_element(document_element_id)
+	on delete cascade,
 	
 	CONSTRAINT fk_attribute_type
 	FOREIGN KEY (attribute_type_id)
 	REFERENCES attribute_type(attribute_type_id)
 );
+
+select * from document;

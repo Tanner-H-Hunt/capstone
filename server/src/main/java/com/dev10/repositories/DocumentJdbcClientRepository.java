@@ -113,12 +113,37 @@ public class DocumentJdbcClientRepository implements DocumentRepository{
     }
 
     @Override
-    public boolean deleteDocument(Document document) throws DataAccessException {
-        return false;
+    public boolean deleteDocument(int id) throws DataAccessException {
+        String sql = """
+                DELETE FROM document WHERE document_id = :id;
+                """;
+
+        try{
+            return client.sql(sql)
+                    .param("id", id)
+                    .update() > 0;
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to delete a document", e);
+        }
     }
 
     @Override
     public boolean updateDocument(Document document) throws DataAccessException {
-        return false;
+        String sql = """
+                UPDATE document
+                SET document_name = :document_name, directory_id=:directory
+                WHERE document_id = :document_id;
+                """;
+
+        try{
+            return client.sql(sql)
+                    .param("document_name", document.getName())
+                    .param("directory", document.getParentDirectoryId())
+                    .param("document_id", document.getId())
+                    .update() > 0;
+
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to update a document", e);
+        }
     }
 }

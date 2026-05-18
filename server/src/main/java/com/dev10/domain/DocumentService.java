@@ -74,4 +74,41 @@ public class DocumentService {
 
         return result;
     }
+
+    public Result<Document> editDocument(Document document) throws DataAccessException{
+        Result<Document> result = new Result<>();
+        if(document == null){
+            result.addErrorMessage("Cannot create a document with missing request parameters");
+            return result;
+        }
+
+        if(directoryRepository.getDirectoryById(document.getParentDirectoryId()) == null){
+            result.addErrorMessage("Document must have a valid, existing parent directory");
+        }
+
+        if(document.getDocumentType() != documentRepository.getDocumentById(document.getId()).getDocumentType()){
+            result.addErrorMessage("You may not change the document type");
+        }
+
+        Set<ConstraintViolation<Document>> violations = validator.validate(document);
+        for(ConstraintViolation<Document> violation : violations){
+            result.addErrorMessage(violation.getMessage());
+        }
+
+        if(result.isSuccess()){
+            boolean updateSuccess = documentRepository.updateDocument(document);
+
+            if(updateSuccess){
+                result.setPayload(document);
+            } else{
+                result.addErrorMessage("Could not find the document to edit");
+            }
+        }
+
+        return result;
+    }
+
+    public boolean delete(int id) throws DataAccessException {
+        return documentRepository.deleteDocument(id);
+    }
 }

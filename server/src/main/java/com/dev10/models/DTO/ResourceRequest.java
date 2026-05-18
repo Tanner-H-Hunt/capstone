@@ -47,7 +47,9 @@ public class ResourceRequest {
 
     public void validateDocument(int documentId) throws DataAccessException {
         this.document = documentService.getDocumentById(documentId);
-        validateParentDirectory(document.getParentDirectoryId());
+        if(document != null){
+            validateParentDirectory(document.getParentDirectoryId());
+        }
     }
 
     public Directory getDirectory() {

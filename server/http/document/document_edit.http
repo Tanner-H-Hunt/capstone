@@ -1,0 +1,118 @@
+@url = http://localhost:8080/api/document
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# edit document happy path
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 1,
+        "name": "my-first-doc-edited",
+        "parentDirectoryId": 1,
+        "documentType": "UML"
+    }
+}
+
+###
+# edit document id mismatch
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 2,
+        "name": "my-first-doc-edited",
+        "parentDirectoryId": 1,
+        "documentType": "UML"
+    }
+}
+
+###
+# edit document change doc type
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 1,
+        "name": "my-first-doc-edited",
+        "parentDirectoryId": 1,
+        "documentType": "NOTE"
+    }
+}
+
+###
+# edit document blank name
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 1,
+        "name": " ",
+        "parentDirectoryId": 1,
+        "documentType": "NOTE"
+    }
+}
+
+###
+# edit document Doc belongs to someone else
+# TODO
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 1,
+        "name": " ",
+        "parentDirectoryId": 1,
+        "documentType": "NOTE"
+    }
+}
+
+###
+# edit document directory belongs to someone else
+# TODO
+PUT {{url}}/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    },
+    "document": {
+        "id": 1,
+        "name": " ",
+        "parentDirectoryId": 1,
+        "documentType": "NOTE"
+    }
+}
