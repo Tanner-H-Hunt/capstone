@@ -8,7 +8,6 @@ import { useContext } from "react";
 function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, attributes }) {
 
     const { loggedInUser } = useContext(UserContext);
-    console.log(position);
 
     function serialize(){
         if(attributes == undefined){
@@ -45,9 +44,6 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
                 }
             }
 
-            console.log("body before stringification");
-            console.log(body);
-
             const httpRequest = {
                 method: 'PUT',
                 headers: {
@@ -64,10 +60,9 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
             const response = await fetch(url, httpRequest);
             if(response.status >= 200 && response.status < 300){
                 console.log("successfully updated object data");
-                console.log(body);
             } else{
-                console.log("failed to update element data")
                 const json = await response.json();
+                console.log("failed to update element data")
                 console.log(json);
             }
         }

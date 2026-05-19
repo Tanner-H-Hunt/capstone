@@ -16,7 +16,7 @@ function UmlEditor(){
     const { loggedInUser } = useContext(UserContext);
     const { id } = useParams();
 
-    function addElement(element, elementType){
+    function addElement(elementType){
         const requestBody = {
             "user": JSON.parse(loggedInUser).user,
             "element": {

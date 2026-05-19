@@ -19,12 +19,12 @@ function LeftToolbar({ addElement }) {
 
             zIndex: 10
         }}>
-            < NewElementButton preview="../" name="Text" addElement={addElement} enumValue="TEXT" element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Box" addElement={addElement} enumValue="BOX" element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Line" addElement={addElement} enumValue="LINE" element={<ResizableLineWrapper />} />
-            < NewElementButton preview="../" name="Arrow" addElement={addElement} enumValue="ARROW" element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Interface" addElement={addElement} enumValue="CLASS_BOX" element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Class Diagram" addElement={addElement} enumValue="INTERFACE" element={<ResizableBoxWrapper />} />
+            < NewElementButton preview="../" name="Text" addElement={addElement} enumValue="TEXT" />
+            < NewElementButton preview="../" name="Box" addElement={addElement} enumValue="BOX" />
+            < NewElementButton preview="../" name="Line" addElement={addElement} enumValue="LINE" />
+            < NewElementButton preview="../" name="Arrow" addElement={addElement} enumValue="ARROW" />
+            < NewElementButton preview="../" name="Interface" addElement={addElement} enumValue="CLASS_BOX" />
+            < NewElementButton preview="../" name="Class Diagram" addElement={addElement} enumValue="INTERFACE" />
         </div>
         </>
     );

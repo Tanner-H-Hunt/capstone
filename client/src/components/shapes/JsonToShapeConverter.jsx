@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ResizableBoxWrapper from "./ResizableBoxWrapper";
 import ResizableLineWrapper from "./ResizableLineWrapper";
+import EditableText from "./EditableText";
 
 function JsonToShape({ json }){
     
@@ -19,7 +20,6 @@ function JsonToShape({ json }){
         }
     }
 
-    //console.log(attributes);
     switch (attributes.elementType) {
         case "BOX": {
             // create hooks and set data to expected format, then return box
@@ -45,12 +45,17 @@ function JsonToShape({ json }){
                 0
             ]);
             let props = {startPosition, setStartPosition, endPosition, setEndPosition, attributes}
-            //console.log(props);
             return <ResizableLineWrapper {...props}/>;
         }
+
         case "TEXT":
-            
-            break;
+            const [position, setPosition] = useState([
+                parseFloat(attributes.xPos.value.trim()), 
+                parseFloat(attributes.yPos.value.trim()), 
+                0]);
+            const [innerText, setInnerText] = useState(attributes.innerText.value);
+            const props = {position, setPosition, innerText, setInnerText, attributes}
+            return <EditableText {...props} />
     }
 
     return (
