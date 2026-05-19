@@ -64,14 +64,14 @@ public abstract class DocumentElement {
                 "\"documentElementId\": " + documentElementId +
                 ", \"documentElementType\": \"" + documentElementType + "\"" +
                 ", \"documentId\": " + documentId +
-                ", \"attributes\": {" + attributeListToString() +
-                "}}";
+                ", \"attributes\": [" + attributeListToString() +
+                "]}";
     }
 
     private String attributeListToString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < getAttributes().size(); i++){
-            sb.append(getAttributes().get(i).getValue());
+            sb.append(getAttributes().get(i).toString());
             if(i != getAttributes().size() - 1){
                 sb.append(",");
             }

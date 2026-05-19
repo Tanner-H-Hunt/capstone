@@ -46,4 +46,13 @@ public class Attribute {
     public int hashCode() {
         return Objects.hash(getAttributeId(), getDocumentElementId());
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"attributeId\": " + attributeId +
+                ", \"documentElementId\": " + documentElementId +
+                ", \"value\": \"" + getValue() + '\"' +
+                '}';
+    }
 }
