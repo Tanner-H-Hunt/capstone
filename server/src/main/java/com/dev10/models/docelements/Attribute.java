@@ -32,7 +32,7 @@ public class Attribute {
     }
 
     public static String formatAsJson(String key, Object value){
-        return String.format("\"%s\": \"%s\"", key, value.toString());
+        return String.format("%s:%s", key, value.toString());
     }
 
     @Override
@@ -49,10 +49,16 @@ public class Attribute {
 
     @Override
     public String toString() {
-        return "{" +
-                "\"attributeId\": " + attributeId +
-                ", \"documentElementId\": " + documentElementId +
-                ", \"value\": \"" + getValue() + '\"' +
-                '}';
+        if(getValue() != null) {
+            String[] keyValuePair = getValue().split(":");
+            return "{" +
+                    "\"attributeId\": " + attributeId +
+                    ", \"documentElementId\": " + documentElementId +
+                    ", \"key\": \"" + keyValuePair[0] + "\", " +
+                    "\"value\": \"" + keyValuePair[1] + "\" " +
+                    "}";
+        } else{
+            return String.format("Attribute: id %s, document %s, UNINITIALIZED VALUE", attributeId, documentElementId);
+        }
     }
 }

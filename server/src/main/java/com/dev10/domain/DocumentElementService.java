@@ -10,6 +10,8 @@ import com.dev10.repositories.DocumentElementRepository;
 import com.dev10.repositories.DocumentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DocumentElementService {
 
@@ -119,5 +121,18 @@ public class DocumentElementService {
 
     public int delete(int id) throws DataAccessException {
         return documentElementRepository.deleteElement(id);
+    }
+
+    public List<DocumentElement> getElementsForDocument(int docId) throws DataAccessException{
+        // fetch the elements for the document
+        List<DocumentElement> elements = documentElementRepository.getElementsForDocument(docId);
+
+        // fetch the attributes for each element
+        for(DocumentElement element : elements){
+            List<Attribute> attributes = documentElementRepository.getAttributesForElement(element.getDocumentElementId());
+            element.setAttributes(attributes);
+        }
+
+        return elements;
     }
 }

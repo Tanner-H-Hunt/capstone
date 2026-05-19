@@ -2,11 +2,16 @@ package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Line extends DocumentElement {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute startPositionX;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute startPositionY;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute endPositionX;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute endPositionY;
 
     public Attribute getStartPositionX() {
@@ -75,7 +80,8 @@ public class Line extends DocumentElement {
             return;
         }
 
-        this.endPositionX.setValue(endPositionX.toString());
+        String jsonFormattedValue = Attribute.formatAsJson("endXPos", endPositionX);
+        this.endPositionX.setValue(jsonFormattedValue);
     }
 
     public void editEndPositionY(Integer endPositionY) {

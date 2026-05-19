@@ -48,7 +48,7 @@ public class Relationship {
         return "{" +
                 "\"id\": " + id +
                 ", \"documentId\": " + documentId +
-                ", \"elementId\": " + elementId +
+                ", \"documentElementId\": " + elementId +
                 '}';
     }
 }

@@ -91,4 +91,6 @@ CREATE TABLE `attribute`(
 	REFERENCES document_element(document_element_id)
 );
 
-select * from attribute;
+delete from attribute;
+delete from document_element;
+select * from document_element;

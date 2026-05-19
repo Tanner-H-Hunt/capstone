@@ -2,11 +2,15 @@ package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Text extends DocumentElement {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Attribute xPosition;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Attribute yPosition;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Attribute innerText;
 
     public Attribute getxPosition() {

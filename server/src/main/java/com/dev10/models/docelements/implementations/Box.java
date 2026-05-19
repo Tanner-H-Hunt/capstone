@@ -4,6 +4,7 @@ import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 import com.dev10.models.docelements.DocumentElementType;
 import com.dev10.repositories.DocumentElementRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Attr;
 
@@ -11,9 +12,13 @@ import java.util.List;
 
 
 public class Box extends DocumentElement {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute xPosition;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute yPosition;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute width;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute height;
 
     public Attribute getxPosition() {

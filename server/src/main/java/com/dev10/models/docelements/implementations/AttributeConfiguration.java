@@ -106,8 +106,8 @@ public class AttributeConfiguration {
 
         line.editStartPositionX(0);
         line.editStartPositionY(0);
-        line.editEndPositionX(0);
-        line.editEndPositionY(0);
+        line.editEndPositionX(1);
+        line.editEndPositionY(1);
 
         // send the attributes to the database for an id
         int xStartId = repository.createAttribute(defaultStartPositionX).getAttributeId();

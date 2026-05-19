@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/element")
@@ -51,7 +53,7 @@ public class DocumentElementController {
         Result<DocumentElement> result = service.create(request.getElement());
 
         if(result.isSuccess()){
-            return ResponseEntity.status(HttpStatus.CREATED).body(result.getPayload());
+            return ResponseEntity.status(HttpStatus.CREATED).body(result.getPayload().toString());
         } else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getErrorMessages());
         }
@@ -115,5 +117,36 @@ public class DocumentElementController {
         } else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find element to delete");
         }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Object> getElementsForDocument(@RequestHeader("Authorization") String auth,
+                                                         @RequestBody User user,
+                                                         @PathVariable("id") int id) throws DataAccessException {
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
+        }
+
+        if(!authenticator.isValidBearerToken(user, auth)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Must login to view this document");
+        }
+
+        resourceRequest.validateDocument(id);
+        if(!authenticator.isUserPermitted(user, resourceRequest)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this document");
+        }
+
+        StringBuilder body = new StringBuilder();
+        List<DocumentElement> elements = service.getElementsForDocument(id);
+        body.append("{ \"elements\": [");
+        for(int i = 0; i < elements.size(); i++){
+            body.append(elements.get(i).toString());
+            if(i != elements.size() - 1){
+                body.append(",");
+            }
+        }
+        body.append("]}");
+
+        return ResponseEntity.status(HttpStatus.OK).body(body);
     }
 }
