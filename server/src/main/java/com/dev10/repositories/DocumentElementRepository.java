@@ -1,6 +1,7 @@
 package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
+import com.dev10.models.User;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 
@@ -17,4 +18,7 @@ public interface DocumentElementRepository {
     Attribute getAttributeByJsonKey(int elementId, String key) throws DataAccessException;
     Attribute createAttribute(Attribute attribute) throws DataAccessException;
     boolean editAttribute(Attribute attribute) throws DataAccessException;
+
+    User getUserForElementByElementId(int id) throws DataAccessException;
+    User getUserForAttributeByAttributeId(int id) throws DataAccessException;
 }

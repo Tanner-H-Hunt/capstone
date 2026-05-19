@@ -3,7 +3,7 @@ package com.dev10.models.docelements;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class DocumentElement {
+public class DocumentElement {
     private int documentElementId;
     private DocumentElementType documentElementType;
     private int documentId;

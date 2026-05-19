@@ -174,7 +174,15 @@ delimiter ;
 
 call set_known_good_state();
 
+select * from document_element;
+
 select * from attribute;
-select * from attribute 
-where document_element_id = 1
-and value like "_startXPos_%";
+SELECT DISTINCT
+    acc.account_id,
+    acc.email
+FROM attribute a
+INNER JOIN document_element e on a.document_element_id = e.document_element_id
+INNER JOIN document d on d.document_id = e.document_id
+INNER JOIN directory dir on dir.directory_id = d.directory_id
+INNER JOIN account acc on acc.account_id = dir.account_id
+WHERE a.attribute_id = 10;

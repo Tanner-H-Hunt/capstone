@@ -3,6 +3,7 @@ package com.dev10.models.docelements.implementations;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.DocumentElementType;
 import com.dev10.repositories.DocumentElementRepository;
 import org.springframework.stereotype.Component;
 
@@ -16,36 +17,25 @@ public class AttributeConfiguration {
         this.repository = repository;
     }
 
-    public void initAttributes(DocumentElement element) throws DataAccessException {
-        switch (element.getDocumentElementType()){
-            case BOX:
-                initBox((Box) element);
-                break;
-            case LINE:
-                initLine((Line) element);
-                break;
-            case TEXT:
-                initText((Text) element);
-                break;
-            case CLASS_BOX:
-                initClassBox((ClassBox) element);
-                break;
-            case INTERFACE:
-                initInterface((InterfaceBox) element);
-                break;
-            case ARROW:
-                initArrow((Arrow) element);
-                break;
-            case TODO:
-                initTodo((Todo) element);
-                break;
-            case TODO_GROUP:
-                initTodoGroup((TodoGroup) element);
-                break;
-        }
+    public DocumentElement initAttributes(DocumentElement element) throws DataAccessException {
+        return switch (element.getDocumentElementType()) {
+            case BOX -> initBox(element);
+            case LINE -> initLine(element);
+            case TEXT -> initText(element);
+            case CLASS_BOX -> initClassBox(element);
+            case INTERFACE -> initInterface(element);
+            case ARROW -> initArrow(element);
+            case TODO -> initTodo(element);
+            case TODO_GROUP -> initTodoGroup(element);
+        };
     }
 
-    private void initBox(Box box) throws DataAccessException {
+    private Box initBox(DocumentElement element) throws DataAccessException {
+        Box box = new Box();
+        box.setDocumentElementType(DocumentElementType.BOX);
+        box.setDocumentId(element.getDocumentId());
+        box.setDocumentElementId(element.getDocumentElementId());
+
         Attribute defaultX = new Attribute();
         Attribute defaultY = new Attribute();
         Attribute defaultWidth = new Attribute();
@@ -88,9 +78,15 @@ public class AttributeConfiguration {
                 box.getHeight()
         ));
 
+        return box;
     }
 
-    private void initLine(Line line) throws DataAccessException {
+    private Line initLine(DocumentElement element) throws DataAccessException {
+        Line line = new Line();
+        line.setDocumentElementType(DocumentElementType.LINE);
+        line.setDocumentElementId(element.getDocumentElementId());
+        line.setDocumentId(element.getDocumentId());
+
         Attribute defaultStartPositionX = new Attribute();
         Attribute defaultStartPositionY = new Attribute();
         Attribute defaultEndPositionX = new Attribute();
@@ -131,9 +127,16 @@ public class AttributeConfiguration {
                 line.getStartPositionY(),
                 line.getEndPositionX(),
                 line.getEndPositionY()));
+
+        return line;
     }
 
-    private void initText(Text text) throws DataAccessException {
+    private Text initText(DocumentElement element) throws DataAccessException {
+        Text text = new Text();
+        text.setDocumentElementType(DocumentElementType.TEXT);
+        text.setDocumentElementId(element.getDocumentElementId());
+        text.setDocumentId(element.getDocumentId());
+
         // init the attributes
         Attribute defaultXPos = new Attribute();
         Attribute defaultYPos = new Attribute();
@@ -170,9 +173,16 @@ public class AttributeConfiguration {
                 text.getyPosition(),
                 text.getInnerText()
         ));
+
+        return text;
     }
 
-    private void initClassBox(ClassBox classBox){
+    private ClassBox initClassBox(DocumentElement element){
+        ClassBox classBox = new ClassBox();
+        classBox.setDocumentElementType(DocumentElementType.CLASS_BOX);
+        classBox.setDocumentElementId(element.getDocumentElementId());
+        classBox.setDocumentId(element.getDocumentId());
+
         // init the attributes
 
         // mount the attributes to the element early (prevents nullptrs)
@@ -186,9 +196,16 @@ public class AttributeConfiguration {
         // attach the ID's to the attributes
 
         // enable the list of attributes on this object
+
+        return classBox;
     }
 
-    private void initInterface(InterfaceBox interfaceBox){
+    private InterfaceBox initInterface(DocumentElement element){
+        InterfaceBox interfaceBox = new InterfaceBox();
+        interfaceBox.setDocumentElementType(DocumentElementType.INTERFACE);
+        interfaceBox.setDocumentElementId(element.getDocumentElementId());
+        interfaceBox.setDocumentId(element.getDocumentId());
+
         // init the attributes
 
         // mount the attributes to the element early (prevents nullptrs)
@@ -202,9 +219,16 @@ public class AttributeConfiguration {
         // attach the ID's to the attributes
 
         // enable the list of attributes on this object
+
+        return  interfaceBox;
     }
 
-    private void initArrow(Arrow arrow){
+    private Arrow initArrow(DocumentElement element){
+        Arrow arrow = new Arrow();
+        arrow.setDocumentElementType(DocumentElementType.ARROW);
+        arrow.setDocumentElementId(element.getDocumentElementId());
+        arrow.setDocumentId(element.getDocumentId());
+
         // init the attributes
 
         // mount the attributes to the element early (prevents nullptrs)
@@ -218,9 +242,16 @@ public class AttributeConfiguration {
         // attach the ID's to the attributes
 
         // enable the list of attributes on this object
+
+        return arrow;
     }
 
-    private void initTodoGroup(TodoGroup todoGroup){
+    private TodoGroup initTodoGroup(DocumentElement element){
+        TodoGroup todoGroup = new TodoGroup();
+        todoGroup.setDocumentElementType(DocumentElementType.TODO_GROUP);
+        todoGroup.setDocumentElementId(element.getDocumentElementId());
+        todoGroup.setDocumentId(element.getDocumentId());
+
         // init the attributes
 
         // mount the attributes to the element early (prevents nullptrs)
@@ -234,9 +265,16 @@ public class AttributeConfiguration {
         // attach the ID's to the attributes
 
         // enable the list of attributes on this object
+
+        return  todoGroup;
     }
 
-    private void initTodo(Todo todo){
+    private Todo initTodo(DocumentElement element){
+        Todo todo = new Todo();
+        todo.setDocumentElementType(DocumentElementType.TODO);
+        todo.setDocumentElementId(element.getDocumentElementId());
+        todo.setDocumentId(element.getDocumentId());
+
         // init the attributes
 
         // mount the attributes to the element early (prevents nullptrs)
@@ -250,6 +288,8 @@ public class AttributeConfiguration {
         // attach the ID's to the attributes
 
         // enable the list of attributes on this object
+
+        return  todo;
     }
 
 }

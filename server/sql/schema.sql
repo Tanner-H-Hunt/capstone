@@ -81,22 +81,14 @@ CREATE TABLE document_element_link(
 	on delete cascade
 );
 
-create table attribute_type(
-	attribute_type_id int primary key auto_increment,
-	value varchar(50)
-);
-
 CREATE TABLE `attribute`(
 	attribute_id int PRIMARY KEY auto_increment,
 	document_element_id int NOT NULL,
 	value TEXT NOT NULL,
-	attribute_type_id int not null,
 	
 	CONSTRAINT fk_attribute_element
 	FOREIGN KEY (document_element_id)
-	REFERENCES document_element(document_element_id),
-	
-	constraint fk_attribute_attribute_type
-	foreign key (attribute_type_id)
-	references attribute_type(attribute_type_id)
+	REFERENCES document_element(document_element_id)
 );
+
+select * from attribute;

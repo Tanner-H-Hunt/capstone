@@ -1,0 +1,83 @@
+@url = http://localhost:8080/api/element
+@auth = 3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0=
+
+
+###
+# update element happy path
+PUT {{url}} HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+    "email": "a@a.com",
+    "id": 1
+    },
+    "element": {
+        "documentElementId": 6,
+        "documentId": 1,
+        "documentElementType": "BOX",
+        "attributes": [
+            {
+            "attributeId": 1,
+            "documentElementId": 6,
+            "value": "\"xPos\": \"1\""
+            },
+            {
+            "attributeId": 2,
+            "documentElementId": 6,
+            "value": "\"yPos\": \"1\""
+            },
+            {
+            "attributeId": 3,
+            "documentElementId": 6,
+            "value": "\"width\": \"3\""
+            },
+            {
+            "attributeId": 4,
+            "documentElementId": 6,
+            "value": "\"height\": \"3\""
+            }
+        ]
+    }
+}
+
+###
+# update element unhappy modify attribute type
+PUT {{url}} HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+    "email": "a@a.com",
+    "id": 1
+    },
+    "element": {
+        "documentElementId": 6,
+        "documentId": 1,
+        "documentElementType": "BOX",
+        "attributes": [
+            {
+            "attributeId": 1,
+            "documentElementId": 6,
+            "value": "\"xPosBAD\": \"1\""
+            },
+            {
+            "attributeId": 2,
+            "documentElementId": 6,
+            "value": "\"yPosBAD\": \"1\""
+            },
+            {
+            "attributeId": 3,
+            "documentElementId": 6,
+            "value": "\"widthBAD\": \"3\""
+            },
+            {
+            "attributeId": 4,
+            "documentElementId": 6,
+            "value": "\"heightBAD\": \"3\""
+            }
+        ]
+    }
+}

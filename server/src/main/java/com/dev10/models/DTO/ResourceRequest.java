@@ -1,12 +1,15 @@
 package com.dev10.models.DTO;
 
 import com.dev10.domain.DirectoryService;
+import com.dev10.domain.DocumentElementService;
 import com.dev10.domain.DocumentService;
 import com.dev10.domain.UserService;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Directory;
 import com.dev10.models.Document;
 import com.dev10.models.User;
+import com.dev10.models.docelements.Attribute;
+import com.dev10.models.docelements.DocumentElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -20,29 +23,46 @@ public class ResourceRequest {
     private User user;
     private Document document;
     private Directory directory;
+    private DocumentElement element;
+    private Attribute attribute;
 
     private final DirectoryService directoryService;
     private final DocumentService documentService;
     private final UserService userService;
+    private final DocumentElementService documentElementService;
 
     public ResourceRequest(DirectoryService directoryService,
                            DocumentService documentService,
-                           UserService userService){
+                           UserService userService,
+                           DocumentElementService documentElementService){
         this.directoryService = directoryService;
         this.documentService = documentService;
         this.userService = userService;
+        this.documentElementService = documentElementService;
     }
 
     public User getUser() {
         return user;
     }
 
-    private void setUser(User user) {
-        this.user = user;
-    }
-
     public Document getDocument() {
         return document;
+    }
+
+    public Directory getDirectory() {
+        return directory;
+    }
+
+    public Attribute getAttribute(){
+        return this.attribute;
+    }
+
+    public DocumentElement getElement(){
+        return this.element;
+    }
+
+    private void setUser(User user) {
+        this.user = user;
     }
 
     public void validateDocument(int documentId) throws DataAccessException {
@@ -50,10 +70,6 @@ public class ResourceRequest {
         if(document != null){
             validateParentDirectory(document.getParentDirectoryId());
         }
-    }
-
-    public Directory getDirectory() {
-        return directory;
     }
 
     public void validateParentDirectory(int directoryId) throws DataAccessException {
@@ -64,10 +80,26 @@ public class ResourceRequest {
         setUser( userService.findById(directory.getAccountId()) );
     }
 
+    public void validateElement(int elementId) throws DataAccessException{
+        this.element = documentElementService.getElementById(elementId);
+        if(this.element != null){
+            validateDocument(element.getDocumentId());
+        }
+    }
+
+    public void validateAttribute(int attributeId) throws DataAccessException {
+        this.attribute = documentElementService.getAttributeById(attributeId);
+        if(attribute != null){
+            validateElement(attribute.getDocumentElementId());
+        }
+    }
+
     public void clear(){
         this.user = null;
         this.document = null;
         this.directory = null;
+        this.attribute = null;
+        this.element = null;
     }
 
     @Override

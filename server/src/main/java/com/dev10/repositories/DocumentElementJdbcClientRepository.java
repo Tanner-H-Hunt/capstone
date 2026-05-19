@@ -1,10 +1,12 @@
 package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
+import com.dev10.models.User;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 import com.dev10.models.mappers.AttributeRowMapper;
 import com.dev10.models.mappers.DocumentElementRowMapper;
+import com.dev10.models.mappers.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -69,7 +71,7 @@ public class DocumentElementJdbcClientRepository implements DocumentElementRepos
                     .param("document_id", documentElement.getDocumentId())
                     .update(keyHolder);
 
-            documentElement.setDocumentId(keyHolder.getKey().intValue());
+            documentElement.setDocumentElementId(keyHolder.getKey().intValue());
             return documentElement;
 
         } catch (Exception e){
@@ -192,5 +194,56 @@ public class DocumentElementJdbcClientRepository implements DocumentElementRepos
             throw new DataAccessException("Something went wrong while trying to edit an attribute", e);
         }
 
+    }
+
+    @Override
+    public User getUserForElementByElementId(int id) throws DataAccessException {
+        final String sql = """
+                select distinct
+                    acc.account_id,
+                    acc.email,
+                    acc.password,
+                    acc.password_salt
+                from document_element e
+                INNER JOIN document d on d.document_id = e.document_id
+                INNER JOIN directory dir on dir.directory_id = d.directory_id
+                INNER JOIN account acc on acc.account_id = dir.account_id
+                WHERE e.document_element_id = :id;
+                """;
+
+        try{
+            return client.sql(sql)
+                    .param("id", id)
+                    .query(new UserRowMapper())
+                    .optional().orElse(null);
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to fetch the user associated with this element", e);
+        }
+    }
+
+    @Override
+    public User getUserForAttributeByAttributeId(int id) throws DataAccessException {
+        final String sql = """
+                SELECT DISTINCT
+                    acc.account_id,
+                    acc.email,
+                    acc.password,
+                    acc.password_salt
+                FROM attribute a
+                INNER JOIN document_element e on a.document_element_id = e.document_element_id
+                INNER JOIN document d on d.document_id = e.document_id
+                INNER JOIN directory dir on dir.directory_id = d.directory_id
+                INNER JOIN account acc on acc.account_id = dir.account_id
+                WHERE a.attribute_id = :id;
+                """;
+
+        try{
+            return client.sql(sql)
+                    .param("id", id)
+                    .query(new UserRowMapper())
+                    .optional().orElse(null);
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to fetch the user associated with this element", e);
+        }
     }
 }

@@ -181,4 +181,40 @@ class DocumentElementJdbcClientRepositoryTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void getUserForElementByElementIdHappyPath() throws DataAccessException {
+
+        var expected = getAllUsers().get(0); // user1 (a@a.com)
+
+        var actual = repository.getUserForElementByElementId(1);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getUserForElementByElementIdReturnsNullIfNotFound() throws DataAccessException {
+
+        var actual = repository.getUserForElementByElementId(999);
+
+        assertNull(actual);
+    }
+
+    @Test
+    void getUserForAttributeByAttributeIdHappyPath() throws DataAccessException {
+
+        var expected = getAllUsers().get(0); // user1 (a@a.com)
+
+        var actual = repository.getUserForAttributeByAttributeId(1);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getUserForAttributeByAttributeIdReturnsNullIfNotFound() throws DataAccessException {
+
+        var actual = repository.getUserForAttributeByAttributeId(999);
+
+        assertNull(actual);
+    }
 }
