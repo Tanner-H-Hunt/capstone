@@ -5,6 +5,7 @@ import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
 import com.dev10.models.User;
+import com.dev10.models.docelements.DocumentElement;
 import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.DocumentRepository;
 import com.dev10.repositories.UserRepository;
@@ -20,14 +21,17 @@ public class DocumentService {
 
     private final DocumentRepository documentRepository;
     private final DirectoryRepository directoryRepository;
+    private final DocumentElementService documentElementService;
     private final Validator validator;
 
     public DocumentService(DocumentRepository documentRepository,
                            Validator validator,
-                           DirectoryRepository directoryRepository){
+                           DirectoryRepository directoryRepository,
+                           DocumentElementService documentElementService){
         this.documentRepository = documentRepository;
         this.validator = validator;
         this.directoryRepository = directoryRepository;
+        this.documentElementService = documentElementService;
     }
 
     public List<Document> getDocumentsInDirectory(int directoryId) throws DataAccessException {
@@ -109,6 +113,13 @@ public class DocumentService {
     }
 
     public boolean delete(int id) throws DataAccessException {
-        return documentRepository.deleteDocument(id);
+        boolean result = true;
+
+        List<DocumentElement> elements = documentElementService.getElementsForDocument(id);
+        for(DocumentElement element : elements){
+            result = result && (documentElementService.delete(element.getDocumentElementId()) > 0);
+        }
+
+        return documentRepository.deleteDocument(id) && result;
     }
 }

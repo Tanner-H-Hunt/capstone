@@ -4,10 +4,20 @@ import com.dev10.models.Directory;
 import com.dev10.models.Document;
 import com.dev10.models.DocumentType;
 import com.dev10.models.User;
+import com.dev10.models.docelements.Attribute;
+import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.DocumentElementType;
+import com.dev10.models.docelements.implementations.AttributeConfiguration;
+import com.dev10.models.docelements.implementations.Box;
+import com.dev10.models.docelements.implementations.Line;
+import com.dev10.models.docelements.implementations.Text;
+import com.dev10.repositories.DocumentElementRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class TestDataHelper {
+
     public static List<User> getAllUsers(){
         User user1 = new User();
         User user2 = new User();
@@ -141,4 +151,82 @@ public class TestDataHelper {
 
         return List.of(directory1, directory2);
     }
+
+    public static List<DocumentElement> getElementsForUser1Uml(){
+        DocumentElement line = new Line();
+        line.setDocumentElementId(1);
+        line.setDocumentId(2);
+        line.setDocumentElementType(DocumentElementType.LINE);
+
+        DocumentElement box = new Box();
+        box.setDocumentElementId(2);
+        box.setDocumentId(2);
+        box.setDocumentElementType(DocumentElementType.BOX);
+
+        return List.of(line, box);
+    }
+
+    public static List<DocumentElement> getElementsForUser2Note(){
+        DocumentElement text = new Text();
+        text.setDocumentElementType(DocumentElementType.TEXT);
+        text.setDocumentElementId(3);
+        text.setDocumentId(4);
+
+        return List.of(text);
+    }
+
+    public static DocumentElement getBoxNotInDatabase(){
+        DocumentElement element = new Box();
+        element.setDocumentId(2);
+        element.setDocumentElementId(0);
+        element.setDocumentElementType(DocumentElementType.BOX);
+        return element;
+    }
+
+    public static List<Attribute> getAttributesForElement1() {
+        Attribute startX = new Attribute();
+        startX.setAttributeId(1);
+        startX.setDocumentElementId(1);
+        startX.setValue("'startXPos': 0");
+
+        Attribute startY = new Attribute();
+        startY.setAttributeId(2);
+        startY.setDocumentElementId(1);
+        startY.setValue("'startYPos': 0");
+
+        Attribute endX = new Attribute();
+        endX.setAttributeId(3);
+        endX.setDocumentElementId(1);
+        endX.setValue("'endXPos': 1");
+
+        Attribute endY = new Attribute();
+        endY.setAttributeId(4);
+        endY.setDocumentElementId(1);
+        endY.setValue("'endYPos': 0");
+
+        return List.of(startX, startY, endX, endY);
+    }
+
+    public static Attribute getAttribute1() {
+        return getAttributesForElement1().get(0);
+    }
+
+    public static Attribute getAttributeNotInDatabase() {
+        Attribute attribute = new Attribute();
+        attribute.setAttributeId(0);
+        attribute.setDocumentElementId(1);
+        attribute.setValue("'newAttribute': 123");
+
+        return attribute;
+    }
+
+    public static Attribute getUpdatedAttribute1() {
+        Attribute attribute = new Attribute();
+        attribute.setAttributeId(1);
+        attribute.setDocumentElementId(1);
+        attribute.setValue("'startXPos': 999");
+
+        return attribute;
+    }
+
 }

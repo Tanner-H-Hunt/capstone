@@ -19,12 +19,12 @@ function LeftToolbar({ addElement }) {
 
             zIndex: 10
         }}>
-            < NewElementButton preview="../" name="Text" addElement={addElement} element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Box" addElement={addElement} element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Line" addElement={addElement} element={<ResizableLineWrapper />} />
-            < NewElementButton preview="../" name="Arrow" addElement={addElement} element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Interface" addElement={addElement} element={<ResizableBoxWrapper />} />
-            < NewElementButton preview="../" name="Class Diagram" addElement={addElement} element={<ResizableBoxWrapper />} />
+            < NewElementButton preview="../" name="Text" addElement={addElement} enumValue="TEXT" />
+            < NewElementButton preview="../" name="Box" addElement={addElement} enumValue="BOX" />
+            < NewElementButton preview="../" name="Line" addElement={addElement} enumValue="LINE" />
+            < NewElementButton preview="../" name="Arrow" addElement={addElement} enumValue="ARROW" />
+            < NewElementButton preview="../" name="Interface" addElement={addElement} enumValue="CLASS_BOX" />
+            < NewElementButton preview="../" name="Class Diagram" addElement={addElement} enumValue="INTERFACE" />
         </div>
         </>
     );

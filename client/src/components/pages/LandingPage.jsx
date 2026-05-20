@@ -6,7 +6,7 @@ function LandingPage(){
         <>
         <div className="jumbotron jumbotron-fluid bg-primary-subtle">
             <div className="container text-end">
-                <h1 className="display-3 ">Design.app</h1>
+                <h1 className="display-3 ">DevAtlas</h1>
                 <div className="row">
                     <div className="col-7"></div>
                     <p className="lead col-5">Integrated tool for building UML diagrams, tracking issues, and writing design docs</p>

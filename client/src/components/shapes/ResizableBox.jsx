@@ -2,11 +2,71 @@ import { Line } from "@react-three/drei";
 import { useDrag } from "@use-gesture/react";
 import { useState } from "react";
 import { useThree } from "@react-three/fiber";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
 
-function ResizableBox({ width, setWidth, height, setHeight, position, setPosition }) {
+function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, attributes }) {
+
+    const { loggedInUser } = useContext(UserContext);
 
     function serialize(){
-        console.log("let go");
+        if(attributes == undefined){
+            console.log("undefined attributes");
+            return;
+        }
+                if(attributes == undefined){
+            return;
+        }
+        attributes.xPos.value = position[0];
+        attributes.yPos.value = position[1];
+        attributes.width.value = width;
+        attributes.height.value = height;
+
+        const body = {
+                "user": JSON.parse(loggedInUser).user,
+                "element": {
+                    "attributes": [
+                    ]
+                }
+            }
+            
+            // nest the attributes back under the element
+            for(const attribute in attributes){
+                if(attribute === "documentElementId" || attribute === "elementType" || attribute === "documentId"){
+                    body.element[attribute] = attributes[attribute];
+                } else{
+                    const expectedAttribute = {
+                        "attributeId": attributes[attribute].attributeId,
+                        "documentElementId": attributes[attribute].documentElementId,
+                        "value": `${attribute}:${attributes[attribute].value}`
+                    }
+                    body.element.attributes.push(expectedAttribute);
+                }
+            }
+
+            const httpRequest = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': JSON.parse(loggedInUser).bearer_token
+                },
+                body: JSON.stringify(body)
+            }
+
+        const url = "http://localhost:8080/api/element"
+        console.log(httpRequest);
+
+        const updateRequest = async() => {
+            const response = await fetch(url, httpRequest);
+            if(response.status >= 200 && response.status < 300){
+                console.log("successfully updated object data");
+            } else{
+                const json = await response.json();
+                console.log("failed to update element data")
+                console.log(json);
+            }
+        }
+        updateRequest()
     }
 
     const scene = useThree();

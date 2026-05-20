@@ -29,11 +29,11 @@ public class UserController {
         User foundUser = userService.findByEmail(user);
 
         if(foundUser == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect email or password");
         }
 
         if(!authenticator.verifyLogin(user, foundUser)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
         }
         String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}", foundUser, authenticator.generateBearerToken(foundUser));
         return ResponseEntity.status(HttpStatus.OK).body(response);

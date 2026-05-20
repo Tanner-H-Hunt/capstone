@@ -1,0 +1,25 @@
+@url = http://localhost:8080/api/element
+@auth = 3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0=
+
+
+###
+# delete element happy path
+DELETE {{url}}/6 HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}
+
+###
+# delete element invalid id
+DELETE {{url}}/60000 HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}
