@@ -123,6 +123,15 @@ class RelationshipServiceTest {
     }
 
     @Test
+    void createRelationshipRejectsNullRelationships() throws DataAccessException {
+        Result<Relationship> result = relationshipService.create(null);
+
+        assertFalse(result.isSuccess());
+        assertNull(result.getPayload());
+        verify(relationshipRepository, never()).create(any());
+    }
+
+    @Test
     void createRelationshipFailsIfPresetId() throws DataAccessException {
         Relationship relationship = getRelationship();
         relationship.setId(5);
