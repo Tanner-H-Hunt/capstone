@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RelationshipRepository {
     Relationship create(Relationship relationship) throws DataAccessException;
-    Relationship delete(int relationshipId) throws DataAccessException;
+    boolean delete(int relationshipId) throws DataAccessException;
     boolean edit(Relationship relationship) throws DataAccessException;
     List<Relationship> getRelationshipsForElement(int elementId) throws DataAccessException;
     List<Relationship> getRelationshipsForDocument(int documentId)  throws DataAccessException;

@@ -249,4 +249,15 @@ public class TestDataHelper {
         return List.of(relationship);
     }
 
+    public static Relationship getRelationshipNotInDatabase(){
+        Relationship relationship = new Relationship();
+        relationship.setId(3);
+        relationship.setElementId(3);
+        relationship.setDocumentId(5);
+        relationship.setName("link between user 2's note and todo");
+        relationship.setDescription("small description");
+
+        return relationship;
+    }
+
 }

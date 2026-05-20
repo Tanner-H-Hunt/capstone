@@ -43,7 +43,7 @@ CREATE TABLE document(
 	CONSTRAINT fk_document_directory
 	FOREIGN KEY (directory_id)
 	REFERENCES directory(directory_id)
-);[]
+);
 
 CREATE TABLE element_type(
 	element_type_id int PRIMARY KEY auto_increment,
@@ -175,3 +175,11 @@ delimiter ;
 
 
 call set_known_good_state();
+SELECT
+    document_element_link_id as relation_id,
+    element_id,
+    document_id,
+    name,
+    description
+FROM document_element_link
+WHERE element_id = 2;

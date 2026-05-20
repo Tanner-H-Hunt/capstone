@@ -31,80 +31,58 @@ class RelationshipJdbcClientRepositoryTest {
     @Test
     void createRelationshipHappyPath() throws DataAccessException {
 
-        Relationship relationship = new Relationship();
-        relationship.setElementId(2);
-        relationship.setDocumentId(1);
+        Relationship expected = getRelationshipNotInDatabase();
+        Relationship relationship = getRelationshipNotInDatabase();
+        relationship.setId(0);
 
         Relationship created = repository.create(relationship);
 
         assertNotNull(created);
         assertTrue(created.getId() > 0);
-        assertEquals(2, created.getElementId());
-        assertEquals(1, created.getDocumentId());
+        assertEquals(expected, created);
 
         Relationship found = repository.getRelationshipById(created.getId());
 
-        assertNotNull(found);
-        assertEquals(created.getId(), found.getId());
+        assertEquals(expected, found);
     }
 
     @Test
     void deleteRelationshipHappyPath() throws DataAccessException {
 
-        Relationship deleted = repository.delete(1);
+        boolean deleted = repository.delete(1);
 
-        assertNotNull(deleted);
-        assertEquals(1, deleted.getId());
+        Relationship found = repository.getRelationshipById(1);
 
-        Relationship found =
-                repository.getRelationshipById(1);
-
+        assertTrue(deleted);
         assertNull(found);
     }
 
     @Test
-    void deleteRelationshipRelationshipNotFoundReturnsFalse() throws DataAccessException {
+    void deleteRelationshipNotFoundReturnsFalse() throws DataAccessException {
 
-        Relationship deleted = repository.delete(9999);
+        boolean deleted = repository.delete(9999);
 
-        assertNull(deleted);
+        assertFalse(deleted);
     }
 
     @Test
     void getRelationshipsForElementHappyPath() throws DataAccessException {
 
-        List<Relationship> relationships = repository.getRelationshipsForElement(2);
-
-        assertNotNull(relationships);
-        assertFalse(relationships.isEmpty());
-
-        assertTrue( relationships.stream()
-                        .allMatch(r -> r.getElementId() == 2)
-        );
+        assertEquals( getRelationshipsForElement2(), repository.getRelationshipsForElement(2));
     }
 
     @Test
     void getRelationshipsForElementReturnsEmptyListIfNotFound() throws DataAccessException {
 
-        List<Relationship> relationships = repository.getRelationshipsForElement(9999);
-
-        assertNotNull(relationships);
-        assertTrue(relationships.isEmpty());
+        assertEquals( List.of(), repository.getRelationshipsForElement(9999) );
     }
 
     @Test
     void getRelationshipsForDocumentHappyPath() throws DataAccessException {
 
-        List<Relationship> relationships = repository.getRelationshipsForDocument(1);
-
-        assertNotNull(relationships);
-        assertFalse(relationships.isEmpty());
-
-        assertTrue(
-                relationships.stream()
-                        .allMatch(r -> r.getDocumentId() == 1)
-        );
+        assertEquals( getRelationshipsForDocument1(), repository.getRelationshipsForDocument(1) );
     }
+
 
     @Test
     void getRelationshipsForDocumentReturnsEmptyListIfNotFound() throws DataAccessException {
@@ -118,10 +96,7 @@ class RelationshipJdbcClientRepositoryTest {
     @Test
     void editHappyPath() throws DataAccessException {
 
-        Relationship relationship =
-                repository.getRelationshipById(1);
-
-        assertNotNull(relationship);
+        Relationship relationship = getRelationshipsForDocument1().get(0);
 
         relationship.setName("Updated Name");
         relationship.setDescription("Updated Description");
@@ -152,10 +127,7 @@ class RelationshipJdbcClientRepositoryTest {
     @Test
     void editDoesNotModifyDocumentId() throws DataAccessException {
 
-        Relationship relationship =
-                repository.getRelationshipById(1);
-
-        assertNotNull(relationship);
+        Relationship relationship = getRelationshipsForDocument1().get(0);
 
         int originalDocumentId = relationship.getDocumentId();
 
@@ -165,18 +137,13 @@ class RelationshipJdbcClientRepositoryTest {
 
         Relationship updated = repository.getRelationshipById(1);
 
-        assertEquals(
-                originalDocumentId,
-                updated.getDocumentId()
-        );
+        assertEquals( originalDocumentId, updated.getDocumentId() );
     }
 
     @Test
     void editDoesNotModifyElementId() throws DataAccessException {
 
-        Relationship relationship = repository.getRelationshipById(1);
-
-        assertNotNull(relationship);
+        Relationship relationship = getRelationshipsForDocument1().get(0);
 
         int originalElementId = relationship.getElementId();
 
@@ -186,10 +153,7 @@ class RelationshipJdbcClientRepositoryTest {
 
         Relationship updated = repository.getRelationshipById(1);
 
-        assertEquals(
-                originalElementId,
-                updated.getElementId()
-        );
+        assertEquals( originalElementId, updated.getElementId() );
     }
 
     @Test
