@@ -69,6 +69,8 @@ CREATE TABLE document_element_link(
 	document_element_link_id int primary KEY auto_increment,
 	element_id int NOT NULL,
 	document_id int NOT NULL,
+	name varchar(50) null,
+	description varchar(250) null,
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)

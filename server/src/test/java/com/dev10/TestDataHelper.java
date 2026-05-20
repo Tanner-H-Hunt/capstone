@@ -1,9 +1,6 @@
 package com.dev10;
 
-import com.dev10.models.Directory;
-import com.dev10.models.Document;
-import com.dev10.models.DocumentType;
-import com.dev10.models.User;
+import com.dev10.models.*;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 import com.dev10.models.docelements.DocumentElementType;
@@ -227,6 +224,29 @@ public class TestDataHelper {
         attribute.setValue("'startXPos': 999");
 
         return attribute;
+    }
+
+    public static List<Relationship> getRelationshipsForElement2(){
+        Relationship relationship1 = new Relationship();
+        relationship1.setId(1);
+        relationship1.setDocumentId(1);
+        relationship1.setElementId(2);
+
+        Relationship relationship2 = new Relationship();
+        relationship2.setId(2);
+        relationship2.setDocumentId(3);
+        relationship2.setElementId(2);
+
+        return List.of(relationship1, relationship2);
+    }
+
+    public static List<Relationship> getRelationshipsForDocument1(){
+        Relationship relationship = new Relationship();
+        relationship.setId(1);
+        relationship.setElementId(2);
+        relationship.setDocumentId(1);
+
+        return List.of(relationship);
     }
 
 }
