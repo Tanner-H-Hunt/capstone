@@ -1,0 +1,22 @@
+@url = http://localhost:8080/api/relationship
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# create relationship happy path
+POST {{url}}/create HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    }, 
+    "relationship": {
+        "id": 0,
+        "documentId": 4,
+        "elementId": 88,
+        "name": "",
+        "description": ""
+    }
+}

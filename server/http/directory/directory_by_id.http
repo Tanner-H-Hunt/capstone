@@ -3,7 +3,7 @@
 
 ###
 # get homepage contents happy path
-GET {{url}} HTTP/1.1
+POST {{url}} HTTP/1.1
 Authorization: {{auth}}
 Content-Type: application/json
 

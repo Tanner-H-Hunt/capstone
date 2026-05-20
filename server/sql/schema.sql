@@ -96,3 +96,4 @@ CREATE TABLE `attribute`(
 delete from attribute;
 delete from document_element;
 select * from document_element;
+select * from document;

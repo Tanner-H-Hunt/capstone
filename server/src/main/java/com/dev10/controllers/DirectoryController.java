@@ -57,7 +57,7 @@ public class DirectoryController {
     }
 
 
-    @PostMapping("/:directoryId")
+    @PostMapping("/{directoryId}")
     public ResponseEntity<Object> getDirectoryContents(@PathVariable int directoryId,
                                                        @RequestBody User user,
                                                        @RequestHeader("Authorization") String authHeader) throws DataAccessException{
