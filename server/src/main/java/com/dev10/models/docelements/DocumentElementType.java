@@ -8,5 +8,6 @@ public enum DocumentElementType {
     INTERFACE,
     ARROW,
     TODO_GROUP,
-    TODO
+    TODO,
+    NOTE
 }

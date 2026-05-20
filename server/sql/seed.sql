@@ -14,3 +14,6 @@ INSERT INTO document_type (document_type_name) VALUES
 		("ARROW"),
 		("TODO_GROUP"),
 		("TODO");
+	
+	insert into element_type (`type`) values
+		("NOTE")

@@ -27,6 +27,7 @@ public class AttributeConfiguration {
             case ARROW -> initArrow(element);
             case TODO -> initTodo(element);
             case TODO_GROUP -> initTodoGroup(element);
+            case NOTE -> initNote(element);
         };
     }
 
@@ -292,4 +293,39 @@ public class AttributeConfiguration {
         return  todo;
     }
 
+    private Note initNote(DocumentElement element) throws DataAccessException {
+        Note note = new Note();
+        note.setDocumentElementType(DocumentElementType.NOTE);
+        note.setDocumentElementId(element.getDocumentElementId());
+        note.setDocumentId(element.getDocumentId());
+
+        // init the attributes
+        Attribute innerText = new Attribute();
+        Attribute order = new Attribute();
+
+        // mount the attributes to the element early (prevents nullptrs)
+        note.setInnerText(innerText);
+        note.setOrder(order);
+
+        // modify the attribute values
+        note.editInnerText("This is a text editor for a note");
+        note.editOrder(0);
+
+        // set the attributes parent element id
+        innerText.setDocumentElementId(element.getDocumentElementId());
+        order.setDocumentElementId(element.getDocumentElementId());
+
+        // send the attributes to the database for their ID
+        int innerTextId = repository.createAttribute(innerText).getAttributeId();
+        int orderId = repository.createAttribute(order).getAttributeId();
+
+        // attach the ID's to the attributes
+        innerText.setAttributeId(innerTextId);
+        order.setAttributeId(orderId);
+
+        // enable the list of attributes on this object
+        note.setAttributes(List.of(innerText, order));
+
+        return  note;
+    }
 }

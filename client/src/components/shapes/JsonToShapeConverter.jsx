@@ -56,6 +56,7 @@ function JsonToShape({ json }){
             const [innerText, setInnerText] = useState(attributes.innerText.value);
             const props = {position, setPosition, innerText, setInnerText, attributes}
             return <EditableText {...props} />
+
     }
 
     return (

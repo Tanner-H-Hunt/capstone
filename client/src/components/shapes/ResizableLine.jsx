@@ -44,9 +44,6 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
                 }
             }
 
-            console.log("body before stringification");
-            console.log(body);
-
             const httpRequest = {
                 method: 'PUT',
                 headers: {
