@@ -100,7 +100,7 @@ function RelationshipToolbar({ selectedElementId }){
                         </Accordion.Header>
                         <Accordion.Body>
                             {selectedElementId == null ? "Select an element to make a new relation" : 
-                            <NewRelationForm selectedElement={selectedElementId}/>}
+                            <NewRelationForm selectedElement={selectedElementId} setRelations={fetchElementRelations}/>}
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
