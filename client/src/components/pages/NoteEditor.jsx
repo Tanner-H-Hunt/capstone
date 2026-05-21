@@ -5,10 +5,11 @@ import UserContext from "../contexts/UserContext";
 import { useParams } from "react-router";
 import JsonToShape from "../shapes/JsonToShapeConverter";
 import NotesScene from "../editors/NotesScene";
+import RelationshipToolbar from "../editors/relations/RelationshipToolbar";
 
 function NoteEditor(){
     const [elements, setElements] = useState([]);
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(null);
     const { loggedInUser } = useContext(UserContext);
     const { id } = useParams();
 
@@ -98,8 +99,18 @@ function NoteEditor(){
 
     return(
         <>
-        <h1>In the note editor</h1>
-        <NotesScene notes={elements} addNote={addElement}/>
+        <div className="container-fluid px-0 row">
+
+            <div className="col-1">
+
+            </div>
+            <div className="col-10">
+                <NotesScene notes={elements} addNote={addElement} selected={selected} setSelected={setSelected}/>
+            </div>
+            <div className="col-1">
+                <RelationshipToolbar selectedElementId={selected} />
+            </div>
+        </div>
         </>
     );
 }

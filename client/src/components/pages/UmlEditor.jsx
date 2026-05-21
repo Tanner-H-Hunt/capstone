@@ -51,6 +51,7 @@ function UmlEditor(){
         fetchNewElement();
     }
 
+    // TODO: implement deleting elements
     function removeElement(element){
         //TODO delete on the backend
         // const filteredElements = elements.filter(item => item != element);

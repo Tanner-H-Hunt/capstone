@@ -3,14 +3,15 @@ import ReactMarkDown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
+import { ClickAwayListener } from "@mui/material";
 
-function Note({ attributes }){
+function Note({ attributes, selected, setSelected }){
     const innerTextValue = attributes.attributes.find(
         attribute => attribute.key === "innerText"
     ).value;
 
     const { loggedInUser } = useContext(UserContext);
-    const minRows = 20;
+    const minRows = 1;
     const [innerText, setInnerText] = useState(innerTextValue);
     const [rows, setRows] = useState(minRows);
 
@@ -85,13 +86,25 @@ function Note({ attributes }){
         
     }
 
+    function select(){
+        setSelected(attributes.documentElementId);
+    }
+
+    function deselect(evt){
+        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+            setSelected(null);
+        }
+    }
+
     return (
-        <div className="container-fluid mb-2">
+        <ClickAwayListener onClickAway={deselect}>
+        <div className="container-fluid mb-2" onClick={select}>
             <div className="row">
                 <div className="col-1"></div>
                 <textarea name="" id="" defaultValue={innerText} className="col-10" rows={rows} onChange={onChangeHandler}></textarea>
             </div>
         </ div>
+        </ClickAwayListener>
     );
 }
 

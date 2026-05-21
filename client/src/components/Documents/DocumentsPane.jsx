@@ -6,8 +6,7 @@ function DocumentsPane({ documents, setDocuments, directoryStack, setDirectorySt
     return (
         <>
             <DirectoryDisplay />
-            {/* TODO: implement filters */}
-            {/* <DocumentFilters /> */}
+            <DocumentFilters />
             
             <div className="mt-3">
                 <DocumentPreviewTable documents={documents} setDocuments={setDocuments} directoryStack={directoryStack} setDirectoryStack={setDirectoryStack}/>
