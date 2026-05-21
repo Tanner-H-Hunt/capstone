@@ -36,7 +36,7 @@ function DocumentLayout(){
             }
         };
         getDocument();
-    }, []);
+    }, [id]);
 
 
     function parseDocType(){

@@ -172,4 +172,6 @@ class RelationshipJdbcClientRepositoryTest {
 
         assertNull(relationship);
     }
+
+    //TODO write tests for getOriginatingDocumentForRelationshipElement
 }

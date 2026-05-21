@@ -2,6 +2,7 @@ package com.dev10.domain;
 
 import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
+import com.dev10.models.Document;
 import com.dev10.models.Relationship;
 import com.dev10.repositories.DocumentElementRepository;
 import com.dev10.repositories.DocumentRepository;
@@ -78,6 +79,10 @@ public class RelationshipService {
 
     public boolean delete(int id) throws DataAccessException {
         return relationshipRepository.delete(id);
+    }
+
+    public Document getOriginatingDocumentForRelationshipElement(int relationshipId) throws DataAccessException {
+        return relationshipRepository.getOriginatingDocumentForRelationshipElement(relationshipId);
     }
 
     public boolean update(Relationship relationship){

@@ -3,8 +3,8 @@ import ResizableBoxWrapper from "./ResizableBoxWrapper";
 import ResizableLineWrapper from "./ResizableLineWrapper";
 import EditableText from "./EditableText";
 
-function JsonToShape({ json }){
-    
+function JsonToShape({ json, selected, setSelected }){
+
     let attributes = {
         documentElementId: json.documentElementId,
         elementType: json.documentElementType,
@@ -29,8 +29,8 @@ function JsonToShape({ json }){
                 parseFloat(attributes.xPos.value.trim()), 
                 parseFloat(attributes.yPos.value.trim()), 
                 0]);
-            let props = {width, setWidth, height, setHeight, position, setPosition, attributes};
-            return < ResizableBoxWrapper {...props} />
+            let props = {selected, setSelected, width, setWidth, height, setHeight, position, setPosition, attributes};
+            return < ResizableBoxWrapper {...props}/>
         }
 
         case "LINE": {
@@ -44,8 +44,8 @@ function JsonToShape({ json }){
                 parseFloat(attributes.endYPos.value.trim()),
                 0
             ]);
-            let props = {startPosition, setStartPosition, endPosition, setEndPosition, attributes}
-            return <ResizableLineWrapper {...props}/>;
+            let props = {selected, setSelected, startPosition, setStartPosition, endPosition, setEndPosition, attributes }
+            return <ResizableLineWrapper {...props} />;
         }
 
         case "TEXT":
@@ -54,16 +54,11 @@ function JsonToShape({ json }){
                 parseFloat(attributes.yPos.value.trim()), 
                 0]);
             const [innerText, setInnerText] = useState(attributes.innerText.value);
-            const props = {position, setPosition, innerText, setInnerText, attributes}
+            const props = {selected, setSelected, position, setPosition, innerText, setInnerText, attributes }
             return <EditableText {...props} />
 
     }
 
-    return (
-        <>
-        <ResizableBoxWrapper />
-        </>
-    );
 }
 
 export default JsonToShape;

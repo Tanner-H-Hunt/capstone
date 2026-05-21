@@ -59,7 +59,7 @@ function Note({ attributes }){
         const updateRequest = async() => {
             const response = await fetch(url, httpRequest);
             if(response.status >= 200 && response.status < 300){
-                console.log("successfully updated object data");
+                // console.log("successfully updated object data");
             } else{
                 console.log("failed to update element data")
                 const json = await response.json();

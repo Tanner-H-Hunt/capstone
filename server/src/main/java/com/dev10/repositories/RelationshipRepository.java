@@ -1,6 +1,7 @@
 package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
+import com.dev10.models.Document;
 import com.dev10.models.Relationship;
 import com.dev10.models.User;
 
@@ -13,4 +14,5 @@ public interface RelationshipRepository {
     List<Relationship> getRelationshipsForElement(int elementId) throws DataAccessException;
     List<Relationship> getRelationshipsForDocument(int documentId)  throws DataAccessException;
     Relationship getRelationshipById(int id) throws DataAccessException;
+    Document getOriginatingDocumentForRelationshipElement(int relationshipId) throws DataAccessException;
 }

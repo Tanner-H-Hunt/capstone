@@ -97,3 +97,15 @@ delete from attribute;
 delete from document_element;
 select * from document_element;
 select * from document;
+
+SELECT
+    doc.document_id,
+    doc.document_name,
+    doc.document_type_id,
+    doc.directory_id,
+    dt.document_type_name
+FROM document_element_link del
+INNER JOIN document_element element on del.element_id = element.document_element_id
+INNER JOIN document doc on doc.document_id = element.document_id
+INNER JOIN document_type dt on dt.document_type_id = doc.document_type_id
+WHERE del.document_element_link_id = 2;

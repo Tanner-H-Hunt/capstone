@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useThree } from "@react-three/fiber";
 import UserContext from "../contexts/UserContext";
 import { useContext } from "react";
+import { ClickAwayListener } from "@mui/material";
 
-function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, attributes }) {
+function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, attributes, selected, setSelected }) {
 
     const { loggedInUser } = useContext(UserContext);
 
     function serialize(){
         if(attributes == undefined){
-            console.log("undefined attributes");
             return;
         }
                 if(attributes == undefined){
@@ -54,12 +54,11 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
             }
 
         const url = "http://localhost:8080/api/element"
-        console.log(httpRequest);
 
         const updateRequest = async() => {
             const response = await fetch(url, httpRequest);
             if(response.status >= 200 && response.status < 300){
-                console.log("successfully updated object data");
+                // console.log("successfully updated object data");
             } else{
                 const json = await response.json();
                 console.log("failed to update element data")
@@ -185,8 +184,19 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
 		return memo;
     });
 
+    function select(){
+        setSelected(attributes.documentElementId);
+    }
+
+    function deselect(evt){
+        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+            setSelected(null);
+        }
+    }
+
     return (
-        <group>
+        <ClickAwayListener onClickAway={(evt) => deselect(evt)}>
+        <group onClick={() => {select()}}>
 
             {/* box rendering */}
             {/* left line */}
@@ -259,6 +269,7 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
             </mesh>
 
         </group>
+        </ClickAwayListener>
     );
 }
 

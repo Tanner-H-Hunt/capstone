@@ -20,3 +20,23 @@ Content-Type: application/json
         "description": ""
     }
 }
+
+###
+# create relationship happy path
+POST {{url}}/create HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "user": {
+        "email": "a@a.com",
+        "id": 1
+    }, 
+    "relationship": {
+        "id": 0,
+        "documentId": 4,
+        "elementId": 88,
+        "name": "Title",
+        "description": "Description"
+    }
+}

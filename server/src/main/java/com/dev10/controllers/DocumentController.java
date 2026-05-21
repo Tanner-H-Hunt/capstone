@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/document")
@@ -136,6 +138,25 @@ public class DocumentController {
             return ResponseEntity.noContent().build();
         } else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> getAllDocuments(@RequestHeader("Authorization") String auth,
+                                          @RequestBody User user) throws DataAccessException {
+        if(user == null || auth == null){
+            return ResponseEntity.badRequest().body("Auth header and user are required");
+        }
+
+        if(!authenticator.isValidBearerToken(user, auth)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        List<Document> document = service.getAllDocuments(user);
+        if(document == null){
+            return ResponseEntity.notFound().build();
+        } else{
+            return ResponseEntity.ok(document);
         }
     }
 }

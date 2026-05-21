@@ -1,8 +1,10 @@
 package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
+import com.dev10.models.Document;
 import com.dev10.models.Relationship;
 import com.dev10.models.User;
+import com.dev10.models.mappers.DocumentRowMapper;
 import com.dev10.models.mappers.RelationshipRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -145,6 +147,32 @@ public class RelationshipJdbcClientRepository implements RelationshipRepository{
                     .optional().orElse(null);
         } catch (Exception e){
             throw new DataAccessException("Something went wrong while trying to fetch relationships by ID", e);
+        }
+    }
+
+    @Override
+    public Document getOriginatingDocumentForRelationshipElement(int relationshipId) throws DataAccessException {
+        final String sql = """
+                SELECT
+                    doc.document_id,
+                    doc.document_name,
+                    doc.document_type_id,
+                    doc.directory_id,
+                    dt.document_type_name
+                FROM document_element_link del
+                INNER JOIN document_element element on del.element_id = element.document_element_id
+                INNER JOIN document doc on doc.document_id = element.document_id
+                INNER JOIN document_type dt on dt.document_type_id = doc.document_type_id
+                WHERE del.document_element_link_id = :id;
+                """;
+
+        try{
+             return client.sql(sql)
+                     .param("id", relationshipId)
+                     .query(new DocumentRowMapper())
+                     .optional().orElse(null);
+        } catch (Exception e){
+            throw new DataAccessException("Something went wrong while trying to fetch data about a relationship", e);
         }
     }
 }
