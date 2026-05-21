@@ -69,6 +69,8 @@ CREATE TABLE document_element_link(
 	document_element_link_id int primary KEY auto_increment,
 	element_id int NOT NULL,
 	document_id int NOT NULL,
+	name varchar(50) null,
+	description varchar(250) null,
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)
@@ -94,3 +96,16 @@ CREATE TABLE `attribute`(
 delete from attribute;
 delete from document_element;
 select * from document_element;
+select * from document;
+
+SELECT
+    doc.document_id,
+    doc.document_name,
+    doc.document_type_id,
+    doc.directory_id,
+    dt.document_type_name
+FROM document_element_link del
+INNER JOIN document_element element on del.element_id = element.document_element_id
+INNER JOIN document doc on doc.document_id = element.document_id
+INNER JOIN document_type dt on dt.document_type_id = doc.document_type_id
+WHERE del.document_element_link_id = 2;

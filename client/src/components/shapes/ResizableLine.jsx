@@ -2,9 +2,10 @@ import { Line } from "@react-three/drei";
 import { useDrag } from '@use-gesture/react'
 import { useThree } from "@react-three/fiber";
 import UserContext from "../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { ClickAwayListener } from "@mui/material";
 
-function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosition, attributes}){
+function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosition, attributes, selected, setSelected}){
     const lineWidth = 2;
     const color = "black";
     const resizeHandlerClickAffordance = 0.5;
@@ -54,12 +55,11 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
             }
 
         const url = "http://localhost:8080/api/element"
-        console.log(httpRequest);
 
         const updateRequest = async() => {
             const response = await fetch(url, httpRequest);
             if(response.status >= 200 && response.status < 300){
-                console.log("successfully updated object data");
+                // console.log("successfully updated object data");
             } else{
                 console.log("failed to update element data")
                 const json = await response.json();
@@ -124,13 +124,23 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
         setEndPosition(newEndVertexPosition);
         return memo;
     });
-    
+
+    function select(){
+        setSelected(attributes.documentElementId);
+    }
+
+    function deselect(evt){
+        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+            setSelected(null);
+        }
+    }
 
     const bindStartVertex = createVertexDrag(startPosition, setStartPosition);
     const bindEndVertex = createVertexDrag(endPosition, setEndPosition);
 
     return (
-        <group>
+        <ClickAwayListener onClickAway={(evt) => deselect(evt)}>
+        <group onClick={() => {select()}}>
             <Line 
                 points={[startPosition, endPosition]}
                 lineWidth={lineWidth}
@@ -158,6 +168,7 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
                 {...bindMeshReposition()}
             />
         </group>
+        </ClickAwayListener>
     );
 }
 

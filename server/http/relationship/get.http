@@ -1,0 +1,35 @@
+@url = http://localhost:8080/api/relationship
+@auth = "3glSSBIifYFmaVeY5sXphXnaepNG2gvBcp3j2zbeYq0="
+
+###
+# get relationships for document happy path
+POST {{url}}/document/4
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}
+
+###
+# get relationships for element happy path
+POST {{url}}/element/88
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}
+
+###
+# get originating doc for element relationship happy path
+POST {{url}}/element/doc/2
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}

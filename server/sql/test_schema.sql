@@ -69,6 +69,8 @@ CREATE TABLE document_element_link(
 	document_element_link_id int primary KEY auto_increment,
 	element_id int NOT NULL,
 	document_id int NOT NULL,
+	name varchar(50) null,
+	description varchar(250) null,
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)
@@ -173,16 +175,11 @@ delimiter ;
 
 
 call set_known_good_state();
-
-select * from document_element;
-
-select * from attribute;
-SELECT DISTINCT
-    acc.account_id,
-    acc.email
-FROM attribute a
-INNER JOIN document_element e on a.document_element_id = e.document_element_id
-INNER JOIN document d on d.document_id = e.document_id
-INNER JOIN directory dir on dir.directory_id = d.directory_id
-INNER JOIN account acc on acc.account_id = dir.account_id
-WHERE a.attribute_id = 10;
+SELECT
+    document_element_link_id as relation_id,
+    element_id,
+    document_id,
+    name,
+    description
+FROM document_element_link
+WHERE element_id = 2;

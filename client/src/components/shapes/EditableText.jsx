@@ -7,7 +7,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener'
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
-function EditableText( {position, setPosition, innerText, setInnerText, attributes} ){
+function EditableText( {position, setPosition, innerText, setInnerText, attributes, selected, setSelected} ){
 
     const { loggedInUser } = useContext(UserContext);
     const { camera } = useThree();
@@ -64,7 +64,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
         const updateRequest = async() => {
             const response = await fetch(url, httpRequest);
             if(response.status >= 200 && response.status < 300){
-                console.log("successfully updated object data");
+                // console.log("successfully updated object data");
             } else{
                 console.log("failed to update element data")
                 const json = await response.json();
@@ -103,8 +103,20 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
         return memo;
     });
 
+    function select(){
+        console.log("selecting")
+        setSelected(attributes.documentElementId);
+    }
+
+    function deselect(evt){
+        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+            setSelected(null);
+        }
+    }
+
     return (
-        <group>
+        <ClickAwayListener onClickAway={(evt) => deselect(evt)}>
+        <group onClick={() => select()}>
 
             <mesh position={[position[0], position[1], -1]} {...dragBinding()} onDoubleClick={() => {setEditing(!editing)}}>
                 <planeGeometry args={[(width / camera.zoom) + dragAffordance, (height / camera.zoom) + dragAffordance]}/>
@@ -115,6 +127,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
                     <div ref={ref} style={{background: 'white'}}>
                         {editing ? 
                             <textarea 
+                                onClick={() => select()} // onClick is also attached to the group, but inner html elements makes clicking it finicky.  The extra onclick addresses that
                                 defaultValue={innerText} 
                                 rows={rows} 
                                 cols={cols} 
@@ -130,7 +143,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
                                 />
    
                         : 
-                        <p 
+                        <p onClick={() => select()}
                             className="mb-0" 
                             style={{
                                 userSelect: 'none', // prevents the text from becoming highlighted during drag events 
@@ -151,6 +164,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
             </mesh>
 
         </group>
+        </ClickAwayListener>
     );
 }
 

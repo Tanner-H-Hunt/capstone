@@ -111,7 +111,6 @@ function AccountForm(){
                     <ul>
                         {errors.map((err, index) => <li key={'InputError: ' + index}>{err}</li>)}
                         {serverErrors.map((serverErr, index) => {
-                            console.log(`index: ${index}, Error: ${serverErr}`)
                             return <li key={'serverError: ' + index}>{serverErr}</li>;  })
                         }
                     </ul>

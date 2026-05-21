@@ -23,6 +23,8 @@ function ResizableBoxWrapper({ width, setWidth,
                 position={position != undefined ? position : defaultPositionProp}
                 setPosition={setPosition != undefined ? setPosition : defaultSetPositionProp}
                 attributes={attributes}
+                selected={selected}
+                setSelected={setSelected}
             />
         </>
     );

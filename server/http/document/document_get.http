@@ -3,7 +3,18 @@
 
 ###
 # get by id happy path
-POST {{url}}/1 HTTP/1.1
+POST {{url}}/4 HTTP/1.1
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "id": 1
+}
+
+###
+# get all docs happy path
+POST {{url}} HTTP/1.1
 Authorization: {{auth}}
 Content-Type: application/json
 

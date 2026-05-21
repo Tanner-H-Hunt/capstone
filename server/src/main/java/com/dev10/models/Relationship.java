@@ -1,11 +1,36 @@
 package com.dev10.models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class Relationship {
     private int id;
     private int documentId;
     private int elementId;
+    @Size(max = 50, message = "Relationship names may not be more than 50 characters")
+    private String name;
+    @Size(max = 250, message = "Relationship messages may not be more than 250 characters")
+    private String description;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

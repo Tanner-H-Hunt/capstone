@@ -9,10 +9,11 @@ import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { useParams } from "react-router";
 import JsonToShape from "../shapes/JsonToShapeConverter";
+import RelationshipToolbar from "../editors/relations/RelationshipToolbar";
 
 function UmlEditor(){
     const [elements, setElements] = useState([]);
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(null);
     const { loggedInUser } = useContext(UserContext);
     const { id } = useParams();
 
@@ -40,7 +41,7 @@ function UmlEditor(){
             const response = await fetch(url, httpRequest);
             const json = await response.json();
             if(response.status >=200 && response.status < 300){
-                setElements([...elements, <JsonToShape json={json} key={json.documentElementId}/>])
+                setElements([...elements, json])
                 
             } else{
                 console.log("Error fetching new element");
@@ -50,18 +51,15 @@ function UmlEditor(){
         fetchNewElement();
     }
 
+    // TODO: implement deleting elements
     function removeElement(element){
         //TODO delete on the backend
-        const filteredElements = elements.filter(item => item != element);
-        setElements(filteredElements);
-    }
-
-    function selectElement(element){
-
+        // const filteredElements = elements.filter(item => item != element);
+        // setElements(filteredElements);
     }
 
     useHotkeys('delete', () => {
-        selected.forEach((element) => removeElement(element));
+        // selected.forEach((element) => removeElement(element));
     });
 
     // in development mode, useEffect runs twice, effectively doubling every UML element.
@@ -84,13 +82,12 @@ function UmlEditor(){
             const response = await fetch(url, httpRequest);
             const json = await response.json();
             if(response.status >=200 && response.status < 300){
-                console.log(json);
                 for(const element of json.elements){
                     if(setOfIds.has(element.documentElementId)){
                         continue;
                     } else{
                         setOfIds.add(element.documentElementId);
-                        setElements(prev => [...prev, <JsonToShape json={element} key={element.documentElementId}/>])
+                        setElements(prev => [...prev, element])
                     }
                 }
             } else{
@@ -104,7 +101,7 @@ function UmlEditor(){
 
     return (
             <div className="container-fluid px-0 row"  style={{height: '100vh'}}>
-                <div className="col-2"  style={{height: '100vh'}}>
+                <div className="col-1"  style={{height: '100vh'}}>
                     <LeftToolbar addElement={addElement}/>
                 </div>
 
@@ -120,9 +117,14 @@ function UmlEditor(){
                             maxZoom={150} 
                             enableRotate={false}
                             />
-                        < UmlScene elements={elements} removeElement={removeElement}/>
+                        < UmlScene elements={elements} removeElement={removeElement} selected={selected} setSelected={setSelected}/>
                         
                     </Canvas>
+
+                </div>
+                
+                <div  className="col-1">
+                    <RelationshipToolbar selectedElementId={selected}/>
 
                 </div>
 

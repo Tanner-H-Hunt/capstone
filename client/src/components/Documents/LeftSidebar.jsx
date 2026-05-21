@@ -52,9 +52,9 @@ function LeftSidebar({ directoryStack, addDocument }){
                 <button className="btn text-white" onClick={() => newDocument("TODO")}>New Todo List</button>
             </li>
             {/* TODO: implement directories */}
-            {/* <li>
+            <li>
                 <button className="btn text-white">New Directory</button>
-            </li> */}
+            </li>
         </ul>
     );
 }

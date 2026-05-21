@@ -1,6 +1,6 @@
 import Note from "../shapes/Note";
 
-function NotesScene({ notes, addNote }){
+function NotesScene({ notes, addNote, selected, setSelected }){
     function createNewNote(){
         addNote("NOTE");
     }
@@ -11,7 +11,7 @@ function NotesScene({ notes, addNote }){
             {notes != undefined ? 
                 notes.map(note => {
                     return (
-                        <Note attributes={note} key={note.documentElementId}/>
+                        <Note attributes={note} key={note.documentElementId} selected={selected} setSelected={setSelected}/>
                     );
                 })
             

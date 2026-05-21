@@ -1,13 +1,7 @@
 package com.dev10.models.DTO;
 
-import com.dev10.domain.DirectoryService;
-import com.dev10.domain.DocumentElementService;
-import com.dev10.domain.DocumentService;
-import com.dev10.domain.UserService;
-import com.dev10.models.DataAccessException;
-import com.dev10.models.Directory;
-import com.dev10.models.Document;
-import com.dev10.models.User;
+import com.dev10.domain.*;
+import com.dev10.models.*;
 import com.dev10.models.docelements.Attribute;
 import com.dev10.models.docelements.DocumentElement;
 import org.springframework.stereotype.Component;
@@ -25,20 +19,24 @@ public class ResourceRequest {
     private Directory directory;
     private DocumentElement element;
     private Attribute attribute;
+    private Relationship relationship;
 
     private final DirectoryService directoryService;
     private final DocumentService documentService;
     private final UserService userService;
     private final DocumentElementService documentElementService;
+    private final RelationshipService relationshipService;
 
     public ResourceRequest(DirectoryService directoryService,
                            DocumentService documentService,
                            UserService userService,
-                           DocumentElementService documentElementService){
+                           DocumentElementService documentElementService,
+                           RelationshipService relationshipService){
         this.directoryService = directoryService;
         this.documentService = documentService;
         this.userService = userService;
         this.documentElementService = documentElementService;
+        this.relationshipService = relationshipService;
     }
 
     public User getUser() {
@@ -91,6 +89,13 @@ public class ResourceRequest {
         this.attribute = documentElementService.getAttributeById(attributeId);
         if(attribute != null){
             validateElement(attribute.getDocumentElementId());
+        }
+    }
+
+    public void validateRelationship(int relationshipId) throws DataAccessException {
+        this.relationship = relationshipService.getRelationshipById(relationshipId);
+        if(this.relationship != null){
+            validateDocument(relationship.getDocumentId());
         }
     }
 

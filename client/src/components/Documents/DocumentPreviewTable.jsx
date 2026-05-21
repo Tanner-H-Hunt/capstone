@@ -15,8 +15,8 @@ function DocumentPreviewTable({ documents, setDocuments, directoryStack, setDire
                     {
                         documents.map(doc => {
                         return(
-                            <div className="col-sm-6 col-lg-4 col-xl-3 col-xxl-2" key={doc.id}>
-                                <DocumentPreview document={doc} removeDocument={removeDocument}/>
+                            <div className="col-sm-6 col-lg-4 col-xl-3 col-xxl-2 mb-2" key={doc.id}>
+                                <DocumentPreview document={doc} removeDocument={removeDocument} />
                             </div>
                         )
                     })}
