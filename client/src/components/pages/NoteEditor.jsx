@@ -108,7 +108,7 @@ function NoteEditor(){
                 <NotesScene notes={elements} addNote={addElement} selected={selected} setSelected={setSelected}/>
             </div>
             <div className="col-1">
-                <RelationshipToolbar selectedElementId={selected} />
+                <RelationshipToolbar selectedElementId={selected} setSelectedElementId={setSelected} />
             </div>
         </div>
         </>

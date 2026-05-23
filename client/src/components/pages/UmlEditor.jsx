@@ -113,7 +113,7 @@ function UmlEditor(){
                 </div>
                 
                 <div  className="col-1">
-                    <RelationshipToolbar selectedElementId={selected}/>
+                    <RelationshipToolbar selectedElementId={selected} setSelectedElementId={setSelected}/>
 
                 </div>
 

@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import NewRelationForm from "./NewRelationForm";
 
-function RelationshipToolbar({ selectedElementId }){
+function RelationshipToolbar({ selectedElementId, setSelectedElementId }){
 
     const [relations, setRelations] = useState([]);
     const [showMenu, setShowMenu] = useState(false);
@@ -64,6 +64,10 @@ function RelationshipToolbar({ selectedElementId }){
         }
     }, 
     [selectedElementId]);
+
+    useEffect(() => {
+        setSelectedElementId(null);
+    }, [id])
 
     function handleShow(){
         setShowMenu(true);
