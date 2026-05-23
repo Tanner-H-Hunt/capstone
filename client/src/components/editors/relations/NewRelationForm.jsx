@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useParams } from 'react-router';
 
-function NewRelationForm({ selectedElement }){
+function NewRelationForm({ selectedElement, setRelations }){
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -45,7 +45,7 @@ function NewRelationForm({ selectedElement }){
             const response = await fetch(url, httpRequest);
             const json = await response.json();
             if(response.status >= 200 && response.status < 300){
-                // console.log("saved")
+                setRelations();
             } else{
                 console.log("error saving");
                 console.log(json);

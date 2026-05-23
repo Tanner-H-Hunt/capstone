@@ -61,10 +61,6 @@ function UmlEditor(){
     useHotkeys('delete', () => {
         // selected.forEach((element) => removeElement(element));
     });
-
-    // in development mode, useEffect runs twice, effectively doubling every UML element.
-    // this prevents duplicates in development mode.
-    const setOfIds = new Set([]);
     
     useEffect(() => {
         const httpRequest = {
@@ -82,21 +78,14 @@ function UmlEditor(){
             const response = await fetch(url, httpRequest);
             const json = await response.json();
             if(response.status >=200 && response.status < 300){
-                for(const element of json.elements){
-                    if(setOfIds.has(element.documentElementId)){
-                        continue;
-                    } else{
-                        setOfIds.add(element.documentElementId);
-                        setElements(prev => [...prev, element])
-                    }
-                }
+                setElements([...json.elements])
             } else{
                 console.log("Error fetching new element");
                 console.log(json);
             }
         }
         fetchElements();
-    }, []);
+    }, [id]);
 
 
     return (
@@ -124,7 +113,7 @@ function UmlEditor(){
                 </div>
                 
                 <div  className="col-1">
-                    <RelationshipToolbar selectedElementId={selected}/>
+                    <RelationshipToolbar selectedElementId={selected} setSelectedElementId={setSelected}/>
 
                 </div>
 

@@ -79,8 +79,15 @@ function Note({ attributes, selected, setSelected }){
         if(str.length === 0){
             str = " ";
         };
-        const numRows = str.split("\n").length;
 
+        // TODO: remove this str.replace methods.  While data is stored as JSON on the backend,
+        // adding these characters to the inner text can corrupt the JSON, and the page wont render
+        // these prevent the data from being corrupted
+        str = str.replace("\n", "");
+        str = str.replace(":", "");
+        str = str.replace("\"", "");
+
+        const numRows = str.split("\n").length;
         setInnerText(str);
         setRows(Math.max(numRows, minRows));
         
@@ -101,7 +108,10 @@ function Note({ attributes, selected, setSelected }){
         <div className="container-fluid mb-2" onClick={select}>
             <div className="row">
                 <div className="col-1"></div>
-                <textarea name="" id="" defaultValue={innerText} className="col-10" rows={rows} onChange={onChangeHandler}></textarea>
+                <textarea 
+                    name="" 
+                    id="" 
+                    value={innerText} className="col-10 form-control" rows={rows} onChange={onChangeHandler}></textarea>
             </div>
         </ div>
         </ClickAwayListener>

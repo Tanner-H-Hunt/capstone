@@ -1,6 +1,6 @@
 import { Html } from "@react-three/drei";
 import { useMeasure } from "@uidotdev/usehooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useDrag } from '@use-gesture/react';
 import ClickAwayListener from '@mui/material/ClickAwayListener'
@@ -76,13 +76,24 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
     }
 
     function updateTextContents(evt){
-        const str = evt.target.value;
+        let str = evt.target.value;
+
+        // TODO: remove this str.replace methods.  While data is stored as JSON on the backend,
+        // adding these characters to the inner text can corrupt the JSON, and the page wont render
+        // these prevent the data from being corrupted
+        str = str.replace("\n", "");
+        str = str.replace(":", "");
+        str = str.replace("\"", "");
+
         const lines = str.split("\n").length;
         setInnerText(str);
         setCols(Math.max(str.length, 3));
         setRows(Math.max(lines, 1));
-        serialize();
     }
+
+    useEffect(() => {
+        serialize();
+    }, [innerText])
 
     const dragBinding = useDrag(({first, last, movement: [mx, my], memo, event}) => {
         if(first){
@@ -129,6 +140,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
                             <textarea 
                                 onClick={() => select()} // onClick is also attached to the group, but inner html elements makes clicking it finicky.  The extra onclick addresses that
                                 defaultValue={innerText} 
+                                value={innerText}
                                 rows={rows} 
                                 cols={cols} 
                                 style={{
