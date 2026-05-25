@@ -1,57 +1,34 @@
 import { Line } from "@react-three/drei";
 import { useDrag } from "@use-gesture/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import UserContext from "../contexts/UserContext";
 import { useContext } from "react";
 import { ClickAwayListener } from "@mui/material";
 
-function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, attributes, selected, setSelected }) {
+function ResizableBox({ width, setWidth, height, setHeight, position, setPosition, json, selected, setSelected }) {
 
     const { loggedInUser } = useContext(UserContext);
 
     function serialize(){
-        if(attributes == undefined){
+        if(json == undefined){
             return;
         }
-                if(attributes == undefined){
-            return;
-        }
-        attributes.xPos.value = position[0];
-        attributes.yPos.value = position[1];
-        attributes.width.value = width;
-        attributes.height.value = height;
 
         const body = {
                 "user": JSON.parse(loggedInUser).user,
-                "element": {
-                    "attributes": [
-                    ]
+                "element": json
                 }
-            }
-            
-            // nest the attributes back under the element
-            for(const attribute in attributes){
-                if(attribute === "documentElementId" || attribute === "elementType" || attribute === "documentId"){
-                    body.element[attribute] = attributes[attribute];
-                } else{
-                    const expectedAttribute = {
-                        "attributeId": attributes[attribute].attributeId,
-                        "documentElementId": attributes[attribute].documentElementId,
-                        "value": `${attribute}:${attributes[attribute].value}`
-                    }
-                    body.element.attributes.push(expectedAttribute);
-                }
-            }
+        
 
-            const httpRequest = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': JSON.parse(loggedInUser).bearer_token
-                },
-                body: JSON.stringify(body)
-            }
+        const httpRequest = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': JSON.parse(loggedInUser).bearer_token
+            },
+            body: JSON.stringify(body)
+        }
 
         const url = "http://localhost:8080/api/element"
 
@@ -185,14 +162,15 @@ function ResizableBox({ width, setWidth, height, setHeight, position, setPositio
     });
 
     function select(){
-        setSelected(attributes.documentElementId);
+        setSelected(json.elementId);
     }
 
     function deselect(evt){
-        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+        if(selected === json.elementId && evt.target.localName === "canvas"){
             setSelected(null);
         }
     }
+
 
     return (
         <ClickAwayListener onClickAway={(evt) => deselect(evt)}>

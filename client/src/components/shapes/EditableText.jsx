@@ -7,7 +7,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener'
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
-function EditableText( {position, setPosition, innerText, setInnerText, attributes, selected, setSelected} ){
+function EditableText( {position, setPosition, innerText, setInnerText, json, selected, setSelected} ){
 
     const { loggedInUser } = useContext(UserContext);
     const { camera } = useThree();
@@ -18,36 +18,13 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
     const dragAffordance = 0.5;
     
     function serialize(){
-        if(attributes == undefined){
+        if(json == undefined){
             return;
         }
-                if(attributes == undefined){
-            return;
-        }
-        attributes.xPos.value = position[0];
-        attributes.yPos.value = position[1];
-        attributes.innerText.value = innerText;
 
         const body = {
                 "user": JSON.parse(loggedInUser).user,
-                "element": {
-                    "attributes": [
-                    ]
-                }
-            }
-            
-            // nest the attributes back under the element
-            for(const attribute in attributes){
-                if(attribute === "documentElementId" || attribute === "elementType" || attribute === "documentId"){
-                    body.element[attribute] = attributes[attribute];
-                } else{
-                    const expectedAttribute = {
-                        "attributeId": attributes[attribute].attributeId,
-                        "documentElementId": attributes[attribute].documentElementId,
-                        "value": `${attribute}:${attributes[attribute].value}`
-                    }
-                    body.element.attributes.push(expectedAttribute);
-                }
+                "element": json
             }
 
             const httpRequest = {
@@ -78,12 +55,19 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
     function updateTextContents(evt){
         let str = evt.target.value;
 
-        // TODO: remove this str.replace methods.  While data is stored as JSON on the backend,
-        // adding these characters to the inner text can corrupt the JSON, and the page wont render
-        // these prevent the data from being corrupted
-        str = str.replace("\n", "");
-        str = str.replace(":", "");
-        str = str.replace("\"", "");
+        // TODO: These characters corrupt the JSON and will cause the text to not render
+        // escape these characters before serializing it, then find a way to unescape them when
+        // rendering
+        str = str.replace("\n", "")
+            .replace("\t", "")
+            .replace ("\\", "");
+
+        // str = str
+        //     .replace(/\\/g, '\\') // escape backslashes
+        //     .replace(/"/g, '\\"') // escape single quotes
+        //     .replace(/\n/g, "\\n") // escape newlines
+        //     .replace(/\r/g, "\\r") // escape carriage returns
+        //     .replace(/\t/g, '\\t') // escape tabs
 
         const lines = str.split("\n").length;
         setInnerText(str);
@@ -115,12 +99,11 @@ function EditableText( {position, setPosition, innerText, setInnerText, attribut
     });
 
     function select(){
-        console.log("selecting")
-        setSelected(attributes.documentElementId);
+        setSelected(json.elementId);
     }
 
     function deselect(evt){
-        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+        if(selected === json.elementId && evt.target.localName === "canvas"){
             setSelected(null);
         }
     }

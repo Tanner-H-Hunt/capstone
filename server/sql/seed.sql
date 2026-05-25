@@ -5,15 +5,13 @@ INSERT INTO document_type (document_type_name) VALUES
 	("NOTE"),
 	("TODO");
 
-	insert into element_type (`type`) values
-		("LINE"),
-		("BOX"),
-		("TEXT"),
-		("CLASS_BOX"),
-		("INTERFACE"),
-		("ARROW"),
-		("TODO_GROUP"),
-		("TODO");
-	
-	insert into element_type (`type`) values
-		("NOTE")
+insert into element_type (`type`) values
+	("LINE"),
+	("BOX"),
+	("TEXT"),
+	("CLASS_BOX"),
+	("INTERFACE"),
+	("ARROW"),
+	("TODO_GROUP"),
+	("TODO"),
+	("NOTE");

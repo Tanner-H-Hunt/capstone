@@ -1,17 +1,11 @@
 package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
-import com.dev10.models.docelements.DocumentElementType;
-import com.dev10.repositories.DocumentElementRepository;
+import com.dev10.models.docelements.Element;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.stereotype.Component;
-import org.w3c.dom.Attr;
-
-import java.util.List;
 
 
-public class Box extends DocumentElement {
+public class Box extends Element {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute xPosition;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -67,8 +61,8 @@ public class Box extends DocumentElement {
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("xPos", value);
-        this.xPosition.setValue(jsonFormattedValue);
+        this.xPosition.setKey("xPos");
+        this.xPosition.setValue(value.toString());
     }
 
     public void editYPosition(Integer value){
@@ -77,8 +71,8 @@ public class Box extends DocumentElement {
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("yPos", value);
-        this.yPosition.setValue(jsonFormattedValue);
+        this.yPosition.setKey("yPos");
+        this.yPosition.setValue(value.toString());
     }
 
     public void editWidth(Integer value){
@@ -87,8 +81,8 @@ public class Box extends DocumentElement {
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("width", value);
-        this.width.setValue(jsonFormattedValue);
+        this.width.setKey("width");
+        this.width.setValue(value.toString());
     }
 
     public void editHeight(Integer value){
@@ -97,8 +91,8 @@ public class Box extends DocumentElement {
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("height", value);
-        this.height.setValue(jsonFormattedValue);
+        this.height.setKey("height");
+        this.height.setValue(value.toString());
     }
 
     public void setxPosition(Attribute xPosition) {

@@ -2,7 +2,7 @@ package com.dev10.repositories;
 
 import com.dev10.models.DataAccessException;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import static com.dev10.TestDataHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class DocumentElementJdbcClientRepositoryTest {
+class ElementJdbcClientRepositoryTest {
     @Autowired
-    DocumentElementJdbcClientRepository repository;
+    ElementJdbcClientRepository repository;
 
     @Autowired
     JdbcClient client;
@@ -30,9 +30,9 @@ class DocumentElementJdbcClientRepositoryTest {
 
     @Test
     void createElementHappyPath() throws DataAccessException {
-        DocumentElement element = getBoxNotInDatabase();
+        Element element = getBoxNotInDatabase();
 
-        DocumentElement created = repository.createElement(element);
+        Element created = repository.createElement(element);
 
         assertEquals(element, created);
         assertEquals(
@@ -43,16 +43,16 @@ class DocumentElementJdbcClientRepositoryTest {
 
     @Test
     void getElementsForDocumentHappyPath() throws DataAccessException {
-        List<DocumentElement> expected = getElementsForUser1Uml();
+        List<Element> expected = getElementsForUser1Uml();
 
-        List<DocumentElement> actual = repository.getElementsForDocument(2);
+        List<Element> actual = repository.getElementsForDocument(2);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void getElementsForDocumentReturnsEmptyListIfNoElementsFound() throws DataAccessException {
-        List<DocumentElement> actual = repository.getElementsForDocument(1);
+        List<Element> actual = repository.getElementsForDocument(1);
 
         assertNotNull(actual);
         assertTrue(actual.isEmpty());
@@ -60,16 +60,16 @@ class DocumentElementJdbcClientRepositoryTest {
 
     @Test
     void getElementByIdHappyPath() throws DataAccessException {
-        DocumentElement expected = getElementsForUser1Uml().get(0);
+        Element expected = getElementsForUser1Uml().get(0);
 
-        DocumentElement actual = repository.getElementById(1);
+        Element actual = repository.getElementById(1);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void getElementByIdReturnsNullIfNoIdFound() throws DataAccessException {
-        DocumentElement actual = repository.getElementById(999);
+        Element actual = repository.getElementById(999);
 
         assertNull(actual);
     }

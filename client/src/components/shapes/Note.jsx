@@ -5,55 +5,27 @@ import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { ClickAwayListener } from "@mui/material";
 
-function Note({ attributes, selected, setSelected }){
-    const innerTextValue = attributes.attributes.find(
-        attribute => attribute.key === "innerText"
-    ).value;
+function Note({ json, selected, setSelected, innerText, setInnerText, order, setOrder }){
 
     const { loggedInUser } = useContext(UserContext);
     const minRows = 1;
-    const [innerText, setInnerText] = useState(innerTextValue);
     const [rows, setRows] = useState(minRows);
 
     function serialize(){
-        attributes.attributes.find(
-            attribute => attribute.key === "innerText"
-        ).value = innerText;
-        
+        console.log(json);
         const body = {
                 "user": JSON.parse(loggedInUser).user,
-                "element": {
-                    "attributes": [
-                    ]
-                }
-            }
-            
-            
-            // nest the attributes back under the element the way the server expects
-            for(const attribute in attributes){
-                if(attribute === "documentElementId" || attribute === "documentElementType" || attribute === "documentId"){
-                    body.element[attribute] = attributes[attribute];
-                } else{
-                    for(const subAttribute in attributes[attribute]){
-                        const expectedAttribute = {
-                            "attributeId": attributes[attribute][subAttribute].attributeId,
-                            "documentElementId": attributes[attribute][subAttribute].documentElementId,
-                            "value": `${attributes[attribute][subAttribute].key}:${attributes[attribute][subAttribute].value}`
-                        }
-                        body.element.attributes.push(expectedAttribute);
-
-                    }
-                }
+                "element": json
             }
 
-            const httpRequest = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': JSON.parse(loggedInUser).bearer_token
-                },
-                body: JSON.stringify(body)
-            }
+        const httpRequest = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': JSON.parse(loggedInUser).bearer_token
+            },
+            body: JSON.stringify(body)
+        }
 
         const url = "http://localhost:8080/api/element"
 
@@ -80,9 +52,9 @@ function Note({ attributes, selected, setSelected }){
             str = " ";
         };
 
-        // TODO: remove this str.replace methods.  While data is stored as JSON on the backend,
-        // adding these characters to the inner text can corrupt the JSON, and the page wont render
-        // these prevent the data from being corrupted
+        // TODO: remove this str.replace methods.  These characters
+        // can corrupt the JSON data, which will make fetching elements
+        // from the server fail
         str = str.replace("\n", "");
         str = str.replace(":", "");
         str = str.replace("\"", "");
@@ -94,11 +66,11 @@ function Note({ attributes, selected, setSelected }){
     }
 
     function select(){
-        setSelected(attributes.documentElementId);
+        setSelected(json.elementId);
     }
 
     function deselect(evt){
-        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+        if(selected === json.elementId && evt.target.localName === "canvas"){
             setSelected(null);
         }
     }

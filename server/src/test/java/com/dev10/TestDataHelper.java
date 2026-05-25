@@ -2,14 +2,11 @@ package com.dev10;
 
 import com.dev10.models.*;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
-import com.dev10.models.docelements.DocumentElementType;
-import com.dev10.models.docelements.implementations.AttributeConfiguration;
+import com.dev10.models.docelements.Element;
+import com.dev10.models.docelements.ElementType;
 import com.dev10.models.docelements.implementations.Box;
 import com.dev10.models.docelements.implementations.Line;
 import com.dev10.models.docelements.implementations.Text;
-import com.dev10.repositories.DocumentElementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -149,57 +146,61 @@ public class TestDataHelper {
         return List.of(directory1, directory2);
     }
 
-    public static List<DocumentElement> getElementsForUser1Uml(){
-        DocumentElement line = new Line();
-        line.setDocumentElementId(1);
+    public static List<Element> getElementsForUser1Uml(){
+        Element line = new Line();
+        line.setElementId(1);
         line.setDocumentId(2);
-        line.setDocumentElementType(DocumentElementType.LINE);
+        line.setElementType(ElementType.LINE);
 
-        DocumentElement box = new Box();
-        box.setDocumentElementId(2);
+        Element box = new Box();
+        box.setElementId(2);
         box.setDocumentId(2);
-        box.setDocumentElementType(DocumentElementType.BOX);
+        box.setElementType(ElementType.BOX);
 
         return List.of(line, box);
     }
 
-    public static List<DocumentElement> getElementsForUser2Note(){
-        DocumentElement text = new Text();
-        text.setDocumentElementType(DocumentElementType.TEXT);
-        text.setDocumentElementId(3);
+    public static List<Element> getElementsForUser2Note(){
+        Element text = new Text();
+        text.setElementType(ElementType.TEXT);
+        text.setElementId(3);
         text.setDocumentId(4);
 
         return List.of(text);
     }
 
-    public static DocumentElement getBoxNotInDatabase(){
-        DocumentElement element = new Box();
+    public static Element getBoxNotInDatabase(){
+        Element element = new Box();
         element.setDocumentId(2);
-        element.setDocumentElementId(0);
-        element.setDocumentElementType(DocumentElementType.BOX);
+        element.setElementId(0);
+        element.setElementType(ElementType.BOX);
         return element;
     }
 
     public static List<Attribute> getAttributesForElement1() {
         Attribute startX = new Attribute();
         startX.setAttributeId(1);
-        startX.setDocumentElementId(1);
-        startX.setValue("'startXPos': 0");
+        startX.setElementId(1);
+        startX.setKey("startXPos");
+        startX.setValue("0");
 
         Attribute startY = new Attribute();
         startY.setAttributeId(2);
-        startY.setDocumentElementId(1);
-        startY.setValue("'startYPos': 0");
+        startY.setElementId(1);
+        startY.setKey("startYPos");
+        startY.setValue("0");
 
         Attribute endX = new Attribute();
         endX.setAttributeId(3);
-        endX.setDocumentElementId(1);
-        endX.setValue("'endXPos': 1");
+        endX.setElementId(1);
+        endX.setKey("endXPos");
+        endX.setValue("1");
 
         Attribute endY = new Attribute();
         endY.setAttributeId(4);
-        endY.setDocumentElementId(1);
-        endY.setValue("'endYPos': 0");
+        endY.setElementId(1);
+        endY.setKey("endYPos");
+        endY.setValue("0");
 
         return List.of(startX, startY, endX, endY);
     }
@@ -211,8 +212,9 @@ public class TestDataHelper {
     public static Attribute getAttributeNotInDatabase() {
         Attribute attribute = new Attribute();
         attribute.setAttributeId(0);
-        attribute.setDocumentElementId(1);
-        attribute.setValue("'newAttribute': 123");
+        attribute.setElementId(1);
+        attribute.setKey("newAttribute");
+        attribute.setValue("123");
 
         return attribute;
     }
@@ -220,8 +222,9 @@ public class TestDataHelper {
     public static Attribute getUpdatedAttribute1() {
         Attribute attribute = new Attribute();
         attribute.setAttributeId(1);
-        attribute.setDocumentElementId(1);
-        attribute.setValue("'startXPos': 999");
+        attribute.setElementId(1);
+        attribute.setKey("startXPos");
+        attribute.setValue("999");
 
         return attribute;
     }

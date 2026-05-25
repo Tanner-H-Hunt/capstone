@@ -3,9 +3,9 @@ package com.dev10.models.docelements;
 import java.util.List;
 import java.util.Objects;
 
-public class DocumentElement {
-    private int documentElementId;
-    private DocumentElementType documentElementType;
+public class Element {
+    private int elementId;
+    private ElementType elementType;
     private int documentId;
     protected List<Attribute> attributes;
 
@@ -16,20 +16,20 @@ public class DocumentElement {
         return attributes;
     }
 
-    public int getDocumentElementId() {
-        return documentElementId;
+    public int getElementId() {
+        return elementId;
     }
 
-    public void setDocumentElementId(int documentElementId) {
-        this.documentElementId = documentElementId;
+    public void setElementId(int elementId) {
+        this.elementId = elementId;
     }
 
-    public DocumentElementType getDocumentElementType() {
-        return documentElementType;
+    public ElementType getElementType() {
+        return elementType;
     }
 
-    public void setDocumentElementType(DocumentElementType documentElementType) {
-        this.documentElementType = documentElementType;
+    public void setElementType(ElementType elementType) {
+        this.elementType = elementType;
     }
 
     public int getDocumentId() {
@@ -47,22 +47,22 @@ public class DocumentElement {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        DocumentElement that = (DocumentElement) o;
-        return getDocumentElementId() == that.getDocumentElementId()
+        Element that = (Element) o;
+        return getElementId() == that.getElementId()
                 && getDocumentId() == that.getDocumentId()
-                && getDocumentElementType() == that.getDocumentElementType();
+                && getElementType() == that.getElementType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDocumentElementId(), getDocumentElementType(), getDocumentId());
+        return Objects.hash(getElementId(), getElementType(), getDocumentId());
     }
 
     @Override
     public String toString() {
         return "{" +
-                "\"documentElementId\": " + documentElementId +
-                ", \"documentElementType\": \"" + documentElementType + "\"" +
+                "\"elementId\": " + elementId +
+                ", \"elementType\": \"" + elementType + "\"" +
                 ", \"documentId\": " + documentId +
                 ", \"attributes\": [" + attributeListToString() +
                 "]}";

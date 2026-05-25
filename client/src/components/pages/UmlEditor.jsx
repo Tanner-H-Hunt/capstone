@@ -22,7 +22,7 @@ function UmlEditor(){
             "user": JSON.parse(loggedInUser).user,
             "element": {
                 "documentId": id,
-                "documentElementType": elementType
+                "elementType": elementType
             }
         }
 

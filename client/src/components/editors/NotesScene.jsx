@@ -1,4 +1,4 @@
-import Note from "../shapes/Note";
+import JsonToShape from "../shapes/JsonToShapeConverter";
 
 function NotesScene({ notes, addNote, selected, setSelected }){
     function createNewNote(){
@@ -11,7 +11,7 @@ function NotesScene({ notes, addNote, selected, setSelected }){
             {notes != undefined ? 
                 notes.map(note => {
                     return (
-                        <Note attributes={note} key={note.documentElementId} selected={selected} setSelected={setSelected}/>
+                        <JsonToShape key={note.elementId} selected={selected} setSelected={setSelected} json={note}/>
                     );
                 })
             

@@ -13,7 +13,8 @@ public class AttributeRowMapper implements RowMapper<Attribute> {
 
         attribute.setAttributeId(rs.getInt("attribute_id"));
         attribute.setValue(rs.getString("value"));
-        attribute.setDocumentElementId(rs.getInt("document_element_id"));
+        attribute.setKey(rs.getString("key"));
+        attribute.setElementId(rs.getInt("element_id"));
 
         return attribute;
     }

@@ -1,11 +1,11 @@
 package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class Text extends DocumentElement {
+public class Text extends Element {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Attribute xPosition;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -49,8 +49,8 @@ public class Text extends DocumentElement {
             return;
         }
 
-        String json = Attribute.formatAsJson("xPos", value);
-        xPosition.setValue(json);
+        this.xPosition.setKey("xPos");
+        this.xPosition.setValue(value.toString());
     }
 
     public void editYPosition(Integer value){
@@ -59,8 +59,8 @@ public class Text extends DocumentElement {
             return;
         }
 
-        String json = Attribute.formatAsJson("yPos", value);
-        yPosition.setValue(json);
+        this.yPosition.setKey("yPos");
+        this.yPosition.setValue(value.toString());
     }
 
     public void editInnerText(String value){
@@ -69,8 +69,8 @@ public class Text extends DocumentElement {
             return;
         }
 
-        String json = Attribute.formatAsJson("innerText", value);
-        innerText.setValue(json);
+        this.innerText.setKey("innerText");
+        this.innerText.setValue(value);
     }
 
     public void setxPosition(Attribute xPosition) {

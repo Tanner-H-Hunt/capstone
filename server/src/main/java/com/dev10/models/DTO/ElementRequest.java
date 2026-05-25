@@ -1,11 +1,11 @@
 package com.dev10.models.DTO;
 
 import com.dev10.models.User;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 
-public class DocumentElementRequest {
+public class ElementRequest {
     private User user;
-    private DocumentElement element;
+    private Element element;
 
     public User getUser() {
         return user;
@@ -15,11 +15,11 @@ public class DocumentElementRequest {
         this.user = user;
     }
 
-    public DocumentElement getElement() {
+    public Element getElement() {
         return element;
     }
 
-    public void setElement(DocumentElement element) {
+    public void setElement(Element element) {
         this.element = element;
     }
 }

@@ -3,14 +3,14 @@ package com.dev10.repositories;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.User;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 
 import java.util.List;
 
-public interface DocumentElementRepository {
-    List<DocumentElement> getElementsForDocument(int id) throws DataAccessException;
-    DocumentElement getElementById(int id) throws DataAccessException;
-    DocumentElement createElement(DocumentElement documentElement) throws DataAccessException;
+public interface ElementRepository {
+    List<Element> getElementsForDocument(int id) throws DataAccessException;
+    Element getElementById(int id) throws DataAccessException;
+    Element createElement(Element element) throws DataAccessException;
     int deleteElement(int id) throws DataAccessException;
 
     List<Attribute> getAttributesForElement(int documentElementId) throws DataAccessException;

@@ -50,8 +50,8 @@ CREATE TABLE element_type(
 	`type` varchar(50) NOT null
 );
 
-CREATE TABLE document_element(
-	document_element_id int PRIMARY KEY auto_increment,
+CREATE TABLE element(
+	element_id int PRIMARY KEY auto_increment,
 	element_type_id int NOT NULL,
 	document_id int NOT NULL,
 	
@@ -74,7 +74,7 @@ CREATE TABLE document_element_link(
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)
-	REFERENCES document_element(document_element_id)
+	REFERENCES element(element_id)
 	on delete cascade,
 	
 	CONSTRAINT fk_link_document
@@ -85,12 +85,13 @@ CREATE TABLE document_element_link(
 
 CREATE TABLE `attribute`(
 	attribute_id int PRIMARY KEY auto_increment,
-	document_element_id int NOT NULL,
+	element_id int NOT NULL,
+	`key` varchar(50) not null,
 	value TEXT NOT NULL,
 	
 	CONSTRAINT fk_attribute_element
-	FOREIGN KEY (document_element_id)
-	REFERENCES document_element(document_element_id)
+	FOREIGN KEY (element_id)
+	REFERENCES element(element_id)
 );
 
 delimiter //
@@ -98,7 +99,7 @@ CREATE PROCEDURE set_known_good_state()
 BEGIN
 	DELETE FROM `attribute`;
 	DELETE FROM document_element_link;
-	delete from document_element;
+	delete from element;
 	delete from document;
 	delete from document_type;
 	delete from directory;
@@ -107,7 +108,7 @@ BEGIN
 
 	alter table `attribute` auto_increment = 1;
 	alter table document_element_link auto_increment = 1;
-	alter table document_element auto_increment = 1;
+	alter table element auto_increment = 1;
 	alter table document auto_increment = 1;
 	alter table document_type auto_increment = 1;
 	alter table directory auto_increment = 1;
@@ -148,23 +149,23 @@ BEGIN
 		("TODO_GROUP"),
 		("TODO");
 	
-	insert into document_element (element_type_id, document_id) values
+	insert into element (element_type_id, document_id) values
 		(1, 2), -- line for user 1, doc 2 UML, in directory 1
 		(2, 2), -- box for user 1, doc 2 UML, in directory 1
 		(3, 4); -- text for user 2, doc 4 note, directory 2
 	
-	insert into `attribute` (document_element_id, value) values
-		(1, "'startXPos': 0"), -- lines start X (0, 0)
-		(1, "'startYPos': 0"), -- lines start Y (0, 0)
-		(1, "'endXPos': 1"), -- lines end X (1, 0)
-		(1, "'endYPos': 0"), -- lines end Y (1, 0)
-		(2, "'xPos': 0"), -- boxes xPos (0, 0)
-		(2, "'yPos': 0"), -- boxes yPos (0, 0)
-		(2, "'width': 2"), -- boxes width
-		(2, "'height': 2"), -- boxes height
-		(3, "'xPos': 0"), -- texts xPosition (0, 0)
-		(3, "'yPos': 0"), -- texts yPosition (0, 0)
-		(3, "'innerText': 'This is the inner text for the text field'"); -- texts inner text
+	insert into `attribute` (element_id, `key`, value) values
+		(1, "startXPos",  	"0"), -- lines start X (0, 0)
+		(1, "startYPos", 	"0"), -- lines start Y (0, 0)
+		(1, "endXPos", 		"1"), -- lines end X (1, 0)
+		(1, "endYPos", 		"0"), -- lines end Y (1, 0)
+		(2, "xPos", 		"0"), -- boxes xPos (0, 0)
+		(2, "yPos", 		"0"), -- boxes yPos (0, 0)
+		(2, "width", 		"2"), -- boxes width
+		(2, "height", 		"2"), -- boxes height
+		(3, "xPos", 		"0"), -- texts xPosition (0, 0)
+		(3, "yPos", 		"0"), -- texts yPosition (0, 0)
+		(3, "innerText", 	"This is the inner text for the text field"); -- texts inner text
 	
 	insert into document_element_link (element_id, document_id) values
 		(2, 1), -- link user 1's UML box to a todo
@@ -175,11 +176,5 @@ delimiter ;
 
 
 call set_known_good_state();
-SELECT
-    document_element_link_id as relation_id,
-    element_id,
-    document_id,
-    name,
-    description
-FROM document_element_link
-WHERE element_id = 2;
+
+select * from `attribute`;

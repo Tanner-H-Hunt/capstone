@@ -5,7 +5,7 @@ import UserContext from "../contexts/UserContext";
 import { useContext, useEffect } from "react";
 import { ClickAwayListener } from "@mui/material";
 
-function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosition, attributes, selected, setSelected}){
+function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosition, json, selected, setSelected}){
     const lineWidth = 2;
     const color = "black";
     const resizeHandlerClickAffordance = 0.5;
@@ -15,34 +15,17 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
     const { camera } = useThree();
 
     function serialize(){
-        if(attributes == undefined){
+        if(json == undefined){
             return;
         }
-        attributes.startXPos.value = startPosition[0];
-        attributes.startYPos.value = startPosition[1];
-        attributes.endXPos.value = endPosition[0];
-        attributes.endYPos.value = endPosition[1];
+        json.attributes.filter(attr => attr.key === "startXPos").value = startPosition[0];
+        json.attributes.filter(attr => attr.key === "startYPos").value = startPosition[1];
+        json.attributes.filter(attr => attr.key === "endXPos").value = endPosition[0];
+        json.attributes.filter(attr => attr.key === "endYPos").value = endPosition[1];
 
         const body = {
                 "user": JSON.parse(loggedInUser).user,
-                "element": {
-                    "attributes": [
-                    ]
-                }
-            }
-            
-            // nest the attributes back under the element
-            for(const attribute in attributes){
-                if(attribute === "documentElementId" || attribute === "elementType" || attribute === "documentId"){
-                    body.element[attribute] = attributes[attribute];
-                } else{
-                    const expectedAttribute = {
-                        "attributeId": attributes[attribute].attributeId,
-                        "documentElementId": attributes[attribute].documentElementId,
-                        "value": `${attribute}:${attributes[attribute].value}`
-                    }
-                    body.element.attributes.push(expectedAttribute);
-                }
+                "element": json
             }
 
             const httpRequest = {
@@ -126,11 +109,11 @@ function ResizableLine({startPosition, setStartPosition, endPosition, setEndPosi
     });
 
     function select(){
-        setSelected(attributes.documentElementId);
+        setSelected(json.elementId);
     }
 
     function deselect(evt){
-        if(selected === attributes.documentElementId && evt.target.localName === "canvas"){
+        if(selected === json.elementId && evt.target.localName === "canvas"){
             setSelected(null);
         }
     }

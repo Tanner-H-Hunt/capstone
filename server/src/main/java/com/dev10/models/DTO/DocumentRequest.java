@@ -5,7 +5,7 @@ import com.dev10.models.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-public class NewDocumentRequest {
+public class DocumentRequest {
     @Valid
     @NotNull(message = "User cannot be missing")
     private User user;
