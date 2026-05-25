@@ -12,13 +12,18 @@ function UmlScene({ elements, removeElement, selected, setSelected }){
                 <ambientLight />
                 
                 {elements.map((element) => {
-                    return (
-                        <JsonToShape
-                            json={element}
-                            key={element.documentElementId}
-                            selected={selected}
-                            setSelected={setSelected} />
-                    )
+                    try{
+                        return (
+                            <JsonToShape
+                                json={element}
+                                key={element.elementId}
+                                selected={selected}
+                                setSelected={setSelected} />
+                        )
+
+                    } catch (error) {
+                        console.log('ERROR CORRUPT DATA' + error);
+                    }
                     
                     })}
                 

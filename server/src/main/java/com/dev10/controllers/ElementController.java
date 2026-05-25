@@ -1,14 +1,13 @@
 package com.dev10.controllers;
 
-import com.dev10.domain.DocumentElementService;
-import com.dev10.models.DTO.DocumentElementRequest;
+import com.dev10.domain.ElementService;
+import com.dev10.models.DTO.ElementRequest;
 import com.dev10.models.DTO.ResourceRequest;
 import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.User;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
-import jakarta.websocket.server.PathParam;
+import com.dev10.models.docelements.Element;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +17,15 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/element")
-public class DocumentElementController {
+public class ElementController {
 
-    private final DocumentElementService service;
+    private final ElementService service;
     private final Authenticator authenticator;
     private final ResourceRequest resourceRequest;
 
-    public DocumentElementController(DocumentElementService service,
-                                     Authenticator authenticator,
-                                     ResourceRequest resourceRequest){
+    public ElementController(ElementService service,
+                             Authenticator authenticator,
+                             ResourceRequest resourceRequest){
         this.service = service;
         this.authenticator = authenticator;
         this.resourceRequest = resourceRequest;
@@ -34,7 +33,7 @@ public class DocumentElementController {
 
     @PostMapping
     public ResponseEntity<Object> createElement(@RequestHeader("Authorization") String auth,
-                                                @RequestBody DocumentElementRequest request) throws DataAccessException {
+                                                @RequestBody ElementRequest request) throws DataAccessException {
         if(request == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("request body required");
         }
@@ -50,7 +49,7 @@ public class DocumentElementController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not allowed to use this resource");
         }
 
-        Result<DocumentElement> result = service.create(request.getElement());
+        Result<Element> result = service.create(request.getElement());
 
         if(result.isSuccess()){
             return ResponseEntity.status(HttpStatus.CREATED).body(result.getPayload().toString());
@@ -61,7 +60,7 @@ public class DocumentElementController {
 
     @PutMapping
     public ResponseEntity<Object> updateElement(@RequestHeader("Authorization") String auth,
-                                                @RequestBody DocumentElementRequest request) throws DataAccessException {
+                                                @RequestBody ElementRequest request) throws DataAccessException {
         if(request == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("request body required");
         }
@@ -72,7 +71,7 @@ public class DocumentElementController {
         }
 
         // user is allowed to modify this element
-        resourceRequest.validateElement(request.getElement().getDocumentElementId());
+        resourceRequest.validateElement(request.getElement().getElementId());
         if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not allowed to use this element");
         }
@@ -85,7 +84,7 @@ public class DocumentElementController {
             }
         }
 
-        Result<DocumentElement> result = service.updateElement(request.getElement());
+        Result<Element> result = service.updateElement(request.getElement());
 
         if(result.isSuccess()){
             return ResponseEntity.status(HttpStatus.OK).body(result.getPayload());
@@ -137,7 +136,7 @@ public class DocumentElementController {
         }
 
         StringBuilder body = new StringBuilder();
-        List<DocumentElement> elements = service.getElementsForDocument(id);
+        List<Element> elements = service.getElementsForDocument(id);
         body.append("{ \"elements\": [");
         for(int i = 0; i < elements.size(); i++){
             body.append(elements.get(i).toString());

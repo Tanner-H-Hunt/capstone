@@ -1,24 +1,25 @@
-package com.dev10.models.docelements.implementations;
+package com.dev10.domain;
 
 import com.dev10.models.DataAccessException;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
-import com.dev10.models.docelements.DocumentElementType;
-import com.dev10.repositories.DocumentElementRepository;
+import com.dev10.models.docelements.Element;
+import com.dev10.models.docelements.ElementType;
+import com.dev10.models.docelements.implementations.*;
+import com.dev10.repositories.ElementRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class AttributeConfiguration {
-    private final DocumentElementRepository repository;
+public class AttributeConfigurationService {
+    private final ElementRepository repository;
 
-    public AttributeConfiguration(DocumentElementRepository repository){
+    public AttributeConfigurationService(ElementRepository repository){
         this.repository = repository;
     }
 
-    public DocumentElement initAttributes(DocumentElement element) throws DataAccessException {
-        return switch (element.getDocumentElementType()) {
+    public Element initAttributes(Element element) throws DataAccessException {
+        return switch (element.getElementType()) {
             case BOX -> initBox(element);
             case LINE -> initLine(element);
             case TEXT -> initText(element);
@@ -31,11 +32,11 @@ public class AttributeConfiguration {
         };
     }
 
-    private Box initBox(DocumentElement element) throws DataAccessException {
+    private Box initBox(Element element) throws DataAccessException {
         Box box = new Box();
-        box.setDocumentElementType(DocumentElementType.BOX);
+        box.setElementType(ElementType.BOX);
         box.setDocumentId(element.getDocumentId());
-        box.setDocumentElementId(element.getDocumentElementId());
+        box.setElementId(element.getElementId());
 
         Attribute defaultX = new Attribute();
         Attribute defaultY = new Attribute();
@@ -49,10 +50,10 @@ public class AttributeConfiguration {
         box.setHeight(defaultHeight);
 
         // modify the attribute values
-        defaultX.setDocumentElementId(box.getDocumentElementId());
-        defaultY.setDocumentElementId(box.getDocumentElementId());
-        defaultWidth.setDocumentElementId(box.getDocumentElementId());
-        defaultHeight.setDocumentElementId(box.getDocumentElementId());
+        defaultX.setElementId(box.getElementId());
+        defaultY.setElementId(box.getElementId());
+        defaultWidth.setElementId(box.getElementId());
+        defaultHeight.setElementId(box.getElementId());
 
         box.editXPosition(0);
         box.editYPosition(0);
@@ -82,10 +83,10 @@ public class AttributeConfiguration {
         return box;
     }
 
-    private Line initLine(DocumentElement element) throws DataAccessException {
+    private Line initLine(Element element) throws DataAccessException {
         Line line = new Line();
-        line.setDocumentElementType(DocumentElementType.LINE);
-        line.setDocumentElementId(element.getDocumentElementId());
+        line.setElementType(ElementType.LINE);
+        line.setElementId(element.getElementId());
         line.setDocumentId(element.getDocumentId());
 
         Attribute defaultStartPositionX = new Attribute();
@@ -100,10 +101,10 @@ public class AttributeConfiguration {
         line.setEndPositionY(defaultEndPositionY);
 
         // modify the attribute values
-        defaultStartPositionX.setDocumentElementId(line.getDocumentElementId());
-        defaultStartPositionY.setDocumentElementId(line.getDocumentElementId());
-        defaultEndPositionX.setDocumentElementId(line.getDocumentElementId());
-        defaultEndPositionY.setDocumentElementId(line.getDocumentElementId());
+        defaultStartPositionX.setElementId(line.getElementId());
+        defaultStartPositionY.setElementId(line.getElementId());
+        defaultEndPositionX.setElementId(line.getElementId());
+        defaultEndPositionY.setElementId(line.getElementId());
 
         line.editStartPositionX(0);
         line.editStartPositionY(0);
@@ -132,10 +133,10 @@ public class AttributeConfiguration {
         return line;
     }
 
-    private Text initText(DocumentElement element) throws DataAccessException {
+    private Text initText(Element element) throws DataAccessException {
         Text text = new Text();
-        text.setDocumentElementType(DocumentElementType.TEXT);
-        text.setDocumentElementId(element.getDocumentElementId());
+        text.setElementType(ElementType.TEXT);
+        text.setElementId(element.getElementId());
         text.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -154,9 +155,9 @@ public class AttributeConfiguration {
         text.editInnerText("text");
 
         // set the attributes parent document id
-        defaultXPos.setDocumentElementId(text.getDocumentElementId());
-        defaultYPos.setDocumentElementId(text.getDocumentElementId());
-        defaultInnerText.setDocumentElementId(text.getDocumentElementId());
+        defaultXPos.setElementId(text.getElementId());
+        defaultYPos.setElementId(text.getElementId());
+        defaultInnerText.setElementId(text.getElementId());
 
         // send the attributes to the database for their ID
         int xId = repository.createAttribute(defaultXPos).getAttributeId();
@@ -178,10 +179,10 @@ public class AttributeConfiguration {
         return text;
     }
 
-    private ClassBox initClassBox(DocumentElement element){
+    private ClassBox initClassBox(Element element){
         ClassBox classBox = new ClassBox();
-        classBox.setDocumentElementType(DocumentElementType.CLASS_BOX);
-        classBox.setDocumentElementId(element.getDocumentElementId());
+        classBox.setElementType(ElementType.CLASS_BOX);
+        classBox.setElementId(element.getElementId());
         classBox.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -201,10 +202,10 @@ public class AttributeConfiguration {
         return classBox;
     }
 
-    private InterfaceBox initInterface(DocumentElement element){
+    private InterfaceBox initInterface(Element element){
         InterfaceBox interfaceBox = new InterfaceBox();
-        interfaceBox.setDocumentElementType(DocumentElementType.INTERFACE);
-        interfaceBox.setDocumentElementId(element.getDocumentElementId());
+        interfaceBox.setElementType(ElementType.INTERFACE);
+        interfaceBox.setElementId(element.getElementId());
         interfaceBox.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -224,10 +225,10 @@ public class AttributeConfiguration {
         return  interfaceBox;
     }
 
-    private Arrow initArrow(DocumentElement element){
+    private Arrow initArrow(Element element){
         Arrow arrow = new Arrow();
-        arrow.setDocumentElementType(DocumentElementType.ARROW);
-        arrow.setDocumentElementId(element.getDocumentElementId());
+        arrow.setElementType(ElementType.ARROW);
+        arrow.setElementId(element.getElementId());
         arrow.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -247,10 +248,10 @@ public class AttributeConfiguration {
         return arrow;
     }
 
-    private TodoGroup initTodoGroup(DocumentElement element){
+    private TodoGroup initTodoGroup(Element element){
         TodoGroup todoGroup = new TodoGroup();
-        todoGroup.setDocumentElementType(DocumentElementType.TODO_GROUP);
-        todoGroup.setDocumentElementId(element.getDocumentElementId());
+        todoGroup.setElementType(ElementType.TODO_GROUP);
+        todoGroup.setElementId(element.getElementId());
         todoGroup.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -270,10 +271,10 @@ public class AttributeConfiguration {
         return  todoGroup;
     }
 
-    private Todo initTodo(DocumentElement element){
+    private Todo initTodo(Element element){
         Todo todo = new Todo();
-        todo.setDocumentElementType(DocumentElementType.TODO);
-        todo.setDocumentElementId(element.getDocumentElementId());
+        todo.setElementType(ElementType.TODO);
+        todo.setElementId(element.getElementId());
         todo.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -293,10 +294,10 @@ public class AttributeConfiguration {
         return  todo;
     }
 
-    private Note initNote(DocumentElement element) throws DataAccessException {
+    private Note initNote(Element element) throws DataAccessException {
         Note note = new Note();
-        note.setDocumentElementType(DocumentElementType.NOTE);
-        note.setDocumentElementId(element.getDocumentElementId());
+        note.setElementType(ElementType.NOTE);
+        note.setElementId(element.getElementId());
         note.setDocumentId(element.getDocumentId());
 
         // init the attributes
@@ -312,8 +313,8 @@ public class AttributeConfiguration {
         note.editOrder(0);
 
         // set the attributes parent element id
-        innerText.setDocumentElementId(element.getDocumentElementId());
-        order.setDocumentElementId(element.getDocumentElementId());
+        innerText.setElementId(element.getElementId());
+        order.setElementId(element.getElementId());
 
         // send the attributes to the database for their ID
         int innerTextId = repository.createAttribute(innerText).getAttributeId();

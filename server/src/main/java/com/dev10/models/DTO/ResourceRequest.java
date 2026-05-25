@@ -3,7 +3,7 @@ package com.dev10.models.DTO;
 import com.dev10.domain.*;
 import com.dev10.models.*;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -17,25 +17,25 @@ public class ResourceRequest {
     private User user;
     private Document document;
     private Directory directory;
-    private DocumentElement element;
+    private Element element;
     private Attribute attribute;
     private Relationship relationship;
 
     private final DirectoryService directoryService;
     private final DocumentService documentService;
     private final UserService userService;
-    private final DocumentElementService documentElementService;
+    private final ElementService elementService;
     private final RelationshipService relationshipService;
 
     public ResourceRequest(DirectoryService directoryService,
                            DocumentService documentService,
                            UserService userService,
-                           DocumentElementService documentElementService,
+                           ElementService elementService,
                            RelationshipService relationshipService){
         this.directoryService = directoryService;
         this.documentService = documentService;
         this.userService = userService;
-        this.documentElementService = documentElementService;
+        this.elementService = elementService;
         this.relationshipService = relationshipService;
     }
 
@@ -55,7 +55,7 @@ public class ResourceRequest {
         return this.attribute;
     }
 
-    public DocumentElement getElement(){
+    public Element getElement(){
         return this.element;
     }
 
@@ -79,16 +79,16 @@ public class ResourceRequest {
     }
 
     public void validateElement(int elementId) throws DataAccessException{
-        this.element = documentElementService.getElementById(elementId);
+        this.element = elementService.getElementById(elementId);
         if(this.element != null){
             validateDocument(element.getDocumentId());
         }
     }
 
     public void validateAttribute(int attributeId) throws DataAccessException {
-        this.attribute = documentElementService.getAttributeById(attributeId);
+        this.attribute = elementService.getAttributeById(attributeId);
         if(attribute != null){
-            validateElement(attribute.getDocumentElementId());
+            validateElement(attribute.getElementId());
         }
     }
 

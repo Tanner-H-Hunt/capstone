@@ -4,7 +4,7 @@ import com.dev10.domain.DirectoryService;
 import com.dev10.domain.DocumentService;
 import com.dev10.domain.UserService;
 import com.dev10.models.*;
-import com.dev10.models.DTO.NewDirectoryRequest;
+import com.dev10.models.DTO.DirectoryRequest;
 import com.dev10.models.DTO.ResourceRequest;
 import com.dev10.models.DTO.Result;
 import org.springframework.http.HttpStatus;
@@ -82,7 +82,7 @@ public class DirectoryController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> createDirectory(@RequestHeader("Authorization") String authHeader,
-                                                  @RequestBody NewDirectoryRequest request) throws DataAccessException {
+                                                  @RequestBody DirectoryRequest request) throws DataAccessException {
         if(request == null){
             return ResponseEntity.badRequest().build();
         }

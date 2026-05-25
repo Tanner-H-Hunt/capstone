@@ -3,7 +3,7 @@ package com.dev10.models.DTO;
 import com.dev10.models.Directory;
 import com.dev10.models.User;
 
-public class NewDirectoryRequest {
+public class DirectoryRequest {
     private User user;
     private Directory directory;
 

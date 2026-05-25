@@ -5,7 +5,7 @@ function ResizableBoxWrapper({ width, setWidth,
                                height, setHeight, 
                                position, setPosition, 
                                selected, setSelected, 
-                               attributes}){
+                               json}){
 
     // rendering data
     const [defaultWidthProp, setDefaultWidthProp] = useState(2);
@@ -22,7 +22,7 @@ function ResizableBoxWrapper({ width, setWidth,
                 setHeight={setHeight != undefined ? setHeight : defaultSetHeightProp}
                 position={position != undefined ? position : defaultPositionProp}
                 setPosition={setPosition != undefined ? setPosition : defaultSetPositionProp}
-                attributes={attributes}
+                json={json}
                 selected={selected}
                 setSelected={setSelected}
             />

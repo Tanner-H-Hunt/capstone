@@ -1,10 +1,10 @@
 package com.dev10.models.docelements.implementations;
 
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
+import com.dev10.models.docelements.Element;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Line extends DocumentElement {
+public class Line extends Element {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Attribute startPositionX;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -54,44 +54,44 @@ public class Line extends DocumentElement {
         return endPositionY;
     }
 
-    public void editStartPositionX(Integer startPositionX) {
+    public void editStartPositionX(Integer value) {
         if(startPositionX == null){
             System.out.println("Must init Line.startXPosition");
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("startXPos", startPositionX);
-        this.startPositionX.setValue(jsonFormattedValue);
+        this.startPositionX.setKey("startXPos");
+        this.startPositionX.setValue(value.toString());
     }
 
-    public void editStartPositionY(Integer startPositionY) {
+    public void editStartPositionY(Integer value) {
         if(startPositionY == null){
             System.out.println("Must init Line.startYPosition");
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("startYPos", startPositionY);
-        this.startPositionY.setValue(jsonFormattedValue);
+        this.startPositionY.setKey("startYPos");
+        this.startPositionY.setValue(value.toString());
     }
 
-    public void editEndPositionX(Integer endPositionX) {
+    public void editEndPositionX(Integer value) {
         if(startPositionX == null){
             System.out.println("Must init Line.endXPosition");
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("endXPos", endPositionX);
-        this.endPositionX.setValue(jsonFormattedValue);
+        this.endPositionX.setKey("endXPos");
+        this.endPositionX.setValue(value.toString());
     }
 
-    public void editEndPositionY(Integer endPositionY) {
+    public void editEndPositionY(Integer value) {
         if(endPositionY == null){
             System.out.println("Must init Line.EndYPosition");
             return;
         }
 
-        String jsonFormattedValue = Attribute.formatAsJson("endYPos", endPositionY);
-        this.endPositionY.setValue(jsonFormattedValue);
+        this.endPositionY.setKey("endYPos");
+        this.endPositionY.setValue(value.toString());
     }
 
     public void setStartPositionX(Attribute startPositionX){

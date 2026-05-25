@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Attribute {
     private int attributeId;
-    private int documentElementId;
+    private int elementId;
+    private String key;
     private String value;
 
     public int getAttributeId() {
@@ -15,12 +16,20 @@ public class Attribute {
         this.attributeId = attributeId;
     }
 
-    public int getDocumentElementId() {
-        return documentElementId;
+    public int getElementId() {
+        return elementId;
     }
 
-    public void setDocumentElementId(int documentElementId) {
-        this.documentElementId = documentElementId;
+    public void setElementId(int elementId) {
+        this.elementId = elementId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getValue() {
@@ -31,34 +40,29 @@ public class Attribute {
         this.value = value;
     }
 
-    public static String formatAsJson(String key, Object value){
-        return String.format("%s:%s", key, value.toString());
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Attribute attribute = (Attribute) o;
-        return getAttributeId() == attribute.getAttributeId() && getDocumentElementId() == attribute.getDocumentElementId();
+        return getAttributeId() == attribute.getAttributeId() && getElementId() == attribute.getElementId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAttributeId(), getDocumentElementId());
+        return Objects.hash(getAttributeId(), getElementId());
     }
 
     @Override
     public String toString() {
-        if(getValue() != null) {
-            String[] keyValuePair = getValue().split(":");
+        if(getValue() != null && getKey() != null) {
             return "{" +
                     "\"attributeId\": " + attributeId +
-                    ", \"documentElementId\": " + documentElementId +
-                    ", \"key\": \"" + keyValuePair[0] + "\", " +
-                    "\"value\": \"" + keyValuePair[1] + "\" " +
+                    ", \"elementId\": " + elementId +
+                    ", \"key\": \"" + getKey() + "\", " +
+                    "\"value\": \"" + getValue() + "\" " +
                     "}";
         } else{
-            return String.format("Attribute: id %s, document %s, UNINITIALIZED VALUE", attributeId, documentElementId);
+            return String.format("Attribute: id %s, document %s, UNINITIALIZED VALUE", attributeId, elementId);
         }
     }
 }

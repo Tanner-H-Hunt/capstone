@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ResizableLine from "./ResizableLine";
 
-function ResizableLineWrapper({startPosition, setStartPosition, endPosition, setEndPosition, attributes, selected, setSelected}){
+function ResizableLineWrapper({startPosition, setStartPosition, endPosition, setEndPosition, json, selected, setSelected}){
     const [defaultStartPosition, defaultSetStartPosition] = useState([0, 0, 0]);
     const [defaultEndPosition, defaultSetEndPosition] = useState([2, 0, 0]);
 
@@ -11,7 +11,7 @@ function ResizableLineWrapper({startPosition, setStartPosition, endPosition, set
                 setStartPosition={ setStartPosition != undefined ? setStartPosition : defaultSetStartPosition }
                 endPosition={ endPosition != undefined ? endPosition : defaultEndPosition }
                 setEndPosition={ setEndPosition != undefined ? setEndPosition : defaultSetEndPosition }
-                attributes = { attributes }
+                json = { json }
                 setSelected={ setSelected }
                 selected={ selected }
             />

@@ -1,13 +1,12 @@
 package com.dev10.controllers;
 
 import com.dev10.domain.DocumentService;
-import com.dev10.models.DTO.NewDocumentRequest;
+import com.dev10.models.DTO.DocumentRequest;
 import com.dev10.models.DTO.ResourceRequest;
 import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
 import com.dev10.models.User;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +56,7 @@ public class DocumentController {
 
     @PostMapping("/create")
     public ResponseEntity<Object> createDocument(@RequestHeader("Authorization") String auth,
-                                                 @RequestBody NewDocumentRequest request) throws DataAccessException {
+                                                 @RequestBody DocumentRequest request) throws DataAccessException {
         if(request == null){
             return ResponseEntity.badRequest().build();
         }
@@ -81,7 +80,7 @@ public class DocumentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> editDocument(@RequestHeader("Authorization") String auth,
-                                               @RequestBody NewDocumentRequest request,
+                                               @RequestBody DocumentRequest request,
                                                @PathVariable("id") int id) throws DataAccessException{
         if(request == null){
             return ResponseEntity.badRequest().build();

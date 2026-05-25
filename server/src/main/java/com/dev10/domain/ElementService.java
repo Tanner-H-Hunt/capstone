@@ -2,52 +2,50 @@ package com.dev10.domain;
 
 import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
-import com.dev10.models.User;
 import com.dev10.models.docelements.Attribute;
-import com.dev10.models.docelements.DocumentElement;
-import com.dev10.models.docelements.implementations.AttributeConfiguration;
-import com.dev10.repositories.DocumentElementRepository;
+import com.dev10.models.docelements.Element;
+import com.dev10.repositories.ElementRepository;
 import com.dev10.repositories.DocumentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class DocumentElementService {
+public class ElementService {
 
     private final DocumentRepository documentRepository;
-    private final DocumentElementRepository documentElementRepository;
-    private final AttributeConfiguration attributeConfiguration;
+    private final ElementRepository elementRepository;
+    private final AttributeConfigurationService attributeConfiguration;
 
-    public DocumentElementService(DocumentRepository documentRepository,
-                                  DocumentElementRepository documentElementRepository,
-                                  AttributeConfiguration configuration) {
+    public ElementService(DocumentRepository documentRepository,
+                          ElementRepository elementRepository,
+                          AttributeConfigurationService configuration) {
         this.documentRepository = documentRepository;
-        this.documentElementRepository = documentElementRepository;
+        this.elementRepository = elementRepository;
         this.attributeConfiguration = configuration;
     }
 
 
-    public DocumentElement getElementById(int id) throws DataAccessException {
-        return documentElementRepository.getElementById(id);
+    public Element getElementById(int id) throws DataAccessException {
+        return elementRepository.getElementById(id);
     }
 
     public Attribute getAttributeById(int id) throws DataAccessException {
-        return documentElementRepository.getAttributeById(id);
+        return elementRepository.getAttributeById(id);
     }
 
-    public Result<DocumentElement> create(DocumentElement element) throws DataAccessException {
-        Result<DocumentElement> result = new Result<>();
+    public Result<Element> create(Element element) throws DataAccessException {
+        Result<Element> result = new Result<>();
         if(element == null){
             result.addErrorMessage("Element cannot be null");
             return result;
         }
 
-        if(element.getDocumentElementId() != 0){
+        if(element.getElementId() != 0){
             result.addErrorMessage("Cannot preemptively set the documents id");
         }
 
-        if(element.getDocumentElementType() == null){
+        if(element.getElementType() == null){
             result.addErrorMessage("Must specify the document elements type");
         }
 
@@ -60,16 +58,16 @@ public class DocumentElementService {
         }
 
         if(result.isSuccess()){
-            DocumentElement createResult = documentElementRepository.createElement(element);
-            DocumentElement elementWithAttributes = attributeConfiguration.initAttributes(createResult);
+            Element createResult = elementRepository.createElement(element);
+            Element elementWithAttributes = attributeConfiguration.initAttributes(createResult);
             result.setPayload(elementWithAttributes);
         }
 
         return result;
     }
 
-    public Result<DocumentElement> updateElement(DocumentElement element) throws DataAccessException {
-        Result<DocumentElement> result = new Result<>();
+    public Result<Element> updateElement(Element element) throws DataAccessException {
+        Result<Element> result = new Result<>();
         if(element == null){
             result.addErrorMessage("element body is required");
             return result;
@@ -81,7 +79,7 @@ public class DocumentElementService {
         }
 
         for(Attribute attribute : element.getAttributes()){
-            Attribute attributeInDatabase = documentElementRepository.getAttributeById(attribute.getAttributeId());
+            Attribute attributeInDatabase = elementRepository.getAttributeById(attribute.getAttributeId());
 
             // make sure the attribute exists in the database
             if(attributeInDatabase == null){
@@ -90,15 +88,15 @@ public class DocumentElementService {
             }
 
             // make sure the attribute actually references the element in question
-            if(attributeInDatabase.getDocumentElementId() != attribute.getDocumentElementId()){
+            if(attributeInDatabase.getElementId() != attribute.getElementId()){
                 result.addErrorMessage("Cannot modify the attributes of an element in another document");
             }
 
             // make sure they aren't trying to change the attribute type
-            String[] attributeValues = attribute.getValue().split(":");
-            String[] databaseValues = attributeInDatabase.getValue().split(":");
-            if(!attributeValues[0].equals(databaseValues[0])){
-                result.addErrorMessage("Cannot change attribute type " + attributeValues[0] + " != " + databaseValues[0]);
+            if(!attributeInDatabase.getKey().equals(attribute.getKey())){
+                result.addErrorMessage("Cannot change attribute type "
+                        + attributeInDatabase.getKey()
+                        + " != " + attribute.getKey());
             }
 
         }
@@ -106,7 +104,7 @@ public class DocumentElementService {
         if(result.isSuccess()){
             boolean updateSuccess = true;
             for(Attribute attribute : element.getAttributes()){
-                updateSuccess = updateSuccess && documentElementRepository.editAttribute(attribute);
+                updateSuccess = updateSuccess && elementRepository.editAttribute(attribute);
             }
 
             if(updateSuccess){
@@ -120,16 +118,16 @@ public class DocumentElementService {
     }
 
     public int delete(int id) throws DataAccessException {
-        return documentElementRepository.deleteElement(id);
+        return elementRepository.deleteElement(id);
     }
 
-    public List<DocumentElement> getElementsForDocument(int docId) throws DataAccessException{
+    public List<Element> getElementsForDocument(int docId) throws DataAccessException{
         // fetch the elements for the document
-        List<DocumentElement> elements = documentElementRepository.getElementsForDocument(docId);
+        List<Element> elements = elementRepository.getElementsForDocument(docId);
 
         // fetch the attributes for each element
-        for(DocumentElement element : elements){
-            List<Attribute> attributes = documentElementRepository.getAttributesForElement(element.getDocumentElementId());
+        for(Element element : elements){
+            List<Attribute> attributes = elementRepository.getAttributesForElement(element.getElementId());
             element.setAttributes(attributes);
         }
 

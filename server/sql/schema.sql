@@ -50,8 +50,8 @@ CREATE TABLE element_type(
 	`type` varchar(50) NOT null
 );
 
-CREATE TABLE document_element(
-	document_element_id int PRIMARY KEY auto_increment,
+CREATE TABLE element(
+	element_id int PRIMARY KEY auto_increment,
 	element_type_id int NOT NULL,
 	document_id int NOT NULL,
 	
@@ -74,7 +74,7 @@ CREATE TABLE document_element_link(
 	
 	CONSTRAINT fk_link_element
 	FOREIGN KEY (element_id)
-	REFERENCES document_element(document_element_id)
+	REFERENCES element(element_id)
 	on delete cascade,
 	
 	CONSTRAINT fk_link_document
@@ -85,27 +85,19 @@ CREATE TABLE document_element_link(
 
 CREATE TABLE `attribute`(
 	attribute_id int PRIMARY KEY auto_increment,
-	document_element_id int NOT NULL,
+	element_id int NOT NULL,
+	`key` varchar(50) not null,
 	value TEXT NOT NULL,
 	
 	CONSTRAINT fk_attribute_element
-	FOREIGN KEY (document_element_id)
-	REFERENCES document_element(document_element_id)
+	FOREIGN KEY (element_id)
+	REFERENCES element(element_id)
 );
 
-delete from attribute;
-delete from document_element;
-select * from document_element;
-select * from document;
-
-SELECT
-    doc.document_id,
-    doc.document_name,
-    doc.document_type_id,
-    doc.directory_id,
-    dt.document_type_name
-FROM document_element_link del
-INNER JOIN document_element element on del.element_id = element.document_element_id
-INNER JOIN document doc on doc.document_id = element.document_id
-INNER JOIN document_type dt on dt.document_type_id = doc.document_type_id
-WHERE del.document_element_link_id = 2;
+select
+	e.element_id as elementId,
+	et.`type` as elementType,
+	e.document_id as documentId
+from element e
+inner join element_type et on e.element_type_id = et.element_type_id
+where element_id = 12;

@@ -1,6 +1,6 @@
 package com.dev10.models.docelements;
 
-public enum DocumentElementType {
+public enum ElementType {
     LINE,
     BOX,
     TEXT,

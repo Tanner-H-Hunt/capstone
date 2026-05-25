@@ -4,7 +4,7 @@ import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
 import com.dev10.models.Relationship;
-import com.dev10.repositories.DocumentElementRepository;
+import com.dev10.repositories.ElementRepository;
 import com.dev10.repositories.DocumentRepository;
 import com.dev10.repositories.RelationshipRepository;
 import jakarta.validation.ConstraintViolation;
@@ -18,13 +18,13 @@ import java.util.Set;
 public class RelationshipService {
 
     private final RelationshipRepository relationshipRepository;
-    private final DocumentElementRepository elementRepository;
+    private final ElementRepository elementRepository;
     private final DocumentRepository documentRepository;
     private final Validator validator;
 
     public RelationshipService(RelationshipRepository relationshipRepository,
                                Validator validator,
-                               DocumentElementRepository elementRepository,
+                               ElementRepository elementRepository,
                                DocumentRepository documentRepository){
         this.relationshipRepository = relationshipRepository;
         this.validator = validator;

@@ -4,12 +4,11 @@ import com.dev10.models.DTO.Result;
 import com.dev10.models.DataAccessException;
 import com.dev10.models.Document;
 import com.dev10.models.Relationship;
-import com.dev10.models.docelements.DocumentElement;
-import com.dev10.repositories.DocumentElementRepository;
+import com.dev10.models.docelements.Element;
+import com.dev10.repositories.ElementRepository;
 import com.dev10.repositories.DocumentRepository;
 import com.dev10.repositories.RelationshipRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -27,7 +26,7 @@ class RelationshipServiceTest {
     DocumentRepository documentRepository;
 
     @MockitoBean
-    DocumentElementRepository elementRepository;
+    ElementRepository elementRepository;
 
     @Autowired
     RelationshipService relationshipService;
@@ -39,7 +38,7 @@ class RelationshipServiceTest {
         Relationship relationship = getRelationship();
         Relationship expected = getRelationship();
         expected.setId(1);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
         when(relationshipRepository.create(relationship)).thenReturn(expected);
 
@@ -57,7 +56,7 @@ class RelationshipServiceTest {
         Relationship expected = getRelationship();
         expected.setName(null);
         expected.setId(1);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
         when(relationshipRepository.create(relationship)).thenReturn(expected);
 
@@ -75,7 +74,7 @@ class RelationshipServiceTest {
         Relationship expected = getRelationship();
         expected.setName("");
         expected.setId(1);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
         when(relationshipRepository.create(relationship)).thenReturn(expected);
 
@@ -93,7 +92,7 @@ class RelationshipServiceTest {
         Relationship expected = getRelationship();
         expected.setDescription(null);
         expected.setId(1);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
         when(relationshipRepository.create(relationship)).thenReturn(expected);
 
@@ -111,7 +110,7 @@ class RelationshipServiceTest {
         Relationship expected = getRelationship();
         expected.setDescription("");
         expected.setId(1);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
         when(relationshipRepository.create(relationship)).thenReturn(expected);
 
@@ -135,7 +134,7 @@ class RelationshipServiceTest {
     void createRelationshipFailsIfPresetId() throws DataAccessException {
         Relationship relationship = getRelationship();
         relationship.setId(5);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
 
         Result<Relationship> result = relationshipService.create(relationship);
@@ -163,7 +162,7 @@ class RelationshipServiceTest {
     void createRelationshipFailsIfDocumentDoesNotExist() throws DataAccessException {
         Relationship relationship = getRelationship();
         relationship.setId(5);
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(null);
 
         Result<Relationship> result = relationshipService.create(relationship);
@@ -177,7 +176,7 @@ class RelationshipServiceTest {
     void createRelationshipFailsIfNameMoreThan50Characters() throws DataAccessException {
         Relationship relationship = getRelationship();
         relationship.setName(generateStringOfLength(51));
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
 
         Result<Relationship> result = relationshipService.create(relationship);
@@ -191,7 +190,7 @@ class RelationshipServiceTest {
     void createRelationshipFailsIfDescriptionMoreThan250Characters() throws DataAccessException {
         Relationship relationship = getRelationship();
         relationship.setName(generateStringOfLength(251));
-        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new DocumentElement());
+        when(elementRepository.getElementById(relationship.getElementId())).thenReturn(new Element());
         when(documentRepository.getDocumentById(relationship.getDocumentId())).thenReturn(new Document());
 
         Result<Relationship> result = relationshipService.create(relationship);
