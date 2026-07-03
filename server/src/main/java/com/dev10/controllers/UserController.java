@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -25,7 +24,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> login(@RequestBody User user) throws DataAccessException, NoSuchAlgorithmException {
-
         User foundUser = userService.findByEmail(user);
 
         if(foundUser == null){

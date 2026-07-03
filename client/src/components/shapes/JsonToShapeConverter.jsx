@@ -7,9 +7,11 @@ import Note from "./Note";
 function JsonToShape({ json, selected, setSelected }){
     const useTextAttribute = (data, key) => {
         const [state, setState] = useState( json.attributes.find(attr => attr.key === key).value )
-
+        
         useEffect(() => {
-            data.attributes.find(attr => attr.key === key).value = state;
+            let cleanedState = JSON.stringify(state);
+            cleanedState = cleanedState.slice(1, cleanedState.length - 1);
+            data.attributes.find(attr => attr.key === key).value = cleanedState;
         }, [state])
 
         return [state, setState];

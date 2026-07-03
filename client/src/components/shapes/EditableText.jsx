@@ -16,6 +16,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, json, se
     const [rows, setRows] = useState(1);
     const [cols, setCols] = useState(1);
     const dragAffordance = 0.5;
+    const [loaded, setLoaded] = useState(false);
     
     function serialize(){
         if(json == undefined){
@@ -27,14 +28,15 @@ function EditableText( {position, setPosition, innerText, setInnerText, json, se
                 "element": json
             }
 
-            const httpRequest = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': JSON.parse(loggedInUser).bearer_token
-                },
-                body: JSON.stringify(body)
-            }
+        const httpRequest = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': JSON.parse(loggedInUser).bearer_token
+            },
+            body: JSON.stringify(body)
+        }
+
 
         const url = "http://localhost:8080/api/element"
 
@@ -55,29 +57,45 @@ function EditableText( {position, setPosition, innerText, setInnerText, json, se
     function updateTextContents(evt){
         let str = evt.target.value;
 
-        // TODO: These characters corrupt the JSON and will cause the text to not render
-        // escape these characters before serializing it, then find a way to unescape them when
-        // rendering
-        str = str.replace("\n", "")
-            .replace("\t", "")
-            .replace ("\\", "");
-
-        // str = str
-        //     .replace(/\\/g, '\\') // escape backslashes
-        //     .replace(/"/g, '\\"') // escape single quotes
-        //     .replace(/\n/g, "\\n") // escape newlines
-        //     .replace(/\r/g, "\\r") // escape carriage returns
-        //     .replace(/\t/g, '\\t') // escape tabs
-
-        const lines = str.split("\n").length;
         setInnerText(str);
-        setCols(Math.max(str.length, 3));
-        setRows(Math.max(lines, 1));
+    }
+
+    function updateRowCount(str){
+        let rows = str.split("\n").length;
+        rows = Math.max(rows, 1);
+        setRows(rows);
+    }
+
+    function updateColumnCount(str){
+        const MINIMUM_COLUMNS = 3;
+        let cols = MINIMUM_COLUMNS;
+        
+        for(const line of str.split("\n")){
+            cols = Math.max(cols, line.length);
+        }
+
+        setCols(cols);
+    }
+
+    function toggleTextEditing(){
+        setEditing(!editing);
+        updateRowCount(innerText);
+        updateColumnCount(innerText);
     }
 
     useEffect(() => {
-        serialize();
-    }, [innerText])
+        // data will be redundantly saved the first time innerText loads
+        // maybe there's a better way to go about preventing the extra save
+        if(!loaded){
+            setLoaded(true);
+        } else{
+            serialize();
+        }
+
+        updateColumnCount(innerText);
+        updateRowCount(innerText);
+
+    }, [innerText]) //serializing of position is handled in the drag functions for now because it would otherwise bombard the server with updates
 
     const dragBinding = useDrag(({first, last, movement: [mx, my], memo, event}) => {
         if(first){
@@ -112,7 +130,7 @@ function EditableText( {position, setPosition, innerText, setInnerText, json, se
         <ClickAwayListener onClickAway={(evt) => deselect(evt)}>
         <group onClick={() => select()}>
 
-            <mesh position={[position[0], position[1], -1]} {...dragBinding()} onDoubleClick={() => {setEditing(!editing)}}>
+            <mesh position={[position[0], position[1], -1]} {...dragBinding()} onDoubleClick={() => {toggleTextEditing()}}>
                 <planeGeometry args={[(width / camera.zoom) + dragAffordance, (height / camera.zoom) + dragAffordance]}/>
                 <meshBasicMaterial transparent opacity={0}/>
 
@@ -138,19 +156,18 @@ function EditableText( {position, setPosition, innerText, setInnerText, json, se
                                 />
    
                         : 
-                        <p onClick={() => select()}
+                        <pre onClick={() => select()}
                             className="mb-0" 
                             style={{
                                 userSelect: 'none', // prevents the text from becoming highlighted during drag events 
                                 fontFamily: 'monospace' // keep the same font as the text area for consistency
                             }}
                             onDoubleClick={() => {
-                                setEditing(!editing); // toggle between <p> and <textarea> 
-                                setCols(Math.max(innerText.length, 3)); // precompute the text areas size so the size doesn't snap
+                                toggleTextEditing();
                             }}
                             {...dragBinding()}
-                            > {innerText}
-                        </p> }
+                            >{innerText}
+                        </pre> }
 
                     </div>
                 </Html>

@@ -77,6 +77,7 @@ function AccountForm(){
 
         const httpRequest = {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type' : 'application/json'
             },

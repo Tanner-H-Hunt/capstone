@@ -8,8 +8,14 @@ import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.UserRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.util.List;
 import java.util.Set;
 
 @Service

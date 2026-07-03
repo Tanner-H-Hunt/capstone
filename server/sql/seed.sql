@@ -15,3 +15,5 @@ insert into element_type (`type`) values
 	("TODO_GROUP"),
 	("TODO"),
 	("NOTE");
+
+select * from `attribute`;
