@@ -40,14 +40,14 @@ public class RelationshipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
-        }
-
-        resourceRequest.validateDocument(id);
-        if(!authenticator.isUserPermitted(user,resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
+//        }
+//
+//        resourceRequest.validateDocument(id);
+//        if(!authenticator.isUserPermitted(user,resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
+//        }
 
         List<Relationship> relationships = relationshipService.getRelationshipsForDocument(id);
 
@@ -64,14 +64,14 @@ public class RelationshipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
-        }
-
-        resourceRequest.validateElement(id);
-        if(!authenticator.isUserPermitted(user,resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
+//        }
+//
+//        resourceRequest.validateElement(id);
+//        if(!authenticator.isUserPermitted(user,resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
+//        }
 
         List<Relationship> relationships = relationshipService.getRelationshipsForElement(id);
 
@@ -87,19 +87,19 @@ public class RelationshipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
         }
 
-        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match the hash value");
-        }
-
-        resourceRequest.validateElement(request.getRelationship().getElementId());
-        if(!authenticator.isUserPermitted(request.getUser(),resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This element does not belong to you");
-        }
-
-        resourceRequest.validateDocument(request.getRelationship().getDocumentId());
-        if(!authenticator.isUserPermitted(request.getUser(),resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
-        }
+//        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match the hash value");
+//        }
+//
+//        resourceRequest.validateElement(request.getRelationship().getElementId());
+//        if(!authenticator.isUserPermitted(request.getUser(),resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This element does not belong to you");
+//        }
+//
+//        resourceRequest.validateDocument(request.getRelationship().getDocumentId());
+//        if(!authenticator.isUserPermitted(request.getUser(),resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This document does not belong to you");
+//        }
 
         Result<Relationship> result = relationshipService.create(request.getRelationship());
         if(result.isSuccess()){
@@ -119,14 +119,14 @@ public class RelationshipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
-        }
-
-        resourceRequest.validateRelationship(id);
-        if(!authenticator.isUserPermitted(user,resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This relationship does not belong to you");
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
+//        }
+//
+//        resourceRequest.validateRelationship(id);
+//        if(!authenticator.isUserPermitted(user,resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This relationship does not belong to you");
+//        }
 
         boolean deleted = relationshipService.delete(id);
 
@@ -146,14 +146,14 @@ public class RelationshipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User credentials required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
-        }
-
-        resourceRequest.validateRelationship(id);
-        if(!authenticator.isUserPermitted(user,resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This relationship does not belong to you");
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Provided credentials do not match hash value");
+//        }
+//
+//        resourceRequest.validateRelationship(id);
+//        if(!authenticator.isUserPermitted(user,resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This relationship does not belong to you");
+//        }
 
         Document document = relationshipService.getOriginatingDocumentForRelationshipElement(id);
 

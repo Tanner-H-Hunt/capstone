@@ -42,10 +42,10 @@ public class DirectoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        if(!authenticator.isValidBearerToken(user, authHeader)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
-        }
+//        if(!authenticator.isValidBearerToken(user, authHeader)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//
+//        }
 
         List<Document> documents = documentService.getDocumentsInRoot(user);
         List<Directory> directories = directoryService.getRootDirectories(user);
@@ -61,16 +61,16 @@ public class DirectoryController {
                                                        @RequestBody User user,
                                                        @RequestHeader("Authorization") String authHeader) throws DataAccessException{
 
-        // person is who they say they are
-        if(!authenticator.isValidBearerToken(user, authHeader)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // person is authorized to do what they are asking
-        resourceRequest.validateParentDirectory(directoryId);
-        if(!authenticator.isUserPermitted(user, resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        // person is who they say they are
+//        if(!authenticator.isValidBearerToken(user, authHeader)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        // person is authorized to do what they are asking
+//        resourceRequest.validateParentDirectory(directoryId);
+//        if(!authenticator.isUserPermitted(user, resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         List<Document> documents = documentService.getDocumentsInDirectory(directoryId);
         List<Directory> directories = directoryService.getDirectoriesInDirectory(directoryId);
@@ -90,16 +90,16 @@ public class DirectoryController {
             return ResponseEntity.badRequest().build();
         }
 
-        // user is who they say they are
-        if(!authenticator.isValidBearerToken(request.getUser(), authHeader)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // user is allowed to modify that resource
-        resourceRequest.validateParentDirectory(request.getDirectory().getParentDirectoryId());
-        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        // user is who they say they are
+//        if(!authenticator.isValidBearerToken(request.getUser(), authHeader)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        // user is allowed to modify that resource
+//        resourceRequest.validateParentDirectory(request.getDirectory().getParentDirectoryId());
+//        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         Result<Directory> result = directoryService.createDirectory(request.getDirectory());
         if(result.isSuccess()){

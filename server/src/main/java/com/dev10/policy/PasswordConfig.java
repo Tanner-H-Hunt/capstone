@@ -10,10 +10,9 @@ public class PasswordConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        int HASHING_ROUNDS = 10;
-
         // bcrypt salts passwords automatically
-        return new BCryptPasswordEncoder(HASHING_ROUNDS);
+        return new BCryptPasswordEncoder();
     }
+
 
 }

@@ -5,7 +5,7 @@ use capstone_test;
 CREATE TABLE account(
 	account_id int PRIMARY KEY auto_increment,
 	email varchar(255) UNIQUE NOT NULL,
-	password varchar(50) NOT NULL,
+	password varchar(72) NOT NULL
 );
 
 CREATE TABLE directory(
@@ -115,9 +115,9 @@ BEGIN
 	alter table element_type auto_increment = 1;
 	alter table `attribute` auto_increment = 1;
 	
-	insert into account (email, password, password_salt) values
-		("a@a.com", "a", "test"),
-		("b@b.com", "b", "test");
+	insert into account (email, password) values
+		("a@a.com", "a"),
+		("b@b.com", "b");
 	
 	insert into directory (account_id, parent_directory, directory_name) values
 		(1, null, "root-directory"),

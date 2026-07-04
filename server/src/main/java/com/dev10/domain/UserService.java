@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.Data;
@@ -25,6 +26,7 @@ public class UserService implements UserDetailsService{
     private final UserRepository userRepository;
     private final Validator validator;
     private final DirectoryRepository directoryRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public UserService(UserRepository userRepository, Validator validator, DirectoryRepository directoryRepository){
         this.userRepository = userRepository;
@@ -65,6 +67,12 @@ public class UserService implements UserDetailsService{
         }
 
         if(result.isSuccess()){
+            // encrypt the password
+            String encryptedPassword = encoder.encode(user.getPassword());
+            System.out.println(encryptedPassword);
+            user.setPassword(encryptedPassword);
+
+            // create user in the database
             User updatedUser = userRepository.createUser(user);
 
             // auto generate the users root directory

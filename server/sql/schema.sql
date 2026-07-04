@@ -5,8 +5,7 @@ use capstone;
 CREATE TABLE account(
 	account_id int PRIMARY KEY auto_increment,
 	email varchar(255) UNIQUE NOT NULL,
-	password varchar(50) NOT NULL,
-	password_salt varchar(32) NOT null
+	password varchar(72) NOT NULL
 );
 
 CREATE TABLE directory(
@@ -93,5 +92,4 @@ CREATE TABLE `attribute`(
 	FOREIGN KEY (element_id)
 	REFERENCES element(element_id)
 );
-
 select * from account;

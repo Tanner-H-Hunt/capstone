@@ -30,25 +30,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect email or password");
         }
 
-        if(!authenticator.verifyLogin(user, foundUser)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
-        }
-        String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}", foundUser, authenticator.generateBearerToken(foundUser));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+//        if(!authenticator.verifyLogin(user, foundUser)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
+//        }
+//        String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}", foundUser, authenticator.generateBearerToken(foundUser));
+        return ResponseEntity.status(HttpStatus.OK).body("COME UPDATE ME!!"); //TODO update the response
     }
 
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody User user) throws DataAccessException, NoSuchAlgorithmException {
 
-        authenticator.makeAccountDetailsSecure(user);
+//        authenticator.makeAccountDetailsSecure(user);
 
         Result<User> result = userService.createAccount(user);
 
         if(result.isSuccess()){
-            String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}",
-                    result.getPayload(),
-                    authenticator.generateBearerToken(result.getPayload()));
-            return ResponseEntity.ok().body(response);
+//            String response = String.format("{\"user\": %s, \"bearer_token\": \"%s\"}",
+//                    result.getPayload(),
+//                    authenticator.generateBearerToken(result.getPayload()));
+            return ResponseEntity.ok().body("COME UPDATE ME"); //TODO update the response
         }
 
         return ResponseEntity.badRequest().body(result.getErrorMessages());

@@ -35,14 +35,14 @@ public class DocumentController {
             return ResponseEntity.badRequest().body("Auth header and user are required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        resourceRequest.validateDocument(id);
-        if(!authenticator.isUserPermitted(user, resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        resourceRequest.validateDocument(id);
+//        if(!authenticator.isUserPermitted(user, resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         Document document = service.getDocumentById(id);
         if(document == null){
@@ -60,14 +60,14 @@ public class DocumentController {
             return ResponseEntity.badRequest().build();
         }
 
-        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        resourceRequest.validateParentDirectory(request.getDocument().getParentDirectoryId());
-        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        resourceRequest.validateParentDirectory(request.getDocument().getParentDirectoryId());
+//        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         Result<Document> result = service.createDocument(request.getDocument());
         if(result.isSuccess()){
@@ -89,22 +89,22 @@ public class DocumentController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        // user is who they say they are
-        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // user is allowed to child this document to the requested directory
-        resourceRequest.validateParentDirectory(request.getDocument().getParentDirectoryId());
-        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        // user is allowed to manipulate this document
-        resourceRequest.validateDocument(request.getDocument().getId());
-        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        // user is who they say they are
+//        if(!authenticator.isValidBearerToken(request.getUser(), auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        // user is allowed to child this document to the requested directory
+//        resourceRequest.validateParentDirectory(request.getDocument().getParentDirectoryId());
+//        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
+//
+//        // user is allowed to manipulate this document
+//        resourceRequest.validateDocument(request.getDocument().getId());
+//        if(!authenticator.isUserPermitted(request.getUser(), resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         // validate through the service
         Result<Document> result = service.editDocument(request.getDocument());
@@ -119,16 +119,16 @@ public class DocumentController {
     public ResponseEntity<Object> deleteDocument(@RequestHeader("Authorization") String auth,
                                                  @RequestBody User user,
                                                  @PathVariable("id") int id) throws DataAccessException{
-        // user is who they say they are
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // user is allowed to delete the requested document
-        resourceRequest.validateDocument(id);
-        if(!authenticator.isUserPermitted(user, resourceRequest)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+//        // user is who they say they are
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        // user is allowed to delete the requested document
+//        resourceRequest.validateDocument(id);
+//        if(!authenticator.isUserPermitted(user, resourceRequest)){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
 
         boolean result = service.delete(id);
 
@@ -146,9 +146,9 @@ public class DocumentController {
             return ResponseEntity.badRequest().body("Auth header and user are required");
         }
 
-        if(!authenticator.isValidBearerToken(user, auth)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+//        if(!authenticator.isValidBearerToken(user, auth)){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
 
         List<Document> document = service.getAllDocuments(user);
         if(document == null){
