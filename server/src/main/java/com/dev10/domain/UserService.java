@@ -4,6 +4,7 @@ import com.dev10.models.DataAccessException;
 import com.dev10.models.DTO.Result;
 import com.dev10.models.Directory;
 import com.dev10.models.User;
+import com.dev10.models.UserPrincipal;
 import com.dev10.repositories.DirectoryRepository;
 import com.dev10.repositories.UserRepository;
 import jakarta.validation.ConstraintViolation;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
     private final UserRepository userRepository;
     private final Validator validator;
@@ -78,5 +79,23 @@ public class UserService {
         }
 
         return result;
+    }
+
+    /**
+     * Spring Securities authentication method
+     * */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try{
+            User user = userRepository.getUserWithEmail(username);
+            if(user == null){
+                throw new UsernameNotFoundException("Invalid username / password");
+            }
+            return new UserPrincipal(user);
+
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            throw new UsernameNotFoundException(e.getMessage());
+        }
     }
 }

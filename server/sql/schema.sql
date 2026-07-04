@@ -94,10 +94,4 @@ CREATE TABLE `attribute`(
 	REFERENCES element(element_id)
 );
 
-select
-	e.element_id as elementId,
-	et.`type` as elementType,
-	e.document_id as documentId
-from element e
-inner join element_type et on e.element_type_id = et.element_type_id
-where element_id = 12;
+select * from account;
