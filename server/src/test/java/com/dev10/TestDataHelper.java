@@ -19,12 +19,10 @@ public class TestDataHelper {
         user1.setId(1);
         user1.setEmail("a@a.com");
         user1.setPassword("a");
-        user1.setSalt("test");
 
         user2.setId(2);
         user2.setEmail("b@b.com");
         user2.setPassword("b");
-        user2.setSalt("test");
 
         return List.of(
                 user1,
@@ -37,7 +35,6 @@ public class TestDataHelper {
         user.setId(0);
         user.setEmail("c@c.com");
         user.setPassword("c");
-        user.setSalt("test");
 
         return user;
     }

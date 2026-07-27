@@ -30,7 +30,6 @@ class UserServiceTest {
     @Test
     void createAccountHappyPath() throws DataAccessException {
         User notInDatabase = getUserNotInDatabase();
-        notInDatabase.setSalt("test");
         User updatedUser = getUserNotInDatabase();
         updatedUser.setId(3);
         when(userRepository.createUser(notInDatabase)).thenReturn(updatedUser);
@@ -110,7 +109,6 @@ class UserServiceTest {
     @Test
     void createAccountAutomaticallyCreatesANewRootDirectoryForUser() throws DataAccessException {
         User notInDatabase = getUserNotInDatabase();
-        notInDatabase.setSalt("test");
         User updatedUser = getUserNotInDatabase();
         updatedUser.setId(3);
         when(userRepository.createUser(notInDatabase)).thenReturn(updatedUser);
